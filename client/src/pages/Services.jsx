@@ -51,17 +51,22 @@ const SERVICES = [
 const Services = () => {
   return (
     <div>
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
-        <div className="serial-number text-primary mb-4">
-          // SPEC SHEET · 02
+      <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
+        {/* Blueprint grid */}
+        <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />
+
+        <div className="relative">
+          <div className="serial-number text-primary mb-4">
+            // SPEC SHEET · 02
+          </div>
+          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
+            What I <span className="text-primary">build</span>.
+          </h1>
+          <p className="max-w-2xl text-lg text-muted-foreground">
+            Five service lines spanning the full software/hardware spectrum —
+            each designed to ship real, working systems.
+          </p>
         </div>
-        <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
-          What I <span className="text-primary">build</span>.
-        </h1>
-        <p className="max-w-2xl text-lg text-muted-foreground">
-          Five service lines spanning the full software/hardware spectrum — each
-          designed to ship real, working systems.
-        </p>
       </section>
 
       <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-24">

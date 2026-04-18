@@ -6,12 +6,14 @@ import { motion } from "framer-motion";
 const About = () => {
   return (
     <div>
-      <div className="absolute inset-x-0 top-16 h-96 blueprint-grid opacity-25 pointer-events-none" />
-
       <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-16">
+        {/* Blueprint grid */}
+        <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          className="relative"
         >
           <div className="serial-number text-primary mb-4">
             // SPEC SHEET · 01

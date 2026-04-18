@@ -35,8 +35,11 @@ const Contact = () => {
 
   return (
     <div>
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
-        <div className="serial-number text-primary mb-4">
+      <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
+        {/* Blueprint grid */}
+        <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none " />
+
+        {/* <div className="serial-number text-primary mb-4">
           // SPEC SHEET · 04
         </div>
         <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
@@ -45,7 +48,19 @@ const Contact = () => {
         <p className="max-w-2xl text-lg text-muted-foreground">
           Have a project, idea, or collaboration in mind? Drop a message — I
           read every one.
-        </p>
+        </p> */}
+        <div className="relative">
+          <div className="serial-number text-primary mb-4">
+            // SPEC SHEET · 04
+          </div>
+          <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
+            Start a <span className="text-primary">conversation</span>.
+          </h1>
+          <p className="max-w-2xl text-lg text-muted-foreground">
+            Have a project, idea, or collaboration in mind? Drop a message — I
+            read every one.
+          </p>
+        </div>
       </section>
 
       <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-24 grid lg:grid-cols-3 gap-6">
