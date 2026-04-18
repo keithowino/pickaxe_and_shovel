@@ -1,3 +1,9 @@
+export const metadata = {
+  title: "Pickaxe & Shovel",
+  author: "Keith Owino",
+  description: "",
+};
+
 export const socialLinks = {
   email: "designsolutions1629@gmail.com",
   github: "https://github.com/keithowino",

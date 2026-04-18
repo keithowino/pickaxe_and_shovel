@@ -3,6 +3,7 @@ import { Mail, MapPin, Send, CheckCircle2, Loader2 } from "lucide-react";
 // import { base44 } from "@/api/base44Client";
 import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
 import { socialLinks } from "../lib/DynamicData";
+import MetaDataInsert from "../lib/MetaDataInsert";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -35,6 +36,7 @@ const Contact = () => {
 
   return (
     <div>
+      <MetaDataInsert title={"Contact"} />
       <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
         {/* Blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none " />

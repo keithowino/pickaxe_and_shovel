@@ -1,11 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
+import MetaDataInsert from "../lib/MetaDataInsert";
 // import Timeline from "@/components/about/Timeline";
 // import SkillsGrid from "@/components/about/SkillsGrid";
 
 const About = () => {
   return (
     <div>
+      <MetaDataInsert title={"About"} />
       <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-16">
         {/* Blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />

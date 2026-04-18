@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
+import { HelmetProvider } from "react-helmet-async";
 
 const AuthenticatedApp = () => {
   // const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -50,14 +51,16 @@ const AuthenticatedApp = () => {
 
 const App = () => {
   return (
-    <ThemeProvider>
-      {/* <AuthProvider></AuthProvider> */}
-      {/* <QueryClientProvider client={queryClientInstance}></QueryClientProvider> */}
-      <Router>
-        <AuthenticatedApp />
-      </Router>
-      {/* <Toaster /> */}
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        {/* <AuthProvider></AuthProvider> */}
+        {/* <QueryClientProvider client={queryClientInstance}></QueryClientProvider> */}
+        <Router>
+          <AuthenticatedApp />
+        </Router>
+        {/* <Toaster /> */}
+      </ThemeProvider>
+    </HelmetProvider>
   );
 };
 

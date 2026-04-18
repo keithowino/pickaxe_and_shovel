@@ -4,6 +4,8 @@
 // import ProjectCard from "@/components/portfolio/ProjectCard";
 // import ProjectModal from "@/components/portfolio/ProjectModal";
 
+import MetaDataInsert from "../lib/MetaDataInsert";
+
 // const CATEGORIES = [
 //   "All",
 //   "Web",
@@ -36,6 +38,7 @@ const Portfolio = () => {
 
   return (
     <div>
+      <MetaDataInsert title={"Portfolio"} />
       <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
         {/* Blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />

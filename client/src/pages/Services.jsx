@@ -9,6 +9,7 @@ import {
   GraduationCap,
   ArrowUpRight,
 } from "lucide-react";
+import MetaDataInsert from "../lib/MetaDataInsert";
 
 const SERVICES = [
   {
@@ -51,6 +52,7 @@ const SERVICES = [
 const Services = () => {
   return (
     <div>
+      <MetaDataInsert title={"Services"} />
       <section className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-10">
         {/* Blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />

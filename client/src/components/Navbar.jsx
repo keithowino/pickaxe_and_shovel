@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PickaxeAndShovelLogo from "./PickaxeAndShovelLogo";
-import { Link, NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
-// import { Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 // import { useAuth } from "@/lib/AuthContext";
 
 const BASE_LINKS = [
@@ -15,9 +15,9 @@ const BASE_LINKS = [
 ];
 
 const Navbar = () => {
-  //   const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  //   const location = useLocation();
+  const location = useLocation();
 
   //   const { user } = useAuth();
   let user = false; // Placeholder for user authentication state
@@ -29,9 +29,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  //   useEffect(() => {
-  //     setOpen(false);
-  //   }, [location.pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
 
   const links = user
     ? [...BASE_LINKS, { to: "/admin", label: "Admin" }]
@@ -85,7 +85,7 @@ const Navbar = () => {
             </div>
           </nav>
           {/* Mobile controls */}
-          {/* <div className="flex lg:hidden items-center gap-3">
+          <div className="flex lg:hidden items-center gap-3">
             <ThemeToggle />
             <button
               onClick={() => setOpen((v) => !v)}
@@ -94,12 +94,12 @@ const Navbar = () => {
             >
               {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
 
       {/* Mobile drawer */}
-      {/* <AnimatePresence>
+      <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -123,7 +123,7 @@ const Navbar = () => {
             </nav>
           </motion.div>
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </header>
   );
 };
