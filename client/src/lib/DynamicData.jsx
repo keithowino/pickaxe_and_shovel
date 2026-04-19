@@ -18,7 +18,7 @@ export const projectsPlaceholder = [
     description:
       "A sleek and modern personal portfolio website built with React and Tailwind CSS, showcasing my projects, skills, and experience in a visually appealing way.",
     thumbnail_url:
-      "https://raw.githubusercontent.com/keithowino/pickaxe_and_shovel/refs/heads/main/client/public/pas_thumbnail.png",
+      "https://raw.githubusercontent.com/keithowino/pickaxe_and_shovel/refs/heads/main/client/public/my_portfolio.png",
     category: "Web",
     primary_language: "JavaScript",
     stars: 42,
@@ -42,7 +42,7 @@ export const projectsPlaceholder = [
     description:
       "A smart home automation system that allows users to control and monitor their home devices remotely, providing convenience and energy efficiency.",
     thumbnail_url:
-      "https://raw.githubusercontent.com/keithowino/pickaxe_and_shovel/refs/heads/main/client/public/home_atomation.jfif",
+      "https://raw.githubusercontent.com/keithowino/pickaxe_and_shovel/refs/heads/main/client/public/home_automation.jfif",
     category: "IoT",
   },
 ];
