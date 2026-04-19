@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import MetaDataInsert from "../lib/MetaDataInsert";
-// import Timeline from "@/components/about/Timeline";
-// import SkillsGrid from "@/components/about/SkillsGrid";
+import Timeline from "../components/about/Timeline";
+import SkillsGrid from "../components/about/SkillsGrid";
 
 const About = () => {
   return (
@@ -34,21 +34,21 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
         <div className="serial-number text-primary mb-3">// TIMELINE</div>
         <h2 className="font-heading text-4xl font-bold mb-12">
           The Journey So Far
         </h2>
         <Timeline />
-      </section> */}
+      </section>
 
-      {/* <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
         <div className="serial-number text-primary mb-3">// CAPABILITIES</div>
         <h2 className="font-heading text-4xl font-bold mb-12">
           Skills & Proficiency
         </h2>
         <SkillsGrid />
-      </section> */}
+      </section>
 
       <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16">
         <div className="border border-border bg-card/50 p-10 lg:p-16 relative">

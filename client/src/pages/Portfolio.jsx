@@ -1,40 +1,42 @@
-// import React, { useEffect, useMemo, useState } from "react";
-// import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 // import { base44 } from "@/api/base44Client";
-// import ProjectCard from "@/components/portfolio/ProjectCard";
-// import ProjectModal from "@/components/portfolio/ProjectModal";
-
 import MetaDataInsert from "../lib/MetaDataInsert";
+import { projectsPlaceholder } from "../lib/DynamicData";
+import ProjectCard from "../components/portfolio/ProjectCard";
+import ProjectModal from "../components/portfolio/ProjectModal";
 
-// const CATEGORIES = [
-//   "All",
-//   "Web",
-//   "Mechatronics",
-//   "IoT",
-//   "Robotics",
-//   "In Progress",
-// ];
+const CATEGORIES = [
+  "All",
+  "Web",
+  "Mechatronics",
+  "IoT",
+  "Robotics",
+  "In Progress",
+];
 
 const Portfolio = () => {
-  //   const [projects, setProjects] = useState([]);
-  //   const [loading, setLoading] = useState(true);
-  //   const [category, setCategory] = useState("All");
-  //   const [selected, setSelected] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState("All");
+  const [selected, setSelected] = useState(null);
 
-  //   useEffect(() => {
-  //     base44.entities.Project.list("-created_date")
-  //       .then((data) => setProjects(data))
-  //       .catch(() => {})
-  //       .finally(() => setLoading(false));
-  //   }, []);
+  useEffect(() => {
+    // base44.entities.Project.list("-created_date")
+    //   .then((data) => setProjects(data))
+    //   .catch(() => {})
+    //   .finally(() => setLoading(false));
+    setProjects(projectsPlaceholder);
+    setLoading(false);
+  }, []);
 
-  //   const filtered = useMemo(
-  //     () =>
-  //       category === "All"
-  //         ? projects
-  //         : projects.filter((p) => (p.category || "Web") === category),
-  //     [projects, category],
-  //   );
+  const filtered = useMemo(
+    () =>
+      category === "All"
+        ? projects
+        : projects.filter((p) => (p.category || "Web") === category),
+    [projects, category],
+  );
 
   return (
     <div>
@@ -58,7 +60,7 @@ const Portfolio = () => {
       </section>
 
       {/* Filter bar */}
-      {/* <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-6">
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-6">
         <div className="flex flex-wrap gap-2 border-b border-border pb-4">
           {CATEGORIES.map((c) => (
             <button
@@ -74,9 +76,9 @@ const Portfolio = () => {
             </button>
           ))}
         </div>
-      </section> */}
+      </section>
 
-      {/* <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-24">
+      <section className="max-w-7xl mx-auto px-6 lg:px-10 pb-24">
         {loading ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -116,9 +118,9 @@ const Portfolio = () => {
             ))}
           </div>
         )}
-      </section> */}
+      </section>
 
-      {/* <ProjectModal project={selected} onClose={() => setSelected(null)} /> */}
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </div>
   );
 };

@@ -48,13 +48,11 @@ const FeaturedProjects = () => {
           ))}
         </div>
       ) : projects.length === 0 ? (
-        <div className="border border-dashed border-border p-16 text-center">
-          <p className="text-muted-foreground">
-            No projects yet.{" "}
-            {/* <Link to="/admin" className="text-primary underline">
-              Import from GitHub →
-            </Link> */}
-          </p>
+        <div className="border border-dashed border-border p-16 flex flex-col gap-4 items-center">
+          <p className="text-muted-foreground">No projects yet.</p>
+          <Link to="/admin" className="text-primary">
+            Import from GitHub →
+          </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-3 gap-6">
