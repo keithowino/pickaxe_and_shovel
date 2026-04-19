@@ -14,7 +14,11 @@ const FeaturedProjects = () => {
     //     .then((data) => setProjects(data))
     //     .catch(() => {})
     //     .finally(() => setLoading(false));
-    setProjects(projectsPlaceholder);
+    setProjects([
+      projectsPlaceholder[0],
+      projectsPlaceholder[1],
+      projectsPlaceholder[2],
+    ]);
     setLoading(false);
   }, [loading]);
 

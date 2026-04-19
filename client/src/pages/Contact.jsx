@@ -4,6 +4,7 @@ import { Mail, MapPin, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
 import { socialLinks } from "../lib/DynamicData";
 import MetaDataInsert from "../lib/MetaDataInsert";
+import { supabase } from "../lib/supabase";
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -14,6 +15,7 @@ const Contact = () => {
   });
   const [status, setStatus] = useState("idle");
 
+  // Pre-fill message from URL query (e.g., /contact?msg=Hello%20there!)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const msg = params.get("msg");
@@ -32,6 +34,53 @@ const Contact = () => {
     // } catch {
     //   setStatus("error");
     // }
+
+    setStatus("loading");
+
+    try {
+      // 1. Save message to Supabase DB
+      const { error: dbError } = await supabase
+        .from("contact_messages")
+        .insert([form]);
+
+      if (dbError) throw dbError;
+
+      // 2. Trigger Edge Function (notification)
+      // const res = await fetch(
+      //   "https://amzeqyagftwisswqznze.functions.supabase.co/notify-contact",
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(form),
+      //   },
+      // );
+
+      const res = await fetch(
+        "https://amzeqyagftwisswqznze.functions.supabase.co/notify-contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify(form),
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Notification function failed");
+      }
+
+      // 3. Success state
+      setStatus("success");
+      setForm({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
   };
 
   return (
@@ -41,16 +90,6 @@ const Contact = () => {
         {/* Blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none " />
 
-        {/* <div className="serial-number text-primary mb-4">
-          // SPEC SHEET · 04
-        </div>
-        <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
-          Start a <span className="text-primary">conversation</span>.
-        </h1>
-        <p className="max-w-2xl text-lg text-muted-foreground">
-          Have a project, idea, or collaboration in mind? Drop a message — I
-          read every one.
-        </p> */}
         <div className="relative">
           <div className="serial-number text-primary mb-4">
             // SPEC SHEET · 04
