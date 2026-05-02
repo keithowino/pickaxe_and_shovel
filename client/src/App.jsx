@@ -13,55 +13,56 @@ import Portfolio from "./pages/Portfolio";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import { HelmetProvider } from "react-helmet-async";
+import Admin from "./pages/Admin";
 
 const AuthenticatedApp = () => {
-  // const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+	// const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // if (isLoadingPublicSettings || isLoadingAuth) {
-  //   return (
-  //     <div className="fixed inset-0 flex items-center justify-center bg-background">
-  //       <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />
-  //     </div>
-  //   );
-  // }
+	// if (isLoadingPublicSettings || isLoadingAuth) {
+	//   return (
+	//     <div className="fixed inset-0 flex items-center justify-center bg-background">
+	//       <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />
+	//     </div>
+	//   );
+	// }
 
-  // if (authError) {
-  //   if (authError.type === "user_not_registered")
-  //     return <UserNotRegisteredError />;
-  //   if (authError.type === "auth_required") {
-  //     navigateToLogin();
-  //     return null;
-  //   }
-  // }
+	// if (authError) {
+	//   if (authError.type === "user_not_registered")
+	//     return <UserNotRegisteredError />;
+	//   if (authError.type === "auth_required") {
+	//     navigateToLogin();
+	//     return null;
+	//   }
+	// }
 
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/admin" element={<Admin />} /> */}
-        <Route path="*" element={<PageNotFound />} />
-      </Route>
-    </Routes>
-  );
+	return (
+		<Routes>
+			<Route element={<Layout />}>
+				<Route path="/" element={<Home />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/services" element={<Services />} />
+				<Route path="/portfolio" element={<Portfolio />} />
+				<Route path="/contact" element={<Contact />} />
+				<Route path="/admin" element={<Admin />} />
+				<Route path="*" element={<PageNotFound />} />
+			</Route>
+		</Routes>
+	);
 };
 
 const App = () => {
-  return (
-    <HelmetProvider>
-      <ThemeProvider>
-        {/* <AuthProvider></AuthProvider> */}
-        {/* <QueryClientProvider client={queryClientInstance}></QueryClientProvider> */}
-        <Router>
-          <AuthenticatedApp />
-        </Router>
-        {/* <Toaster /> */}
-      </ThemeProvider>
-    </HelmetProvider>
-  );
+	return (
+		<HelmetProvider>
+			<ThemeProvider>
+				{/* <AuthProvider></AuthProvider> */}
+				{/* <QueryClientProvider client={queryClientInstance}></QueryClientProvider> */}
+				<Router>
+					<AuthenticatedApp />
+				</Router>
+				{/* <Toaster /> */}
+			</ThemeProvider>
+		</HelmetProvider>
+	);
 };
 
 export default App;
