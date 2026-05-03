@@ -4,14 +4,20 @@ import { useState } from "react";
 import { IoLogoGithub } from "react-icons/io5";
 // import { base44 } from "@/api/base44Client";
 
+// dummy user
+const user = {
+	github_username: "Keith owino",
+	github_pat: "gph_1112233445r55hhj77",
+};
+
 // const GitHubConnect = ({ user, onConnected }) => {
 const GitHubConnect = () => {
-	// const [username, setUsername] = useState(user?.github_username || "");
-	// const [token, setToken] = useState("");
+	const [username, setUsername] = useState(user?.github_username || "");
+	const [token, setToken] = useState("");
 	const [saving, setSaving] = useState(false);
 
-	// const connected = Boolean(user?.github_username && user?.github_pat);
-	const connected = true; // placeholder
+	const connected = Boolean(user?.github_username && user?.github_pat);
+	// const connected = false; // placeholder
 
 	// const save = async () => {
 	// 	if (!username || !token) return;
@@ -46,8 +52,7 @@ const GitHubConnect = () => {
 				{connected && (
 					<span className="flex items-center gap-2 text-secondary text-sm font-medium">
 						<CheckCircle2 className="h-4 w-4" /> Connected as{" "}
-						{/* <strong>{user.github_username}</strong> */}
-						<strong>Name</strong>
+						<strong>{user.github_username}</strong>
 					</span>
 				)}
 			</div>
@@ -73,7 +78,7 @@ const GitHubConnect = () => {
 				</div>
 			) : (
 				<div className="space-y-4">
-					{/* <p className="text-sm text-muted-foreground leading-relaxed">
+					<p className="text-sm text-muted-foreground leading-relaxed">
 						Generate a GitHub Personal Access Token (classic) with{" "}
 						<code className="text-primary font-mono">repo</code>{" "}
 						scope at{" "}
@@ -85,8 +90,10 @@ const GitHubConnect = () => {
 						>
 							github.com/settings/tokens
 						</a>
-						. The token is stored securely on your Base44 profile —
-						only you can see it.
+						{/* . The token is stored securely on your Base44 profile —
+						only you can see it. */}
+						. The token is stored securely on your profile — only
+						you can see it.
 					</p>
 					<div className="grid md:grid-cols-2 gap-4">
 						<div>
@@ -117,17 +124,17 @@ const GitHubConnect = () => {
 						</div>
 					</div>
 					<button
-						onClick={save}
+						// onClick={save}
 						disabled={saving || !username || !token}
 						className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
 					>
 						{saving ? (
 							<Loader2 className="h-4 w-4 animate-spin" />
 						) : (
-							<Github className="h-4 w-4" />
+							<IoLogoGithub className="h-4 w-4" />
 						)}
 						Connect GitHub
-					</button> */}
+					</button>
 				</div>
 			)}
 		</section>

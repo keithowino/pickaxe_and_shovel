@@ -3,11 +3,11 @@
 // import { useAuth } from "@/lib/AuthContext";
 // import { base44 } from "@/api/base44Client";
 // import { Loader2, LayoutDashboard } from "lucide-react";
-// import RepoList from "@/components/admin/RepoList";
-// import ProjectsTable from "@/components/admin/ProjectsTable";
 
 import { LayoutDashboard } from "lucide-react";
 import GitHubConnect from "../components/admin/GitHubConnect";
+import RepoList from "../components/admin/RepoList";
+import ProjectsTable from "../components/admin/ProjectsTable";
 
 const Admin = () => {
 	// const { user, isLoadingAuth } = useAuth();
@@ -74,7 +74,9 @@ const Admin = () => {
 				{/* <GitHubConnect user={profile} onConnected={handleConnected} /> */}
 				<GitHubConnect />
 				{/* <RepoList user={profile} onImported={handleImported} /> */}
+				<RepoList />
 				{/* <ProjectsTable user={profile} refreshKey={refreshKey} /> */}
+				<ProjectsTable />
 			</div>
 		</div>
 	);
