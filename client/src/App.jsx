@@ -1,9 +1,4 @@
-// import { Toaster } from "@/components/ui/toaster";
-// import { QueryClientProvider } from "@tanstack/react-query";
-// import { queryClientInstance } from "@/lib/query-client";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import { AuthProvider, useAuth } from "@/lib/AuthContext";
-// import UserNotRegisteredError from "@/components/UserNotRegisteredError";
 import Layout from "./components/Layout";
 import PageNotFound from "./lib/PageNotFound";
 import { ThemeProvider } from "./lib/ThemeContext";
@@ -14,36 +9,50 @@ import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import { HelmetProvider } from "react-helmet-async";
 import Admin from "./pages/Admin";
+import { AuthProvider, useAuth } from "./lib/context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { Loader2 } from "lucide-react";
+
+// REMOVED: import SetupAdmin from "./pages/SetupAdmin";
+// REMOVED: import TestFirebase from "./pages/TestFirebase";
+
+const LoadingSpinner = () => (
+	<div className="min-h-screen flex items-center justify-center">
+		<Loader2 className="h-8 w-8 animate-spin text-primary" />
+	</div>
+);
 
 const AuthenticatedApp = () => {
-	// const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+	const { isLoadingAuth, authChecked } = useAuth();
 
-	// if (isLoadingPublicSettings || isLoadingAuth) {
-	//   return (
-	//     <div className="fixed inset-0 flex items-center justify-center bg-background">
-	//       <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />
-	//     </div>
-	//   );
-	// }
-
-	// if (authError) {
-	//   if (authError.type === "user_not_registered")
-	//     return <UserNotRegisteredError />;
-	//   if (authError.type === "auth_required") {
-	//     navigateToLogin();
-	//     return null;
-	//   }
-	// }
+	if (isLoadingAuth || !authChecked) {
+		return <LoadingSpinner />;
+	}
 
 	return (
 		<Routes>
+			{/* <Route path="/setup-admin" element={<SetupAdmin />} />
+			<Route path="/test-firebase" element={<TestFirebase />} /> */}
+
+			{/* Main routes with Layout */}
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/services" element={<Services />} />
 				<Route path="/portfolio" element={<Portfolio />} />
 				<Route path="/contact" element={<Contact />} />
-				<Route path="/admin" element={<Admin />} />
+
+				<Route
+					element={
+						<ProtectedRoute
+							requireAdmin={true}
+							showLoginScreen={true}
+						/>
+					}
+				>
+					<Route path="/admin" element={<Admin />} />
+				</Route>
+
 				<Route path="*" element={<PageNotFound />} />
 			</Route>
 		</Routes>
@@ -52,16 +61,15 @@ const AuthenticatedApp = () => {
 
 const App = () => {
 	return (
-		<HelmetProvider>
-			<ThemeProvider>
-				{/* <AuthProvider></AuthProvider> */}
-				{/* <QueryClientProvider client={queryClientInstance}></QueryClientProvider> */}
-				<Router>
-					<AuthenticatedApp />
-				</Router>
-				{/* <Toaster /> */}
-			</ThemeProvider>
-		</HelmetProvider>
+		<AuthProvider>
+			<HelmetProvider>
+				<ThemeProvider>
+					<Router>
+						<AuthenticatedApp />
+					</Router>
+				</ThemeProvider>
+			</HelmetProvider>
+		</AuthProvider>
 	);
 };
 
