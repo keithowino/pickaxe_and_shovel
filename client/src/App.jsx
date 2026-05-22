@@ -31,8 +31,8 @@ const AuthenticatedApp = () => {
 
 	return (
 		<Routes>
-			{/* <Route path="/setup-admin" element={<SetupAdmin />} />
-			<Route path="/test-firebase" element={<TestFirebase />} /> */}
+			{/* <Route path="/setup-admin" element={<SetupAdmin />} /> */}
+			{/* <Route path="/test-firebase" element={<TestFirebase />} /> */}
 
 			{/* Main routes with Layout */}
 			<Route element={<Layout />}>
