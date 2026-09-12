@@ -1,3 +1,16 @@
+import { Navigate, useRoutes } from "react-router-dom";
+import { gatewayRoutes } from "../../applications/index.js";
+
+// import { authenticationRoutes } from "../../applications/authentication";
+// import { bootstrapRoutes } from "../../platform/bootstrap";
+
+// import { businessRoutes, onboardingRoutes } from "../../applications/business";
+// import { marketplaceRoutes } from "../../applications/marketplace/index.js";
+// import administrationRoutes from "../../applications/administration/routes/administration.routes";
+// import { gatewayRoutes } from "../../applications/gateway";
+
+// ...
+
 // import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import Layout from "./components/Layout";
 // import PageNotFound from "./lib/PageNotFound";
@@ -12,8 +25,6 @@
 // import { AuthProvider, useAuth } from "./lib/context/AuthContext";
 // import ProtectedRoute from "./components/ProtectedRoute";
 // import { Loader2 } from "lucide-react";
-
-import { AppProviders, AppRouter } from "./app/index.js";
 
 // // REMOVED: import SetupAdmin from "./pages/SetupAdmin";
 // // REMOVED: import TestFirebase from "./pages/TestFirebase";
@@ -75,12 +86,25 @@ import { AppProviders, AppRouter } from "./app/index.js";
 // 	);
 // };
 
-// export default App;
+export default function RouterConfiguration() {
+	return useRoutes([
+		...gatewayRoutes,
 
-export default function App() {
-	return (
-		<AppProviders>
-			<AppRouter />
-		</AppProviders>
-	);
+		// ...authenticationRoutes,
+
+		// ...bootstrapRoutes,
+
+		// ...marketplaceRoutes,
+
+		// ...businessRoutes,
+		// ...onboardingRoutes,
+
+		// ...administrationRoutes,
+
+		{
+			path: "*",
+
+			element: <Navigate to="/" replace />,
+		},
+	]);
 }
