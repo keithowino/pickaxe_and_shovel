@@ -26,9 +26,10 @@ export default function SiteFooter({
 
 	return (
 		<footer
-			className={["border-t border-slate-200 bg-card/40", className].join(
-				" ",
-			)}
+			className={[
+				"border-t border-border bg-card/40 mt-20",
+				className,
+			].join(" ")}
 		>
 			<Container className="py-12">
 				<div className="grid gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.4fr_2fr]">
@@ -127,7 +128,7 @@ export default function SiteFooter({
 					)}
 				</div>
 
-				<div className="mt-10 flex flex-col gap-4 border-t border-slate-200 pt-6 sm:flex-row sm:items-center sm:justify-between text-xs text-slate-500">
+				<div className="mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between text-xs text-slate-500">
 					<span>
 						{copyright ||
 							`© ${new Date().getFullYear()} Keith Owino — All

@@ -8,7 +8,9 @@ export default function AppShell({
 	mainClassName = "",
 }) {
 	return (
-		<div className={`min-h-screen ${className}`.trim()}>
+		<div
+			className={`min-h-screen flex flex-col bg-background text-foreground ${className}`.trim()}
+		>
 			{header && <Fragment>{header}</Fragment>}
 
 			<main className={mainClassName}>{children}</main>

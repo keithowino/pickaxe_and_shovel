@@ -2,11 +2,12 @@
  * Later this will compose providers such as:
  * - Authentication
  * - API
- * - Theme
  * - Query client
  * - Notifications
  * - Localization
  */
+import { ThemeProvider } from "../../lib/ThemeContext.jsx";
+import { AuthProvider, useAuth } from "../../lib/context/AuthContext.jsx";
 
 export function AppProviders({ children }) {
 	return (
@@ -17,6 +18,8 @@ export function AppProviders({ children }) {
 		// 		</WorkspaceProvider>
 		// 	</JourneyProvider>
 		// </IdentityProvider>
-		<>{children}</>
+		<AuthProvider>
+			<ThemeProvider>{children}</ThemeProvider>
+		</AuthProvider>
 	);
 }

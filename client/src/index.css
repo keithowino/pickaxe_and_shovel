@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rye&family=Vollkorn:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -26,8 +26,10 @@
 		--input: 36 20% 82%;
 		--ring: 25 95% 44%;
 		--radius: 0.375rem;
-		--font-heading: "Space Grotesk", sans-serif;
-		--font-body: "Inter", sans-serif;
+		/* --font-heading: "Space Grotesk", sans-serif;
+		--font-body: "Inter", sans-serif; */
+		--font-heading: "Rye", serif;
+		--font-body: "Vollkorn", serif;
 	}
 
 	.dark {
@@ -70,6 +72,8 @@
 	h6 {
 		font-family: var(--font-heading);
 		letter-spacing: -0.02em;
+		font-weight: 400;
+		font-style: normal;
 	}
 	*:focus-visible {
 		outline: 2px solid hsl(var(--primary));
@@ -88,15 +92,21 @@
 @layer utilities {
 	.font-heading {
 		font-family: var(--font-heading);
+		font-weight: 400;
+		font-style: normal;
 	}
 	.font-body {
 		font-family: var(--font-body);
+		font-optical-sizing: auto;
+		font-weight: 400;
+		font-style: normal;
 	}
 	.text-balance {
 		text-wrap: balance;
 	}
 	.serial-number {
-		font-family: "Space Grotesk", monospace;
+		/* font-family: "Space Grotesk", monospace; */
+		font-family: "Rye", monospace;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		font-size: 0.7rem;

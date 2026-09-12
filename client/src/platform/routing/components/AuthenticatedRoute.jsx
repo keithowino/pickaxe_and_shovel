@@ -1,7 +1,8 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../lib/context/AuthContext";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../../../lib/context/AuthContext.jsx";
 import { Loader2 } from "lucide-react";
+
+// import useAuthenticatedRoute from "../hooks/useAuthenticatedRoute";
 
 const DefaultFallback = () => (
 	<div className="fixed inset-0 flex items-center justify-center bg-background">
@@ -32,7 +33,7 @@ const UnauthorizedAccess = () => (
 	</div>
 );
 
-export default function ProtectedRoute({
+export default function AuthenticatedRoute({
 	fallback = <DefaultFallback />,
 	requireAdmin = true,
 	redirectTo = "/",
@@ -46,6 +47,12 @@ export default function ProtectedRoute({
 		authError,
 		user,
 	} = useAuth();
+
+	// const isLoadingAuth = false; // placeholder
+	// const authError = true; // placeholder
+	// const isAuthenticated = false; // placeholder
+
+	const location = useLocation();
 
 	if (isLoadingAuth || !authChecked) {
 		return fallback;
@@ -61,7 +68,15 @@ export default function ProtectedRoute({
 	}
 
 	if (!isAuthenticated) {
-		return <Navigate to={redirectTo} replace />;
+		return (
+			<Navigate
+				to={redirectTo}
+				replace
+				state={{
+					from: location,
+				}}
+			/>
+		);
 	}
 
 	if (requireAdmin && !isAdmin) {
