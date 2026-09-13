@@ -1,7 +1,16 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Terminal, Cpu } from "lucide-react";
+
+const CornerBrackets = () => (
+	<>
+		<div className="absolute top-6 left-6 h-6 w-6 border-l-2 border-t-2 border-primary/40" />
+		<div className="absolute top-6 right-6 h-6 w-6 border-r-2 border-t-2 border-primary/40" />
+		<div className="absolute bottom-6 left-6 h-6 w-6 border-l-2 border-b-2 border-primary/40" />
+		<div className="absolute bottom-6 right-6 h-6 w-6 border-r-2 border-b-2 border-primary/40" />
+	</>
+);
 
 const Hero = () => {
 	const ref = useRef(null);
@@ -13,12 +22,16 @@ const Hero = () => {
 	const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
 	return (
+		/**
+		 * min-h-screen → min-h-[100svh] (avoids mobile browser chrome causing a jump/scroll-snap issue on load)
+		 */
 		<section
 			ref={ref}
-			className="relative min-h-screen flex items-center overflow-hidden"
+			className="relative min-h-[100svh] flex items-center overflow-hidden"
 		>
 			{/* Blueprint grid */}
 			<div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />
+			<CornerBrackets />
 
 			{/* Floating pickaxe */}
 			<motion.div

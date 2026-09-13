@@ -1,0 +1,211 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { LoadHeroCTA, LoadSerialMsg } from "../../components/index.js";
+import { Mouse } from "lucide-react";
+import PageSection from "../pageSection/PageSection.jsx";
+
+const CornerBrackets = () => (
+	<>
+		<div className="absolute top-6 left-6 h-6 w-6 border-l-2 border-t-2 border-primary/40" />
+		<div className="absolute top-6 right-6 h-6 w-6 border-r-2 border-t-2 border-primary/40" />
+		<div className="absolute bottom-6 left-6 h-6 w-6 border-l-2 border-b-2 border-primary/40" />
+		<div className="absolute bottom-6 right-6 h-6 w-6 border-r-2 border-b-2 border-primary/40" />
+	</>
+);
+
+const Hero = ({ metadata }) => {
+	const { callToAction, description, floatingTools, serial, title } =
+		metadata;
+
+	const ref = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: ref,
+		offset: ["start start", "end start"],
+	});
+	const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 90]);
+	const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -90]);
+
+	return (
+		/**
+		 * min-h-screen → min-h-[100svh] (avoids mobile browser chrome causing a jump/scroll-snap issue on load)
+		 */
+		// <section
+		// 	ref={ref}
+		// 	// className="relative min-h-[100svh] flex items-center overflow-hidden"
+		// 	className="relative min-h-[100svh] flex items-center overflow-hidden"
+		// >
+
+		// </section>
+		<PageSection
+			ref={ref}
+			className="relative max-h-[100svh] overflow-hidden flex items-center"
+		>
+			{/* <PageSection className="relative min-h-[100svh] flex  overflow-hidden"> */}
+			{/* Blueprint grid */}
+			<div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />
+			<CornerBrackets />
+
+			{floatingTools && (
+				<>
+					{/* Floating pickaxe — smaller & further back on mobile so it never competes with the heading */}
+					<motion.div
+						style={{ rotate: rotate1 }}
+						className="absolute -top-4 right-2 sm:top-16 sm:right-8 lg:right-28 opacity-[0.08] sm:opacity-15 lg:opacity-20 pointer-events-none select-none z-0 scale-75 sm:scale-100"
+					>
+						<svg
+							width="200"
+							height="200"
+							viewBox="0 0 48 48"
+							fill="none"
+						>
+							<g transform="rotate(-35 24 24)">
+								{/* Handle (shaft) */}
+								<rect
+									x="22"
+									y="10"
+									width="4"
+									height="26"
+									rx="2"
+									fill="hsl(var(--primary))"
+								/>
+
+								{/* Head (main bar) */}
+								<rect
+									x="14"
+									y="10"
+									width="20"
+									height="4"
+									rx="2"
+									fill="hsl(var(--primary))"
+								/>
+
+								{/* Left spike */}
+								<path
+									d="M14 12 L8 16 L14 14 Z"
+									fill="hsl(var(--primary))"
+								/>
+
+								{/* Right spike */}
+								<path
+									d="M34 12 L40 16 L34 14 Z"
+									fill="hsl(var(--primary))"
+								/>
+							</g>
+						</svg>
+					</motion.div>
+
+					{/* Floating shovel */}
+					<motion.div
+						style={{ rotate: rotate2 }}
+						className="absolute bottom-40 right-2 sm:bottom-28 sm:right-8 lg:right-28 opacity-[0.08] sm:opacity-15 lg:opacity-20 pointer-events-none select-none z-0 scale-75 sm:scale-100"
+					>
+						<svg
+							width="160"
+							height="160"
+							viewBox="0 0 48 48"
+							fill="none"
+						>
+							<g transform="rotate(-35 24 24)">
+								{/* Handle grip (D-shape) */}
+								<path
+									d="M20 4 C16 4, 14 8, 18 10 L30 10 C34 8, 32 4, 28 4 Z"
+									fill="hsl(var(--secondary))"
+								/>
+
+								{/* Shaft */}
+								<rect
+									x="22"
+									y="10"
+									width="4"
+									height="18"
+									rx="2"
+									fill="hsl(var(--secondary))"
+								/>
+
+								{/* Metal connector */}
+								<rect
+									x="21"
+									y="28"
+									width="6"
+									height="3"
+									rx="1"
+									fill="hsl(var(--secondary))"
+								/>
+
+								{/* Blade (more realistic spade shape) */}
+								<path
+									d="M16 31 C16 46, 32 46, 32 31 C32 29, 28 27, 24 27 C20 27, 16 29, 16 31 Z"
+									fill="hsl(var(--secondary))"
+								/>
+
+								{/* Blade center ridge */}
+								<path
+									d="M24 27 L24 36"
+									stroke="hsl(var(--background))"
+									strokeWidth="0.7"
+								/>
+							</g>
+						</svg>
+					</motion.div>
+				</>
+			)}
+
+			<div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-20 sm:py-24 w-full">
+				<LoadSerialMsg serial={serial} />
+
+				{title}
+
+				<motion.p
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, delay: 0.2 }}
+					className="mt-5 sm:mt-6 text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
+				>
+					{description}
+				</motion.p>
+
+				{callToAction && <LoadHeroCTA callToAction={callToAction} />}
+
+				{/* Quick stat pills */}
+				<motion.div
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.6, delay: 0.5 }}
+					className="mt-12 sm:mt-16 flex flex-wrap gap-2 sm:gap-2"
+				>
+					{[
+						"Based in Nairobi 🇰🇪",
+						"Web → Mechatronics",
+						"Available for Projects",
+					].map((s) => (
+						<span
+							key={s}
+							className="serial-number border border-border px-3 py-2 bg-card/50"
+						>
+							{s}
+						</span>
+					))}
+				</motion.div>
+			</div>
+
+			{/* Scroll cue — subtle, disappears once user scrolls since section is pinned to viewport height */}
+			<motion.div
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				transition={{ delay: 1 }}
+				className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground z-10"
+			>
+				<span className="serial-number">
+					<Mouse className="animate-bounce" />
+				</span>
+				<motion.div
+					animate={{ y: [0, 6, 0] }}
+					transition={{ duration: 1.6, repeat: Infinity }}
+					className="h-8 w-px bg-border"
+				/>
+			</motion.div>
+		</PageSection>
+	);
+};
+
+export default Hero;

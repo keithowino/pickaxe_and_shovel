@@ -5,12 +5,12 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				// heading: ["Space Grotesk", "sans-serif"],
-				// body: ["Inter", "sans-serif"],
-				// sans: ["Inter", "sans-serif"],
-				heading: ["Rye", "serif"],
-				body: ["Vollkorn", "serif"],
-				sans: ["Vollkorn", "serif"],
+				heading: ["Space Grotesk", "sans-serif"],
+				body: ["Inter", "sans-serif"],
+				sans: ["Inter", "sans-serif"],
+				// heading: ["Rye", "serif"],
+				// body: ["Vollkorn", "serif"],
+				// sans: ["Vollkorn", "serif"],
 			},
 			borderRadius: {
 				lg: "var(--radius)",
@@ -71,6 +71,8 @@ export default {
 				"accordion-up": "accordion-up 0.2s ease-out",
 				marquee: "marquee 30s linear infinite",
 			},
+			// Note: xs: isn't a default Tailwind breakpoint
+			screens: { xs: "420px" },
 		},
 	},
 	plugins: [require("tailwindcss-animate")],

@@ -114,16 +114,17 @@
 
 // export default FeaturedProjects;
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, GitFork } from "lucide-react";
+import { ArrowRight, Star, GitFork, ArrowUpRight } from "lucide-react";
 import {
 	fetchFeaturedProjects,
 	fetchProjects,
-} from "../../services/projectServices";
+} from "../../services/projectServices.js";
+import { PageSection } from "../layout/index.js";
 
-export default function FeaturedProjects() {
+export default function LoadFeaturedProjects() {
 	const [projects, setProjects] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -158,13 +159,13 @@ export default function FeaturedProjects() {
 	};
 
 	return (
-		<section className="py-24 max-w-7xl mx-auto px-6 lg:px-10">
-			<div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+		<PageSection>
+			<div className="flex items-end justify-between mb-10 sm:mb-12 flex-wrap gap-4">
 				<div>
 					<div className="serial-number text-primary mb-3">
 						// SELECTED WORKS
 					</div>
-					<h2 className="font-heading text-4xl md:text-5xl font-bold">
+					<h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
 						Recent Builds
 					</h2>
 				</div>
@@ -178,11 +179,12 @@ export default function FeaturedProjects() {
 			</div>
 
 			{loading ? (
-				<div className="grid md:grid-cols-3 gap-6">
-					{[1, 2, 3].map((i) => (
+				<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+					{[0, 1, 2].map((i) => (
 						<div
 							key={i}
 							className="border border-border h-64 animate-pulse bg-muted"
+							style={{ animationDelay: `${i * 150}ms` }}
 						/>
 					))}
 				</div>
@@ -190,7 +192,7 @@ export default function FeaturedProjects() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					className="border border-dashed border-border p-16 text-center"
+					className="border border-dashed border-border p-10 sm:p-16 text-center"
 				>
 					<p className="text-muted-foreground">
 						No projects yet.{" "}
@@ -200,7 +202,7 @@ export default function FeaturedProjects() {
 					</p>
 				</motion.div>
 			) : (
-				<div className="grid md:grid-cols-3 gap-6">
+				<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 					{projects.map((p, i) => (
 						<motion.article
 							key={p.id}
@@ -230,7 +232,14 @@ export default function FeaturedProjects() {
 								<div className="absolute top-3 left-3 serial-number bg-background/80 backdrop-blur px-2 py-1">
 									{p.category || "Web"}
 								</div>
+
+								<div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">
+									<div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+										<ArrowUpRight className="h-4 w-4" />
+									</div>
+								</div>
 							</div>
+
 							<div className="p-5">
 								<h3 className="font-heading text-lg font-bold mb-2 line-clamp-1">
 									{p.name}
@@ -260,6 +269,6 @@ export default function FeaturedProjects() {
 					))}
 				</div>
 			)}
-		</section>
+		</PageSection>
 	);
 }
