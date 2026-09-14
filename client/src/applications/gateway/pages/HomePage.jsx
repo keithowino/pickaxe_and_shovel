@@ -29,7 +29,6 @@ const HomePage = () => {
 				metadata={{
 					floatingTools: true,
 					serial: "SYS/001 // KEITH.OWINO // NAIROBI.KE",
-					// title: <LoadHeroTitle  className="" title={heroTitle} />,
 					title: (
 						<LoadHeroTitle
 							metadata={{

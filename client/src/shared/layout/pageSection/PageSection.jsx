@@ -1,13 +1,15 @@
+import { forwardRef } from "react";
 import { Section, Container } from "../../ui/index.js";
 
-export default function PageSection({
-	children,
-	className = "",
-	containerClassName = "",
-}) {
+const PageSection = forwardRef(function PageSection(
+	{ children, className = "", containerClassName = "" },
+	ref,
+) {
 	return (
-		<Section className={className}>
+		<Section ref={ref} className={className}>
 			<Container className={containerClassName}>{children}</Container>
 		</Section>
 	);
-}
+});
+
+export default PageSection;

@@ -93,8 +93,9 @@
 @layer utilities {
 	.font-heading {
 		font-family: var(--font-heading);
-		font-weight: 400;
-		font-style: normal;
+		/* Rye styles */
+		/* font-weight: 400;
+		font-style: normal; */
 	}
 	.font-body {
 		font-family: var(--font-body);

@@ -5,7 +5,8 @@ import {
 	fetchProjects,
 	getProjectStats,
 } from "../../services/projectServices.js";
-import { PageSection } from "../layout/index.js";
+import { FeatureGrid, PageSection } from "../layout/index.js";
+import { Paper } from "../ui/index.js";
 
 export default function LoadStats() {
 	const [projectCount, setProjectCount] = useState(null);
@@ -60,15 +61,12 @@ export default function LoadStats() {
 
 	return (
 		<PageSection>
-			<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+			<FeatureGrid>
 				{statsData.map((s, i) => (
-					<motion.div
+					<Paper
 						key={s.label}
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true }}
-						transition={{ delay: i * 0.1 }}
-						className="group relative border border-border p-6 sm:p-8 bg-card/50 hover:border-primary hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+						className="group relative hover:-translate-y-1 transition-all duration-300"
+						transitionDelay={i}
 					>
 						<div className="flex items-start justify-between mb-5 sm:mb-6">
 							<div
@@ -86,9 +84,9 @@ export default function LoadStats() {
 						<div className="mt-2 serial-number text-muted-foreground">
 							{s.label}
 						</div>
-					</motion.div>
+					</Paper>
 				))}
-			</div>
+			</FeatureGrid>
 		</PageSection>
 	);
 }

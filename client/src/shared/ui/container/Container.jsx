@@ -1,7 +1,7 @@
 export default function Container({ children, className = "" }) {
 	return (
 		<div
-			// Instance 1
+			// // v1
 			// className={[
 			// 	"mx-auto w-full",
 			// 	"max-w-screen-2xl",
@@ -13,11 +13,20 @@ export default function Container({ children, className = "" }) {
 			// 	className,
 			// ].join(" ")}
 
+			// // v2
+			// className={[
+			// 	"mx-auto w-full",
+			// 	"max-w-7xl",
+			// 	"py-4",
+			// 	"sm:py-6",
+			// 	"px-6",
+			// 	"lg:px-10",
+			// 	className,
+			// ].join(" ")}
+
 			className={[
 				"mx-auto w-full",
 				"max-w-7xl",
-				"py-4",
-				"sm:py-6",
 				"px-6",
 				"lg:px-10",
 				className,

@@ -8,9 +8,6 @@ export default {
 				heading: ["Space Grotesk", "sans-serif"],
 				body: ["Inter", "sans-serif"],
 				sans: ["Inter", "sans-serif"],
-				// heading: ["Rye", "serif"],
-				// body: ["Vollkorn", "serif"],
-				// sans: ["Vollkorn", "serif"],
 			},
 			borderRadius: {
 				lg: "var(--radius)",

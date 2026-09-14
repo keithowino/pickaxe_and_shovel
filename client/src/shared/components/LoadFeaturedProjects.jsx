@@ -122,7 +122,7 @@ import {
 	fetchFeaturedProjects,
 	fetchProjects,
 } from "../../services/projectServices.js";
-import { PageSection } from "../layout/index.js";
+import { FeatureGrid, PageSection, SectionHeader } from "../layout/index.js";
 
 export default function LoadFeaturedProjects() {
 	const [projects, setProjects] = useState([]);
@@ -161,14 +161,11 @@ export default function LoadFeaturedProjects() {
 	return (
 		<PageSection>
 			<div className="flex items-end justify-between mb-10 sm:mb-12 flex-wrap gap-4">
-				<div>
-					<div className="serial-number text-primary mb-3">
-						// SELECTED WORKS
-					</div>
-					<h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold">
-						Recent Builds
-					</h2>
-				</div>
+				<SectionHeader
+					serial="// SELECTED WORKS"
+					title="Recent Builds"
+					align="left"
+				/>
 				<Link
 					to="/portfolio"
 					className="group inline-flex items-center gap-2 text-sm font-medium hover:text-primary transition-colors"
@@ -179,7 +176,7 @@ export default function LoadFeaturedProjects() {
 			</div>
 
 			{loading ? (
-				<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				<FeatureGrid>
 					{[0, 1, 2].map((i) => (
 						<div
 							key={i}
@@ -187,7 +184,7 @@ export default function LoadFeaturedProjects() {
 							style={{ animationDelay: `${i * 150}ms` }}
 						/>
 					))}
-				</div>
+				</FeatureGrid>
 			) : projects.length === 0 ? (
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
@@ -202,7 +199,7 @@ export default function LoadFeaturedProjects() {
 					</p>
 				</motion.div>
 			) : (
-				<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				<FeatureGrid>
 					{projects.map((p, i) => (
 						<motion.article
 							key={p.id}
@@ -267,7 +264,7 @@ export default function LoadFeaturedProjects() {
 							</div>
 						</motion.article>
 					))}
-				</div>
+				</FeatureGrid>
 			)}
 		</PageSection>
 	);

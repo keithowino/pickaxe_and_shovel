@@ -1,4 +1,4 @@
-Let's proceed to improve the User Experience of the following page:
+Likewise as the homepage, let's proceed to improve the User Experience of the following page:
 
 <!-- page in question -->
 
@@ -19,3 +19,5 @@ and the components connected to it:
 <!-- ... -->
 
 <!-- Folder structure -->
+
+While on it you are allowed to fix and or modify the code especially what i have implemented that would not work as expected.

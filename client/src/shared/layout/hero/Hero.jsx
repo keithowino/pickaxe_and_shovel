@@ -25,22 +25,20 @@ const Hero = ({ metadata }) => {
 	const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 90]);
 	const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
-	return (
-		/**
-		 * min-h-screen → min-h-[100svh] (avoids mobile browser chrome causing a jump/scroll-snap issue on load)
-		 */
-		// <section
-		// 	ref={ref}
-		// 	// className="relative min-h-[100svh] flex items-center overflow-hidden"
-		// 	className="relative min-h-[100svh] flex items-center overflow-hidden"
-		// >
+	// Full-bleed hero only for the flagship (homepage-style) variant;
+	// sub-page "spec sheet" heroes take only as much room as their content needs.
+	const heightClass = floatingTools
+		? "min-h-[100svh]"
+		: "min-h-[55svh] sm:min-h-[60svh] lg:min-h-[65svh]";
 
-		// </section>
+	return (
 		<PageSection
 			ref={ref}
-			className="relative max-h-[100svh] overflow-hidden flex items-center"
+			/**
+			 * min-h (not max-h), height scales by variant so the About hero doesn't leave a dead gap, !py-0 on the section cancels the new Section default padding since this component manages its own vertical rhythm via the inner
+			 */
+			className={`relative ${heightClass} overflow-hidden flex items-center !py-0`}
 		>
-			{/* <PageSection className="relative min-h-[100svh] flex  overflow-hidden"> */}
 			{/* Blueprint grid */}
 			<div className="absolute inset-0 blueprint-grid opacity-40 pointer-events-none" />
 			<CornerBrackets />
@@ -151,7 +149,7 @@ const Hero = ({ metadata }) => {
 			)}
 
 			<div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-20 sm:py-24 w-full">
-				<LoadSerialMsg serial={serial} />
+				<LoadSerialMsg serial={serial} showAccent={floatingTools} />
 
 				{title}
 
@@ -171,7 +169,7 @@ const Hero = ({ metadata }) => {
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.6, delay: 0.5 }}
-					className="mt-12 sm:mt-16 flex flex-wrap gap-2 sm:gap-2"
+					className="mt-10 sm:mt-14 flex flex-wrap gap-2"
 				>
 					{[
 						"Based in Nairobi 🇰🇪",
@@ -188,22 +186,21 @@ const Hero = ({ metadata }) => {
 				</motion.div>
 			</div>
 
-			{/* Scroll cue — subtle, disappears once user scrolls since section is pinned to viewport height */}
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				transition={{ delay: 1 }}
-				className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground z-10"
-			>
-				<span className="serial-number">
-					<Mouse className="animate-bounce" />
-				</span>
+			{floatingTools && (
 				<motion.div
-					animate={{ y: [0, 6, 0] }}
-					transition={{ duration: 1.6, repeat: Infinity }}
-					className="h-8 w-px bg-border"
-				/>
-			</motion.div>
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ delay: 1 }}
+					className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-muted-foreground z-10"
+				>
+					<Mouse className="h-4 w-4 animate-bounce" />
+					<motion.div
+						animate={{ y: [0, 6, 0] }}
+						transition={{ duration: 1.6, repeat: Infinity }}
+						className="h-8 w-px bg-border"
+					/>
+				</motion.div>
+			)}
 		</PageSection>
 	);
 };
