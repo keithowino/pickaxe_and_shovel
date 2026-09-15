@@ -392,22 +392,39 @@
 
 // export default ProjectModal;
 
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Star, GitFork, ExternalLink } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
+import { FeatureGrid, Heading, Text } from "../../../shared/index.js";
 
 export default function ProjectModal({ project, onClose }) {
+	const closeBtnRef = useRef(null);
+
 	useEffect(() => {
 		if (!project) return;
+
 		const handler = (e) => {
 			if (e.key === "Escape") onClose();
 		};
 		window.addEventListener("keydown", handler);
-		return () => window.removeEventListener("keydown", handler);
+
+		// Lock body scroll while the modal is open
+		const previousOverflow = document.body.style.overflow;
+		document.body.style.overflow = "hidden";
+
+		// Send initial focus into the modal
+		closeBtnRef.current?.focus();
+
+		return () => {
+			window.removeEventListener("keydown", handler);
+			document.body.style.overflow = previousOverflow;
+		};
 	}, [project, onClose]);
 
-	// Ensure tech_stack is an array
+	/**
+	 * Ensure tech_stack is an array
+	 */
 	const techStack =
 		project?.tech_stack && Array.isArray(project.tech_stack)
 			? project.tech_stack
@@ -421,7 +438,7 @@ export default function ProjectModal({ project, onClose }) {
 					animate={{ opacity: 1 }}
 					exit={{ opacity: 0 }}
 					onClick={onClose}
-					className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+					className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm overflow-y-auto p-4"
 					role="dialog"
 					aria-modal="true"
 					aria-label={`${project.name} details`}
@@ -431,7 +448,7 @@ export default function ProjectModal({ project, onClose }) {
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ y: 30, opacity: 0 }}
 						onClick={(e) => e.stopPropagation()}
-						className="relative bg-card border border-border w-full max-w-3xl my-4"
+						className="relative bg-card border border-border w-full max-w-3xl mx-auto my-8 sm:my-16"
 					>
 						{/* Header */}
 						<div className="flex items-center justify-between border-b border-border px-5 py-3">
@@ -439,14 +456,15 @@ export default function ProjectModal({ project, onClose }) {
 								<span className="serial-number text-primary">
 									TECHNICAL READOUT
 								</span>
-								<span className="serial-number text-muted-foreground">
+								<span className="serial-number text-muted-foreground hidden sm:inline">
 									{project.category || "Web"}
 								</span>
 							</div>
 							<button
+								ref={closeBtnRef}
 								onClick={onClose}
 								aria-label="Close modal"
-								className="p-1 hover:text-primary transition-colors"
+								className="p-2 -mr-2 rounded-sm hover:text-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-colors"
 							>
 								<X className="h-5 w-5" />
 							</button>
@@ -463,13 +481,13 @@ export default function ProjectModal({ project, onClose }) {
 										e.target.onerror = null;
 										e.target.style.display = "none";
 										e.target.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center">
-                      <span class="font-heading text-8xl font-bold text-primary/20">${project.name?.[0]?.toUpperCase() || "?"}</span>
+                      <span class="font-heading text-6xl sm:text-7xl md:text-8xl font-bold text-primary/20">${project.name?.[0]?.toUpperCase() || "?"}</span>
                     </div>`;
 									}}
 								/>
 							) : (
 								<div className="w-full h-full flex items-center justify-center">
-									<span className="font-heading text-8xl font-bold text-primary/20">
+									<span className="font-heading text-6xl sm:text-7xl md:text-8xl font-bold text-primary/20">
 										{project.name?.[0]?.toUpperCase() ||
 											"?"}
 									</span>
@@ -477,24 +495,29 @@ export default function ProjectModal({ project, onClose }) {
 							)}
 						</div>
 
-						<div className="p-6 md:p-10">
-							<h2 className="font-heading text-3xl font-bold mb-3">
+						<div className="p-5 sm:p-8 md:p-10">
+							<div className="flex items-center gap-2 mb-2 sm:hidden">
+								<span className="serial-number text-muted-foreground">
+									{project.category || "Web"}
+								</span>
+							</div>
+							<Heading className="uppercase">
 								{project.name}
-							</h2>
-							<p className="text-muted-foreground leading-relaxed mb-6">
+							</Heading>
+							<Text className="mb-6">
 								{project.description || "No description."}
-							</p>
+							</Text>
 
 							{project.notes && (
 								<div className="mb-6 border-l-2 border-primary pl-4 py-1">
-									<p className="text-sm text-muted-foreground italic">
+									<Text className="italic">
 										{project.notes}
-									</p>
+									</Text>
 								</div>
 							)}
 
 							{/* Stats */}
-							<div className="grid grid-cols-3 gap-4 mb-8">
+							<FeatureGrid className="mb-8 !gap-2 !sm:gap-3">
 								{[
 									{
 										label: "Stars",
@@ -515,20 +538,20 @@ export default function ProjectModal({ project, onClose }) {
 								].map(({ label, value, Icon }) => (
 									<div
 										key={label}
-										className="border border-border p-4"
+										className="border border-border p-3 sm:p-4"
 									>
-										<div className="serial-number text-muted-foreground mb-1">
+										<div className="serial-number text-muted-foreground mb-1 truncate">
 											{label}
 										</div>
-										<div className="flex items-center gap-2 font-heading text-xl font-bold">
+										<div className="flex items-center gap-1.5 sm:gap-2 font-heading text-base sm:text-xl font-bold truncate">
 											{Icon && (
-												<Icon className="h-4 w-4 text-primary" />
+												<Icon className="h-4 w-4 text-primary shrink-0" />
 											)}
 											{value}
 										</div>
 									</div>
 								))}
-							</div>
+							</FeatureGrid>
 
 							{/* Tech stack */}
 							<div className="mb-8">
@@ -554,15 +577,15 @@ export default function ProjectModal({ project, onClose }) {
 							</div>
 
 							{/* Actions */}
-							<div className="flex flex-wrap gap-3">
+							<div className="flex flex-col sm:flex-row flex-wrap gap-3">
 								{project.github_url && (
 									<a
 										href={project.github_url}
 										target="_blank"
 										rel="noreferrer"
-										className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3 font-medium hover:bg-primary/90 transition-colors"
+										className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-3 font-medium hover:bg-primary/90 active:scale-[0.98] transition-all"
 									>
-										<IoLogoGithub className="h-4 w-4" />{" "}
+										<IoLogoGithub className="h-4 w-4" />
 										View on GitHub
 									</a>
 								)}
@@ -571,9 +594,9 @@ export default function ProjectModal({ project, onClose }) {
 										href={project.live_url}
 										target="_blank"
 										rel="noreferrer"
-										className="inline-flex items-center gap-2 border border-border hover:border-primary px-5 py-3 font-medium transition-colors"
+										className="inline-flex items-center justify-center gap-2 border border-border hover:border-primary active:scale-[0.98] px-5 py-3 font-medium transition-all"
 									>
-										<ExternalLink className="h-4 w-4" />{" "}
+										<ExternalLink className="h-4 w-4" />
 										Live Demo
 									</a>
 								)}

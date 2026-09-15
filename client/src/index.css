@@ -136,4 +136,29 @@
 			);
 		background-size: 40px 40px;
 	}
+
+	.scrollbar-hide {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
+	.fade-edges-x {
+		mask-image: linear-gradient(
+			to right,
+			transparent,
+			black 24px,
+			black calc(100% - 24px),
+			transparent
+		);
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent,
+			black 24px,
+			black calc(100% - 24px),
+			transparent
+		);
+	}
 }

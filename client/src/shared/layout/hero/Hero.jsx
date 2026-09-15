@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { LoadHeroCTA, LoadSerialMsg } from "../../components/index.js";
 import { Mouse } from "lucide-react";
 import PageSection from "../pageSection/PageSection.jsx";
+import { Text } from "../../ui/index.js";
 
 const CornerBrackets = () => (
 	<>
@@ -153,14 +154,7 @@ const Hero = ({ metadata }) => {
 
 				{title}
 
-				<motion.p
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, delay: 0.2 }}
-					className="mt-5 sm:mt-6 text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
-				>
-					{description}
-				</motion.p>
+				<Text visuals>{description}</Text>
 
 				{callToAction && <LoadHeroCTA callToAction={callToAction} />}
 

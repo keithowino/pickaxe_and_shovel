@@ -198,7 +198,7 @@
 
 // export default Portfolio;
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import MetaDataInsert from "../lib/MetaDataInsert";
 import { fetchProjects } from "../services/projectServices";

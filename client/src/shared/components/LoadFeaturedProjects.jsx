@@ -123,6 +123,7 @@ import {
 	fetchProjects,
 } from "../../services/projectServices.js";
 import { FeatureGrid, PageSection, SectionHeader } from "../layout/index.js";
+import { Text } from "../ui/index.js";
 
 export default function LoadFeaturedProjects() {
 	const [projects, setProjects] = useState([]);
@@ -191,12 +192,12 @@ export default function LoadFeaturedProjects() {
 					animate={{ opacity: 1, y: 0 }}
 					className="border border-dashed border-border p-10 sm:p-16 text-center"
 				>
-					<p className="text-muted-foreground">
+					<Text>
 						No projects yet.{" "}
 						<Link to="/admin" className="text-primary underline">
 							Import from GitHub →
 						</Link>
-					</p>
+					</Text>
 				</motion.div>
 			) : (
 				<FeatureGrid>

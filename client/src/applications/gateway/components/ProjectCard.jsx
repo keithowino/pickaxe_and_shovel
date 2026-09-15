@@ -233,16 +233,28 @@
 
 // export default ProjectCard;
 
-import React from "react";
 import { motion } from "framer-motion";
 import { Star, GitFork, ExternalLink } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
+import { Heading, Text } from "../../../shared/index.js";
 
 export default function ProjectCard({ project, onClick, index }) {
-	// Ensure tech_stack is an array
+	/**
+	 * Ensure tech_stack is an array
+	 */
 	const techStack = Array.isArray(project.tech_stack)
 		? project.tech_stack
 		: [];
+
+	const visibleStack = techStack.slice(0, 4);
+	const remainingCount = techStack.length - visibleStack.length;
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			onClick();
+		}
+	};
 
 	return (
 		<motion.article
@@ -252,7 +264,11 @@ export default function ProjectCard({ project, onClick, index }) {
 			viewport={{ once: true }}
 			transition={{ delay: index * 0.05 }}
 			onClick={onClick}
-			className="border border-border bg-card/60 hover:border-primary transition-all cursor-pointer group flex flex-col"
+			onKeyDown={handleKeyDown}
+			role="button"
+			tabIndex={0}
+			aria-label={`View details for ${project.name}`}
+			className="border border-border bg-card/60 hover:border-primary active:scale-[0.99] transition-all cursor-pointer group flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 		>
 			{/* System label header */}
 			<div className="flex items-center justify-between border-b border-border px-4 py-2">
@@ -276,13 +292,13 @@ export default function ProjectCard({ project, onClick, index }) {
 							e.target.onerror = null;
 							e.target.style.display = "none";
 							e.target.parentElement.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-background">
-                <span class="font-heading text-7xl font-bold text-primary/20">${project.name?.[0]?.toUpperCase() || "?"}</span>
+                <span class="font-heading text-6xl sm:text-7xl font-bold text-primary/20">${project.name?.[0]?.toUpperCase() || "?"}</span>
               </div>`;
 						}}
 					/>
 				) : (
 					<div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-muted to-background">
-						<span className="font-heading text-7xl font-bold text-primary/20">
+						<span className="font-heading text-6xl sm:text-7xl font-bold text-primary/20">
 							{project.name?.[0]?.toUpperCase() || "?"}
 						</span>
 					</div>
@@ -290,15 +306,19 @@ export default function ProjectCard({ project, onClick, index }) {
 			</div>
 
 			<div className="p-5 flex-1 flex flex-col">
-				<h3 className="font-heading text-lg font-bold mb-2 group-hover:text-primary transition-colors">
+				<Heading
+					level={4}
+					className="group-hover:text-primary transition-colors uppercase"
+				>
 					{project.name}
-				</h3>
-				<p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
+				</Heading>
+
+				<Text className="line-clamp-2 mb-4 flex-1">
 					{project.description || "No description."}
-				</p>
+				</Text>
 
 				<div className="flex flex-wrap gap-1.5 mb-4">
-					{techStack.slice(0, 4).map((t) => (
+					{visibleStack.map((t) => (
 						<span
 							key={t}
 							className="text-xs px-2 py-0.5 border border-border bg-background/60"
@@ -306,6 +326,11 @@ export default function ProjectCard({ project, onClick, index }) {
 							{t}
 						</span>
 					))}
+					{remainingCount > 0 && (
+						<span className="text-xs px-2 py-0.5 border border-dashed border-border text-muted-foreground">
+							+{remainingCount}
+						</span>
+					)}
 				</div>
 
 				<div className="flex items-center justify-between pt-3 border-t border-border">
@@ -325,7 +350,7 @@ export default function ProjectCard({ project, onClick, index }) {
 							</span>
 						)}
 					</div>
-					<div className="flex gap-2">
+					<div className="flex gap-1 -mr-1.5">
 						{project.github_url && (
 							<a
 								href={project.github_url}
@@ -333,7 +358,7 @@ export default function ProjectCard({ project, onClick, index }) {
 								rel="noreferrer"
 								onClick={(e) => e.stopPropagation()}
 								aria-label={`${project.name} on GitHub`}
-								className="p-1 hover:text-primary transition-colors"
+								className="p-2 rounded-sm hover:text-primary hover:bg-primary/10 transition-colors"
 							>
 								<IoLogoGithub className="h-4 w-4" />
 							</a>
@@ -345,7 +370,7 @@ export default function ProjectCard({ project, onClick, index }) {
 								rel="noreferrer"
 								onClick={(e) => e.stopPropagation()}
 								aria-label={`${project.name} live demo`}
-								className="p-1 hover:text-primary transition-colors"
+								className="p-2 rounded-sm hover:text-primary hover:bg-primary/10 transition-colors"
 							>
 								<ExternalLink className="h-4 w-4" />
 							</a>

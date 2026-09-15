@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { platform } from "../../../shared/index.js";
+import { Heading, platform, Text } from "../../../shared/index.js";
 
 const Timeline = () => {
 	const { milestones } = platform;
@@ -43,12 +43,8 @@ const Timeline = () => {
 										</span>
 									)}
 								</div>
-								<h3 className="font-heading text-xl sm:text-2xl font-bold mb-2">
-									{m.title}
-								</h3>
-								<p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-									{m.desc}
-								</p>
+								<Heading level={3}>{m.title}</Heading>
+								<Text>{m.desc}</Text>
 							</div>
 						</motion.div>
 					);
