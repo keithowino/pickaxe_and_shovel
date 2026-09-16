@@ -1,11 +1,11 @@
 import { Helmet } from "react-helmet-async";
-import { metadata } from "./DynamicData";
+import { platform } from "../shared/config/index.js";
 
-const MetaDataInsert = ({ title = metadata.title }) => {
+const MetaDataInsert = ({ title = platform.name }) => {
 	let pageTitle =
-		title === metadata.title
-			? `${title} - ${metadata.author}`
-			: `${title} - ${metadata.title}`;
+		title === platform.name
+			? `${title} - ${platform.author}`
+			: `${title} - ${platform.name}`;
 
 	return (
 		<Helmet>
@@ -23,7 +23,7 @@ const MetaDataInsert = ({ title = metadata.title }) => {
       */}
 			<meta
 				name="description"
-				content={`${metadata.title} is a developer playground for code execution, experiments, and tooling.`}
+				content={`${platform.name} ${platform.description}`}
 			/>
 			<meta
 				name="keywords"

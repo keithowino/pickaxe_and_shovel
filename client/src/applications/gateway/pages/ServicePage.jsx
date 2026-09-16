@@ -92,6 +92,7 @@ const ServicePage = () => {
 							key={s.title}
 							as="article"
 							transitionDelay={i * 0.8}
+							interactive
 							className="group relative"
 						>
 							<div className="serial-number text-muted-foreground absolute top-4 right-4">

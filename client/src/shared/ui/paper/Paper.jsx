@@ -13,6 +13,7 @@ const Paper = ({
 	children,
 	className = "",
 	transitionDelay = 1,
+	interactive = false,
 	...props
 }) => {
 	const Component = MOTION_TAGS[as] ?? motion.div;
@@ -25,10 +26,12 @@ const Paper = ({
 			transition={{ delay: transitionDelay * 0.1 }}
 			className={[
 				"border border-border p-6 sm:p-8 bg-card/50 transition-all duration-200",
-				"hover:border-primary hover:shadow-lg",
-				"active:scale-[0.98] active:border-primary",
+				interactive &&
+					"hover:border-primary hover:shadow-lg active:scale-[0.98] active:border-primary",
 				className,
-			].join(" ")}
+			]
+				.filter(Boolean)
+				.join(" ")}
 			{...props}
 		>
 			{children}
