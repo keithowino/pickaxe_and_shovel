@@ -1,24 +1,27 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-	Search,
-	Download,
-	Loader2,
-	Star,
-	AlertCircle,
-	Check,
-} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { Search, Download, Star, AlertCircle, Check } from "lucide-react";
 import {
 	fetchUserRepos,
 	fetchRepoDetails,
 	mapRepoToProject,
-} from "../../lib/github";
+} from "../../../lib/github";
 import {
 	getUserSettings,
 	getProjects,
 	createProject,
 	updateProject,
-} from "../../lib/firebase.config";
-import { useAuth } from "../../lib/context/AuthContext";
+} from "../../../lib/firebase.config";
+import { useAuth } from "../../../lib/context/AuthContext";
+import {
+	Button,
+	FormInput,
+	Loader,
+	SectionHeader,
+	Text,
+} from "../../../shared/index.js";
+import { BiGitRepoForked } from "react-icons/bi";
+
+const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
 
 export default function RepoList() {
 	const { user } = useAuth();
@@ -30,6 +33,14 @@ export default function RepoList() {
 	const [imported, setImported] = useState({});
 	const [githubSettings, setGithubSettings] = useState(null);
 	const [loadingSettings, setLoadingSettings] = useState(true);
+
+	/**
+	 * #### Placeholders
+	 *
+	 * let githubSettings = false;
+	 * let loadingSettings = true;
+	 * let loading = true;
+	 */
 
 	// Load GitHub settings and existing projects
 	useEffect(() => {
@@ -131,55 +142,49 @@ export default function RepoList() {
 	// Loading state
 	if (loadingSettings) {
 		return (
-			<section className="border border-border bg-card/50 p-6 lg:p-8">
-				<div className="flex items-center justify-center gap-2 text-muted-foreground py-10">
-					<Loader2 className="h-4 w-4 animate-spin" /> Loading
-					settings...
-				</div>
-			</section>
+			<div className={MODULE_BOX}>
+				<Loader msg="Loading settings..." />
+			</div>
 		);
 	}
 
 	// Not connected state
 	if (!githubSettings?.username || !githubSettings?.pat) {
 		return (
-			<section className="border border-dashed border-border p-12 text-center">
+			<div className="border border-dashed border-border p-8 sm:p-12 text-center">
 				<AlertCircle className="h-6 w-6 text-muted-foreground mx-auto mb-3" />
-				<p className="text-muted-foreground">
+				<Text>
 					Connect your GitHub account above to browse repositories.
-				</p>
-			</section>
+				</Text>
+			</div>
 		);
 	}
 
 	return (
-		<section className="border border-border bg-card/50 p-6 lg:p-8">
+		<div className={MODULE_BOX}>
 			<div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-				<div>
-					<div className="serial-number text-primary mb-2">
-						MODULE // 02
-					</div>
-					<h2 className="font-heading text-2xl font-bold">
-						Your Repositories
-					</h2>
-				</div>
-				<div className="relative flex-1 max-w-xs">
-					<Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-					<input
+				<SectionHeader
+					serial="MODULE // 02"
+					title={{
+						icon: <BiGitRepoForked className="h-6 w-6" />,
+						msg: "Your Repositories",
+					}}
+					header={3}
+					align="left"
+				/>
+				<div className="relative flex-1 min-w-[10rem] max-w-xs">
+					<Search className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+					<FormInput
 						value={query}
 						onChange={(e) => setQuery(e.target.value)}
 						placeholder="Search repos…"
-						className="w-full bg-background border border-border pl-10 pr-4 py-2 focus:border-primary outline-none text-sm transition-colors"
+						aria-label="Search repositories"
+						className="pl-10"
 					/>
 				</div>
 			</div>
 
-			{loading && (
-				<div className="flex items-center justify-center gap-2 text-muted-foreground py-10">
-					<Loader2 className="h-4 w-4 animate-spin" /> Fetching
-					repositories from GitHub…
-				</div>
-			)}
+			{loading && <Loader msg="Fetching repositories from GitHub…" />}
 
 			{error && (
 				<div className="border border-destructive/50 bg-destructive/5 text-destructive p-4 mb-4 text-sm">
@@ -188,7 +193,7 @@ export default function RepoList() {
 			)}
 
 			{!loading && !error && (
-				<div className="border border-border divide-y divide-border max-h-[600px] overflow-y-auto">
+				<div className="border border-border divide-y divide-border max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] overflow-y-auto">
 					{filtered.length === 0 ? (
 						<div className="p-10 text-center text-muted-foreground">
 							No repositories found.
@@ -197,7 +202,7 @@ export default function RepoList() {
 						filtered.map((r) => (
 							<div
 								key={r.id}
-								className="p-4 flex items-center gap-4 hover:bg-muted/30 transition-colors"
+								className="p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 hover:bg-muted/30 transition-colors"
 							>
 								<div className="flex-1 min-w-0">
 									<div className="flex items-center gap-2 flex-wrap">
@@ -221,34 +226,36 @@ export default function RepoList() {
 											</span>
 										)}
 									</div>
-									<p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
+
+									<Text className="line-clamp-1 mt-0.5">
 										{r.description || "No description"}
-									</p>
+									</Text>
 								</div>
-								<button
+
+								<Button
 									onClick={() => importRepo(r)}
 									disabled={importing[r.id]}
+									variant={
+										imported[r.id] ? "secondary" : "primary"
+									}
 									aria-label={`Import ${r.name} repository into portfolio`}
-									className={`shrink-0 inline-flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors disabled:opacity-50 ${
-										imported[r.id]
-											? "bg-secondary text-secondary-foreground"
-											: "bg-primary text-primary-foreground hover:bg-primary/90"
-									}`}
+									fullWidthMobile
+									className="shrink-0"
 								>
 									{importing[r.id] ? (
-										<Loader2 className="h-3 w-3 animate-spin" />
+										<Loader type="inline" />
 									) : imported[r.id] ? (
 										<Check className="h-3 w-3" />
 									) : (
 										<Download className="h-3 w-3" />
 									)}
 									{imported[r.id] ? "Imported" : "Import"}
-								</button>
+								</Button>
 							</div>
 						))
 					)}
 				</div>
 			)}
-		</section>
+		</div>
 	);
 }

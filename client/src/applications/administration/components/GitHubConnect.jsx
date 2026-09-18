@@ -143,11 +143,26 @@
 
 // export default GitHubConnect;
 
-import React, { useState, useEffect } from "react";
-import { Key, CheckCircle2, Loader2, Unlink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { CheckCircle2, Unlink } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
-import { getUserSettings, updateUserSettings } from "../../lib/firebase.config";
-import { useAuth } from "../../lib/context/AuthContext";
+import {
+	getUserSettings,
+	updateUserSettings,
+} from "../../../lib/firebase.config.js";
+import { useAuth } from "../../../lib/context/AuthContext.jsx";
+import {
+	Button,
+	FeatureGrid,
+	FormField,
+	FormInput,
+	FormLabel,
+	Loader,
+	SectionHeader,
+	Text,
+} from "../../../shared/index.js";
+
+const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
 
 export default function GitHubConnect() {
 	const { user } = useAuth();
@@ -157,7 +172,13 @@ export default function GitHubConnect() {
 	const [loading, setLoading] = useState(true);
 	const [connected, setConnected] = useState(false);
 
-	// Load user's GitHub settings from Firestore
+	/**
+	 * #### Placeholder
+	 *
+	 * let connected = false;
+	 * let loading = true;
+	 */
+
 	useEffect(() => {
 		const loadSettings = async () => {
 			if (!user?.uid) {
@@ -194,7 +215,7 @@ export default function GitHubConnect() {
 				},
 			});
 			setConnected(true);
-			setGithubPat(""); // Clear token from input after saving
+			setGithubPat("");
 		} catch (error) {
 			console.error("Failed to save GitHub settings:", error);
 			alert("Failed to save GitHub connection. Please try again.");
@@ -225,56 +246,62 @@ export default function GitHubConnect() {
 
 	if (loading) {
 		return (
-			<section className="border border-border bg-card/50 p-6 lg:p-8">
-				<div className="flex items-center justify-center gap-2 text-muted-foreground py-10">
-					<Loader2 className="h-4 w-4 animate-spin" /> Loading
-					settings...
-				</div>
-			</section>
+			<div className={MODULE_BOX}>
+				<Loader msg="Loading settings..." />
+			</div>
 		);
 	}
 
 	return (
-		<section className="border border-border bg-card/50 p-6 lg:p-8">
+		<div className={MODULE_BOX}>
 			<div className="flex items-start justify-between mb-6 flex-wrap gap-4">
 				<div>
-					<div className="serial-number text-primary mb-2">
-						MODULE // 01
-					</div>
-					<h2 className="font-heading text-2xl font-bold flex items-center gap-3">
-						<IoLogoGithub className="h-6 w-6" /> GitHub Connection
-					</h2>
+					<SectionHeader
+						serial="MODULE // 01"
+						title={{
+							icon: <IoLogoGithub className="h-6 w-6" />,
+							msg: "GitHub Connection",
+						}}
+						header={3}
+						align="left"
+						spacing="mb-0"
+					/>
 				</div>
 				{connected && (
 					<span className="flex items-center gap-2 text-secondary text-sm font-medium">
-						<CheckCircle2 className="h-4 w-4" /> Connected as{" "}
-						<strong>{githubUsername}</strong>
+						<CheckCircle2 className="h-4 w-4 shrink-0" />
+						<span className="truncate max-w-[14rem]">
+							Connected as <strong>{githubUsername}</strong>
+						</span>
 					</span>
 				)}
 			</div>
 
 			{connected ? (
 				<div className="flex items-center justify-between gap-4 flex-wrap">
-					<p className="text-sm text-muted-foreground">
+					<Text>
 						Your GitHub account is linked. Repositories appear in
 						Module 02 below.
-					</p>
-					<button
+					</Text>
+
+					<Button
+						size="sm"
+						variant="destructive"
 						onClick={disconnect}
 						disabled={saving}
-						className="inline-flex items-center gap-2 border border-border hover:border-destructive hover:text-destructive px-4 py-2 text-sm transition-colors disabled:opacity-50"
+						fullWidthMobile
 					>
 						{saving ? (
-							<Loader2 className="h-4 w-4 animate-spin" />
+							<Loader type="inline" />
 						) : (
 							<Unlink className="h-4 w-4" />
 						)}
 						Disconnect
-					</button>
+					</Button>
 				</div>
 			) : (
 				<div className="space-y-4">
-					<p className="text-sm text-muted-foreground leading-relaxed">
+					<Text>
 						Generate a GitHub Personal Access Token (classic) with{" "}
 						<code className="text-primary font-mono">repo</code>{" "}
 						scope at{" "}
@@ -288,53 +315,58 @@ export default function GitHubConnect() {
 						</a>
 						. The token is stored securely in Firestore — only you
 						can access it.
-					</p>
-					<div className="grid md:grid-cols-2 gap-4">
-						<div>
-							<label className="serial-number text-muted-foreground block mb-2">
+					</Text>
+
+					<FeatureGrid columns={2}>
+						<FormField>
+							<FormLabel
+								htmlFor="username"
+								required={{ isRequired: true }}
+							>
 								GITHUB USERNAME
-							</label>
-							<input
+							</FormLabel>
+							<FormInput
+								name="username"
+								id="username"
 								value={githubUsername}
 								onChange={(e) =>
 									setGithubUsername(e.target.value)
 								}
 								placeholder="yourusername"
-								className="w-full bg-background border border-border px-4 py-3 focus:border-primary outline-none transition-colors"
 							/>
-						</div>
-						<div>
-							<label className="serial-number text-muted-foreground block mb-2">
+						</FormField>
+						<FormField>
+							<FormLabel
+								htmlFor="githubPat"
+								required={{ isRequired: true }}
+							>
 								PERSONAL ACCESS TOKEN
-							</label>
-							<div className="relative">
-								<Key className="h-4 w-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-								<input
-									type="password"
-									value={githubPat}
-									onChange={(e) =>
-										setGithubPat(e.target.value)
-									}
-									placeholder="ghp_xxxxxxxxxxxx"
-									className="w-full bg-background border border-border pl-10 pr-4 py-3 focus:border-primary outline-none transition-colors"
-								/>
-							</div>
-						</div>
-					</div>
-					<button
+							</FormLabel>
+							<FormInput
+								name="githubPat"
+								id="githubPat"
+								type="password"
+								value={githubPat}
+								onChange={(e) => setGithubPat(e.target.value)}
+								placeholder="ghp_xxxxxxxxxxxx"
+								autoComplete="off"
+							/>
+						</FormField>
+					</FeatureGrid>
+					<Button
 						onClick={save}
 						disabled={saving || !githubUsername || !githubPat}
-						className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 font-medium hover:bg-primary/90 disabled:opacity-50 transition-colors"
+						fullWidthMobile
 					>
 						{saving ? (
-							<Loader2 className="h-4 w-4 animate-spin" />
+							<Loader type="inline" />
 						) : (
 							<IoLogoGithub className="h-4 w-4" />
 						)}
 						Connect GitHub
-					</button>
+					</Button>
 				</div>
 			)}
-		</section>
+		</div>
 	);
 }

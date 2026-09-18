@@ -15,8 +15,14 @@ const CornerBrackets = () => (
 );
 
 const Hero = ({ metadata }) => {
-	const { callToAction, description, floatingTools, serial, title } =
-		metadata;
+	const {
+		callToAction,
+		description,
+		floatingTools,
+		serial,
+		showQuickStats = true,
+		title,
+	} = metadata;
 
 	const ref = useRef(null);
 	const { scrollYProgress } = useScroll({
@@ -149,7 +155,7 @@ const Hero = ({ metadata }) => {
 				</>
 			)}
 
-			<div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-20 sm:py-24 w-full">
+			<div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-16 sm:py-20 w-full">
 				<LoadSerialMsg serial={serial} showAccent={floatingTools} />
 
 				{title}
@@ -159,25 +165,27 @@ const Hero = ({ metadata }) => {
 				{callToAction && <LoadHeroCTA callToAction={callToAction} />}
 
 				{/* Quick stat pills */}
-				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{ duration: 0.6, delay: 0.5 }}
-					className="mt-10 sm:mt-14 flex flex-wrap gap-2"
-				>
-					{[
-						"Based in Nairobi 🇰🇪",
-						"Web → Mechatronics",
-						"Available for Projects",
-					].map((s) => (
-						<span
-							key={s}
-							className="serial-number border border-border px-3 py-2 bg-card/50"
-						>
-							{s}
-						</span>
-					))}
-				</motion.div>
+				{showQuickStats && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 0.6, delay: 0.5 }}
+						className="mt-10 sm:mt-14 flex flex-wrap gap-2"
+					>
+						{[
+							"Based in Nairobi 🇰🇪",
+							"Web → Mechatronics",
+							"Available for Projects",
+						].map((s) => (
+							<span
+								key={s}
+								className="serial-number border border-border px-3 py-2 bg-card/50"
+							>
+								{s}
+							</span>
+						))}
+					</motion.div>
+				)}
 			</div>
 
 			{floatingTools && (

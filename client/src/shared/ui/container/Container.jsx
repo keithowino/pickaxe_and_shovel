@@ -25,8 +25,9 @@ export default function Container({ children, className = "" }) {
 			// ].join(" ")}
 
 			className={[
-				"mx-auto w-full",
-				"max-w-7xl",
+				// "mx-auto w-full",
+				"container mx-auto",
+				// "max-w-7xl",
 				"px-6",
 				"lg:px-10",
 				className,

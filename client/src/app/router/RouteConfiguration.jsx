@@ -1,7 +1,11 @@
 import { useRoutes } from "react-router-dom";
-import { gatewayRoutes, platformRoutes } from "../../applications/index.js";
+import {
+	administrationRoutes,
+	gatewayRoutes,
+	platformRoutes,
+} from "../../applications/index.js";
 import { useAuth } from "../../lib/context/AuthContext.jsx";
-import { LoadingSpinner } from "../../shared/index.js";
+import { Loader } from "../../shared/index.js";
 
 // import Portfolio from "./pages/Portfolio";
 // import Contact from "./pages/Contact";
@@ -24,8 +28,14 @@ import { LoadingSpinner } from "../../shared/index.js";
 function AuthReadyGate() {
 	const { isLoadingAuth, authChecked } = useAuth();
 
+	/**
+	 * #### Placeholder
+	 *
+	 * let isLoadingAuth = true;
+	 */
+
 	if (isLoadingAuth || !authChecked) {
-		return <LoadingSpinner />;
+		return <Loader type="page" />;
 	}
 
 	return <ApplicationRoutes />;
@@ -42,7 +52,11 @@ function ApplicationRoutes() {
 	 * `useRoutes()` is being called conditionally.
 	 * - Hooks must be called in the same order on every render.
 	 */
-	return useRoutes([...gatewayRoutes, ...platformRoutes]);
+	return useRoutes([
+		...administrationRoutes,
+		...gatewayRoutes,
+		...platformRoutes,
+	]);
 }
 
 export default function RouterConfiguration() {

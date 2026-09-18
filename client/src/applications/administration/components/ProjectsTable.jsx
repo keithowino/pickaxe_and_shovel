@@ -1,13 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { RefreshCw, Trash2, Edit3, Loader2, Save, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { RefreshCw, Trash2, Edit3, Save, X } from "lucide-react";
 import {
 	getProjects,
 	deleteProject,
 	updateProject,
-} from "../../lib/firebase.config";
-import { getUserSettings, updateUserSettings } from "../../lib/firebase.config";
-import { fetchRepoDetails, mapRepoToProject } from "../../lib/github";
-import { useAuth } from "../../lib/context/AuthContext";
+} from "../../../lib/firebase.config";
+import {
+	getUserSettings,
+	updateUserSettings,
+} from "../../../lib/firebase.config";
+import { fetchRepoDetails, mapRepoToProject } from "../../../lib/github";
+import { useAuth } from "../../../lib/context/AuthContext";
+import {
+	Button,
+	FormField,
+	FormInput,
+	FormLabel,
+	Loader,
+	PageSection,
+	SectionHeader,
+	Text,
+} from "../../../shared/index.js";
+import { BiImport } from "react-icons/bi";
+
+const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
+const SELECT_CLASS =
+	"w-full bg-background border border-border px-4 py-3 text-sm focus:border-primary focus-visible:outline-none transition-colors disabled:opacity-50";
 
 export default function ProjectsTable() {
 	const { user } = useAuth();
@@ -120,35 +138,37 @@ export default function ProjectsTable() {
 	};
 
 	return (
-		<section className="border border-border bg-card/50 p-6 lg:p-8">
-			<div className="flex items-center justify-between mb-6">
-				<div>
-					<div className="serial-number text-primary mb-2">
-						MODULE // 03
-					</div>
-					<h2 className="font-heading text-2xl font-bold">
-						Imported Projects
-					</h2>
-				</div>
+		<div className={MODULE_BOX}>
+			<div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+				<SectionHeader
+					serial="MODULE // 03"
+					title={{
+						icon: <BiImport className="h-6 w-6" />,
+						msg: "Imported Projects",
+					}}
+					header={3}
+					align="left"
+					spacing="mb-0"
+				/>
 				<span className="serial-number text-muted-foreground">
 					{projects.length} IN DATABASE
 				</span>
 			</div>
 
 			{loading ? (
-				<div className="flex items-center justify-center gap-2 text-muted-foreground py-10">
-					<Loader2 className="h-4 w-4 animate-spin" /> Loading…
-				</div>
+				<Loader type="inline" msg="Loading…" />
 			) : projects.length === 0 ? (
-				<div className="border border-dashed border-border p-10 text-center text-muted-foreground">
-					No imported projects yet. Use Module 02 above to import from
-					GitHub.
+				<div className="border border-dashed border-border p-8 sm:p-10 text-center">
+					<Text>
+						No imported projects yet. Use Module 02 above to import
+						from GitHub.
+					</Text>
 				</div>
 			) : (
 				<div className="space-y-3">
 					{projects.map((p) => (
 						<div key={p.id} className="border border-border">
-							<div className="p-4 flex items-start justify-between gap-4 flex-wrap">
+							<div className="p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
 								<div className="flex-1 min-w-0">
 									<div className="flex items-center gap-2 flex-wrap">
 										<span className="font-heading font-semibold">
@@ -163,62 +183,70 @@ export default function ProjectsTable() {
 											</span>
 										)}
 									</div>
-									<p className="text-xs text-muted-foreground line-clamp-1 mt-1">
+
+									<Text className="line-clamp-1 mt-1">
 										{p.description}
-									</p>
+									</Text>
 								</div>
-								<div className="flex items-center gap-2">
+								<div className="flex items-center gap-2 shrink-0">
 									{githubSettings?.pat && (
-										<button
+										<Button
+											variant="outline"
+											size="sm"
 											onClick={() => refreshFromGitHub(p)}
 											disabled={!!busy[p.id]}
 											title="Refresh from GitHub"
-											className="p-2 border border-border hover:border-primary hover:text-primary transition-colors disabled:opacity-50"
 										>
 											{busy[p.id] === "refresh" ? (
-												<Loader2 className="h-4 w-4 animate-spin" />
+												<Loader type="inline" />
 											) : (
 												<RefreshCw className="h-4 w-4" />
 											)}
-										</button>
+										</Button>
 									)}
-									<button
+
+									<Button
+										variant="outline"
+										size="sm"
 										onClick={() =>
 											editing === p.id
 												? setEditing(null)
 												: startEdit(p)
 										}
 										title="Edit overrides"
-										className="p-2 border border-border hover:border-primary hover:text-primary transition-colors"
 									>
 										{editing === p.id ? (
 											<X className="h-4 w-4" />
 										) : (
 											<Edit3 className="h-4 w-4" />
 										)}
-									</button>
-									<button
+									</Button>
+
+									<Button
+										variant="destructive"
+										size="sm"
 										onClick={() => remove(p)}
 										disabled={!!busy[p.id]}
 										title="Delete project"
-										className="p-2 border border-border hover:border-destructive hover:text-destructive transition-colors disabled:opacity-50"
 									>
 										{busy[p.id] === "delete" ? (
-											<Loader2 className="h-4 w-4 animate-spin" />
+											<Loader type="inline" />
 										) : (
 											<Trash2 className="h-4 w-4" />
 										)}
-									</button>
+									</Button>
 								</div>
 							</div>
 
 							{editing === p.id && (
 								<div className="px-4 pb-4 border-t border-border pt-4 grid md:grid-cols-2 gap-3">
-									<div>
-										<label className="serial-number text-muted-foreground block mb-1">
+									<FormField>
+										<FormLabel htmlFor="liveUrl">
 											LIVE URL
-										</label>
-										<input
+										</FormLabel>
+										<FormInput
+											name="live-url"
+											id="liveUrl"
 											value={draft.live_url}
 											onChange={(e) =>
 												setDraft((d) => ({
@@ -226,14 +254,16 @@ export default function ProjectsTable() {
 													live_url: e.target.value,
 												}))
 											}
-											className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
 										/>
-									</div>
-									<div>
-										<label className="serial-number text-muted-foreground block mb-1">
+									</FormField>
+
+									<FormField>
+										<FormLabel htmlFor="thumbnailUrl">
 											THUMBNAIL URL
-										</label>
-										<input
+										</FormLabel>
+										<FormInput
+											name="thumbnail-url"
+											id="thumbnailUrl"
 											value={draft.thumbnail_url}
 											onChange={(e) =>
 												setDraft((d) => ({
@@ -242,14 +272,16 @@ export default function ProjectsTable() {
 														e.target.value,
 												}))
 											}
-											className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
 										/>
-									</div>
-									<div>
-										<label className="serial-number text-muted-foreground block mb-1">
+									</FormField>
+
+									<FormField>
+										<FormLabel htmlFor="projectCategory">
 											CATEGORY
-										</label>
+										</FormLabel>
 										<select
+											name="project-category"
+											id="projectCategory"
 											value={draft.category}
 											onChange={(e) =>
 												setDraft((d) => ({
@@ -257,7 +289,8 @@ export default function ProjectsTable() {
 													category: e.target.value,
 												}))
 											}
-											className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
+											// className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
+											className={SELECT_CLASS}
 										>
 											{[
 												"Web",
@@ -269,12 +302,15 @@ export default function ProjectsTable() {
 												<option key={c}>{c}</option>
 											))}
 										</select>
-									</div>
-									<div>
-										<label className="serial-number text-muted-foreground block mb-1">
+									</FormField>
+
+									<FormField>
+										<FormLabel htmlFor="featured-projects">
 											FEATURED
-										</label>
+										</FormLabel>
 										<select
+											name="featured-projects"
+											id="featuredProjects"
 											value={draft.featured}
 											onChange={(e) =>
 												setDraft((d) => ({
@@ -284,17 +320,22 @@ export default function ProjectsTable() {
 														"true",
 												}))
 											}
-											className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
+											// className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
+											className={SELECT_CLASS}
 										>
 											<option value="false">No</option>
 											<option value="true">Yes</option>
 										</select>
-									</div>
-									<div className="md:col-span-2">
-										<label className="serial-number text-muted-foreground block mb-1">
+									</FormField>
+
+									<FormField className="md:col-span-2">
+										<FormLabel htmlFor="project-notes">
 											NOTES / OVERRIDE DESCRIPTION
-										</label>
-										<textarea
+										</FormLabel>
+										<FormInput
+											as="textarea"
+											name="project-notes"
+											id="projectNotes"
 											rows={2}
 											value={draft.notes}
 											onChange={(e) =>
@@ -303,22 +344,22 @@ export default function ProjectsTable() {
 													notes: e.target.value,
 												}))
 											}
-											className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none resize-none"
 										/>
-									</div>
+									</FormField>
+
 									<div className="md:col-span-2 flex justify-end">
-										<button
+										<Button
 											onClick={() => saveEdit(p)}
 											disabled={!!busy[p.id]}
-											className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 disabled:opacity-50"
+											fullWidthMobile
 										>
 											{busy[p.id] === "save" ? (
-												<Loader2 className="h-4 w-4 animate-spin" />
+												<Loader type="inline" />
 											) : (
 												<Save className="h-4 w-4" />
 											)}
 											Save Changes
-										</button>
+										</Button>
 									</div>
 								</div>
 							)}
@@ -326,6 +367,6 @@ export default function ProjectsTable() {
 					))}
 				</div>
 			)}
-		</section>
+		</div>
 	);
 }

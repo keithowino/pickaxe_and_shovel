@@ -1,13 +1,11 @@
 import { GatewayLayout } from "../layouts/index.js";
 import {
 	AboutPage,
-	AdminPage,
 	ContactPage,
 	HomePage,
 	PortfolioPage,
 	ServicePage,
 } from "../pages/index.js";
-import { AuthenticatedRoute } from "../../../platform/index.js";
 
 const gatewayRoutes = [
 	{
@@ -32,20 +30,6 @@ const gatewayRoutes = [
 			{
 				path: "/contact",
 				element: <ContactPage />,
-			},
-			{
-				element: (
-					<AuthenticatedRoute
-						requireAdmin={true}
-						showLoginScreen={true}
-					/>
-				),
-				children: [
-					{
-						path: "/admin",
-						element: <AdminPage />,
-					},
-				],
 			},
 		],
 	},

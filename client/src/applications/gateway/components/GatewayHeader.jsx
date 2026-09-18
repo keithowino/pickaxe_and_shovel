@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SiteHeader } from "../../../shared/index.js";
-// import { useAuth } from "@/lib/AuthContext";
+import { useAuth } from "../../../lib/context/AuthContext.jsx";
 
 const BASE_LINKS = [
 	{ to: "/", label: "Home", end: true },
@@ -31,8 +31,8 @@ function GatewayActions() {
 }
 
 export default function GatewayHeader() {
-	//   const { user } = useAuth();
-	let user = true; // Placeholder for user authentication state
+	const { user } = useAuth();
+	// let user = true; // Placeholder for user authentication state
 
 	const refs = user
 		? [...BASE_LINKS, { to: "/admin", label: "Admin" }]

@@ -6,17 +6,28 @@ export default function SectionHeader({
 	title,
 	align = "center",
 	className = "",
+	spacing = "mb-8 sm:mb-12",
 	header = 2,
 }) {
+	const hasIcon = title && typeof title === "object" && title.icon;
+
 	return (
 		<div
-			className={`mb-12 ${
-				align === "center" ? "text-center" : "text-left"
-			} ${className}`}
+			className={[
+				spacing,
+				align === "center" ? "text-center" : "text-left",
+				className,
+			].join(" ")}
 		>
 			<LoadSerialMsg serial={serial} />
 
-			<Heading level={header}>{title}</Heading>
+			<Heading
+				level={header}
+				className={hasIcon ? "flex items-center gap-3" : ""}
+			>
+				{hasIcon && title.icon}
+				{hasIcon ? title.msg : title}
+			</Heading>
 		</div>
 	);
 }
