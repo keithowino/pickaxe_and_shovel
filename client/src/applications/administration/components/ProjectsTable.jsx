@@ -17,7 +17,6 @@ import {
 	FormInput,
 	FormLabel,
 	Loader,
-	PageSection,
 	SectionHeader,
 	Text,
 } from "../../../shared/index.js";
@@ -298,6 +297,7 @@ export default function ProjectsTable() {
 												"IoT",
 												"Robotics",
 												"In Progress",
+												"Agentic Programming",
 											].map((c) => (
 												<option key={c}>{c}</option>
 											))}

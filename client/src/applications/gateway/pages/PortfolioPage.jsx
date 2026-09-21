@@ -219,6 +219,7 @@ const CATEGORIES = [
 	"IoT",
 	"Robotics",
 	"In Progress",
+	"Agentic Programming",
 ];
 
 const heroTitle = () => {

@@ -54,6 +54,8 @@ export function inferCategory(topics = []) {
 		return "Robotics";
 	if (t.some((x) => ["wip", "in-progress", "work-in-progress"].includes(x)))
 		return "In Progress";
+	if (t.some((x) => ["llms", "ai", "agentic-programming", "mcp"].includes(x)))
+		return "Agentic Programming";
 	return "Web";
 }
 
