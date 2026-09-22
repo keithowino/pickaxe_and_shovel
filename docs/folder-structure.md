@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-13
+Generated on: 2026-09-22
 
 ```bash
 ├── client/
@@ -11,7 +11,6 @@ Generated on: 2026-09-13
 │   │   ├── keith_owino_resume.pdf
 │   │   ├── metadata.json
 │   │   └── my_portfolio.png
-│   ├── shared/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── config/
@@ -26,18 +25,36 @@ Generated on: 2026-09-13
 │   │   │   │   └── RouteConfiguration.jsx
 │   │   │   └── index.js
 │   │   ├── applications/
+│   │   │   ├── administration/
+│   │   │   │   ├── components/
+│   │   │   │   │   ├── AdministrationHeader.jsx
+│   │   │   │   │   ├── GitHubConnect.jsx
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── ProjectsTable.jsx
+│   │   │   │   │   └── RepoList.jsx
+│   │   │   │   ├── layouts/
+│   │   │   │   │   ├── AdministrationLayout.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── pages/
+│   │   │   │   │   ├── AdminGateway.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── administration.routes.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
 │   │   │   ├── gateway/
 │   │   │   │   ├── components/
 │   │   │   │   │   ├── GatewayFooter.jsx
 │   │   │   │   │   ├── GatewayHeader.jsx
-│   │   │   │   │   ├── Hero.jsx
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── ProjectCard.jsx
+│   │   │   │   │   ├── ProjectModal.jsx
+│   │   │   │   │   └── Timeline.jsx
 │   │   │   │   ├── layouts/
 │   │   │   │   │   ├── GatewayLayout.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── pages/
 │   │   │   │   │   ├── AboutPage.jsx
-│   │   │   │   │   ├── AdminPage.jsx
 │   │   │   │   │   ├── ContactPage.jsx
 │   │   │   │   │   ├── HomePage.jsx
 │   │   │   │   │   ├── index.js
@@ -47,36 +64,25 @@ Generated on: 2026-09-13
 │   │   │   │   │   ├── gateway.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
+│   │   │   ├── platform/
+│   │   │   │   ├── pages/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── PageNotFound.jsx
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── platform.routes.jsx
+│   │   │   │   └── index.js
 │   │   │   └── index.js
-│   │   ├── assets/
-│   │   ├── components/
-│   │   │   ├── about/
-│   │   │   │   ├── SkillsGrid.jsx
-│   │   │   │   └── Timeline.jsx
-│   │   │   ├── admin/
-│   │   │   │   ├── GitHubConnect.jsx
-│   │   │   │   ├── ProjectsTable.jsx
-│   │   │   │   └── RepoList.jsx
-│   │   │   └── portfolio/
-│   │   │       ├── ProjectCard.jsx
-│   │   │       └── ProjectModal.jsx
 │   │   ├── lib/
 │   │   │   ├── context/
 │   │   │   │   └── AuthContext.jsx
-│   │   │   ├── DynamicData.jsx
+│   │   │   ├── pages/
+│   │   │   │   └── TestFirebase.jsx
 │   │   │   ├── firebase.config.js
 │   │   │   ├── github.js
 │   │   │   ├── MetaDataInsert.jsx
-│   │   │   ├── PageNotFound.jsx
 │   │   │   ├── supabase.js
 │   │   │   └── ThemeContext.jsx
-│   │   ├── pages/
-│   │   │   ├── About.jsx
-│   │   │   ├── Contact.jsx
-│   │   │   ├── Home.jsx
-│   │   │   ├── Portfolio.jsx
-│   │   │   ├── Services.jsx
-│   │   │   └── TestFirebase.jsx
 │   │   ├── platform/
 │   │   │   ├── routing/
 │   │   │   │   ├── components/
@@ -92,8 +98,13 @@ Generated on: 2026-09-13
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── skills.jsx
 │   │   │   │   ├── index.js
+│   │   │   │   ├── Loader.jsx
 │   │   │   │   ├── LoadFeaturedProjects.jsx
+│   │   │   │   ├── LoadHeroCTA.jsx
+│   │   │   │   ├── LoadHeroTitle.jsx
 │   │   │   │   ├── LoadLogo.jsx
+│   │   │   │   ├── LoadSerialMsg.jsx
+│   │   │   │   ├── LoadSkillsGrid.jsx
 │   │   │   │   └── LoadStats.jsx
 │   │   │   ├── config/
 │   │   │   │   ├── index.js
@@ -105,6 +116,15 @@ Generated on: 2026-09-13
 │   │   │   │   ├── featureGrid/
 │   │   │   │   │   ├── FeatureGrid.jsx
 │   │   │   │   │   └── index.js
+│   │   │   │   ├── hero/
+│   │   │   │   │   ├── Hero.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── pageSection/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── PageSection.jsx
+│   │   │   │   ├── sectionHeader/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── SectionHeader.jsx
 │   │   │   │   ├── siteFooter/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── SiteFooter.jsx
@@ -114,14 +134,40 @@ Generated on: 2026-09-13
 │   │   │   │   │   └── ThemeToggle.jsx
 │   │   │   │   └── index.js
 │   │   │   ├── ui/
+│   │   │   │   ├── button/
+│   │   │   │   │   ├── Button.jsx
+│   │   │   │   │   ├── button.styles.js
+│   │   │   │   │   └── index.js
 │   │   │   │   ├── container/
 │   │   │   │   │   ├── Container.jsx
 │   │   │   │   │   └── index.js
+│   │   │   │   ├── form/
+│   │   │   │   │   ├── Form.jsx
+│   │   │   │   │   ├── FormField.jsx
+│   │   │   │   │   ├── FormInput.jsx
+│   │   │   │   │   ├── FormLabel.jsx
+│   │   │   │   │   ├── FormReaction.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── input/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── TextInput.jsx
+│   │   │   │   ├── paper/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── Paper.jsx
+│   │   │   │   ├── section/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── Section.jsx
+│   │   │   │   ├── typography/
+│   │   │   │   │   ├── Heading.jsx
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── Text.jsx
 │   │   │   │   └── index.js
 │   │   │   └── index.js
 │   │   ├── App.jsx
 │   │   ├── index.css
 │   │   └── main.jsx
+│   ├── .env.development
+│   ├── .env.production
 │   ├── .gitignore
 │   ├── eslint.config.js
 │   ├── index.html
@@ -132,8 +178,12 @@ Generated on: 2026-09-13
 │   └── vite.config.js
 ├── prompts/
 │   ├── capsule/
+│   │   ├── client.md
 │   │   └── main.md
-│   └── Main.md
+│   ├── copy.jsx
+│   ├── Main.md
+│   ├── Main2.md
+│   └── Main3.md
 ├── scripts/
 │   └── generate-structure.js
 ├── server/
@@ -168,6 +218,7 @@ Generated on: 2026-09-13
 │   │   │   └── index.js
 │   │   └── index.js
 │   ├── .env.development
+│   ├── .env.production
 │   ├── .gitignore
 │   └── package.json
 ├── supabase/

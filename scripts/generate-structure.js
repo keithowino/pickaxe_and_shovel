@@ -37,7 +37,7 @@ const IGNORE = [
 
 	"trash",
 	"endpoint",
-	"prompt",
+	"prompts",
 	"docs",
 ];
 
