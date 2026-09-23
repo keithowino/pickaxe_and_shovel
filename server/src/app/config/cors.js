@@ -1,5 +1,5 @@
 import cors from "cors";
-import env from "./env.js";
+import { env } from "./env.js";
 
 export default cors({
 	origin: env.clientUrl,

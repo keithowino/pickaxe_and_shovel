@@ -1,15 +1,54 @@
 import dotenv from "dotenv";
+import { z } from "zod";
 
 dotenv.config({
 	path: `.env.${process.env.NODE_ENV || "development"}`,
 });
 
-export default {
-	nodeEnv: process.env.NODE_ENV,
-	port: process.env.PORT,
-	mongoUri: process.env.MONGODB_URI,
-	clientUrl: process.env.CLIENT_URL || "http://localhost:3000",
-	CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-	CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-	CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+const envSchema = z.object({
+	NODE_ENV: z
+		.enum(["development", "production", "test"])
+		.default("development"),
+
+	// Environment variables arrive as strings hence the `z.coerce.number()`.
+	PORT: z.coerce.number().int().positive().default(5000),
+
+	MONGODB_URI: z.string().min(1, "MONGODB_URI is required."),
+
+	CLIENT_URL: z.string().url().default("http://localhost:3000"),
+
+	CLOUDINARY_CLOUD_NAME: z
+		.string()
+		.min(1, "CLOUDINARY_CLOUD_NAME is required."),
+
+	CLOUDINARY_API_KEY: z.string().min(1, "CLOUDINARY_API_KEY is required."),
+
+	CLOUDINARY_API_SECRET: z
+		.string()
+		.min(1, "CLOUDINARY_API_SECRET is required."),
+});
+
+const parsedEnv = envSchema.safeParse(process.env);
+
+if (!parsedEnv.success) {
+	console.error("❌ Invalid server environment configuration:");
+
+	for (const issue of parsedEnv.error.issues) {
+		console.error(`   - ${issue.path.join(".")}: ${issue.message}`);
+	}
+
+	process.exit(1);
+}
+
+export const env = {
+	nodeEnv: parsedEnv.data.NODE_ENV,
+	port: parsedEnv.data.PORT,
+	mongoUri: parsedEnv.data.MONGODB_URI,
+	clientUrl: parsedEnv.data.CLIENT_URL,
+
+	cloudinary: {
+		cloudName: parsedEnv.data.CLOUDINARY_CLOUD_NAME,
+		apiKey: parsedEnv.data.CLOUDINARY_API_KEY,
+		apiSecret: parsedEnv.data.CLOUDINARY_API_SECRET,
+	},
 };

@@ -2,40 +2,98 @@
 
 Revamp v3 is intentionally being developed in stages.
 
-### Phase 0 — Baseline and Documentation
+### Phase 0 — Baseline and Documentation (complete)
 
-- Establish the official README.
-- Establish the v3 architectural direction.
-- Create/verify development and production environment conventions.
-- Establish the backend API foundation.
-- Verify MongoDB connectivity.
-- Establish Git branching workflow.
+- Establish the official README. (covered)
+- Establish the v3 architectural direction. (covered)
+- Create/verify development and production environment conventions. (covered)
+- Establish the backend API foundation. (covered)
+- Verify MongoDB connectivity. (covered)
+- Establish Git branching workflow. (covered)
 
 ### Phase 1 — Backend Foundation
 
-- Complete Express application configuration.
-- Complete MongoDB connection handling.
-- Establish centralized error handling.
-- Establish request validation.
-- Establish API response conventions.
-- Establish authentication and authorization.
-- Establish administrator authorization.
+1. Express application configuration (mostly done)
+   ├── Middleware pipeline
+   ├── API route composition
+   ├── 404 handling
+   └── Global error handling
 
-The next task should be to establish the conventions that the rest of the backend will follow.
+2. MongoDB connection handling (covered)
+   ├── Environment validation
+   ├── Connection lifecycle
+   ├── Connection state
+   └── Graceful shutdown
 
-For example, eventually:
+3. API response contract (covered)
+   ├── Success responses
+   ├── Error responses
+   └── Standard HTTP semantics
 
-```text
-server/src/modules/
-│
-├── identity/
-├── projects/
-├── categories/
-├── administration/
-├── contact/
-├── blog/
-└── ...
-```
+4. Request validation (covered)
+   ├── Generic validation middleware
+   ├── Zod integration
+   └── Validation error normalization
+
+5. Authentication
+   ├── Identity/session mechanism
+   ├── Authentication middleware
+   └── Authenticated request context
+
+    #### Recommended implementation order
+    1. Define the identity model
+    2. Implement password handling
+    3. Establish the session mechanism
+    4. Build authentication endpoints
+    5. Build authentication middleware
+    6. Build authorization
+    7. Build administrator authorization
+
+    #### First recommended workflow
+
+    ```text
+    Phase 1.5A
+        ↓
+    Authentication architecture
+        ↓
+    User model
+        ↓
+    Credential strategy
+        ↓
+    Session strategy
+        ↓
+    Authentication endpoints
+        ↓
+    Authentication middleware
+        ↓
+    Authenticated request context
+        ↓
+    Tests
+    ```
+
+    Only after that is working should we move to:
+
+    ```text
+    Phase 1.5B
+    Authorization
+    ```
+
+    and then:
+
+    ```text
+    Phase 1.5C
+    Administrator authorization
+    ```
+
+6. Authorization
+   ├── Permission model
+   ├── Authorization middleware
+   └── 401/403 handling
+
+7. Administrator authorization
+   ├── Administrator role/permission
+   ├── Protected administrative routes
+   └── Server-side enforcement
 
 ### Phase 2 — Project Domain Migration
 

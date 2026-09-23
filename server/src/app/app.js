@@ -2,7 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { cors } from "./config/index.js";
 import routes from "./routes/api.js";
-import { requestMetadata, notFound } from "../shared/index.js";
+import { requestMetadata, notFound, errorHandler } from "../shared/index.js";
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
  * - (Request Metadata)Build request context - (IP, User-Agent, etc.)
  * - (Routes)Controllers, Services, Audit Logging,..
  * - 404 Handler
- * - Global Error Handler
+ * - Global Error Handler(The global error handler must be last.)
  */
 
 app.use(cors);
@@ -41,6 +41,6 @@ app.use(notFound);
 
 // app.use(uploadErrorHandler);
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 export default app;
