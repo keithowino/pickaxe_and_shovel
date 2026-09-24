@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-22
+Generated on: 2026-09-23
 
 ```bash
 ├── client/
@@ -167,6 +167,7 @@ Generated on: 2026-09-22
 │   │   ├── index.css
 │   │   └── main.jsx
 │   ├── .env.development
+│   ├── .env.example
 │   ├── .env.production
 │   ├── .gitignore
 │   ├── eslint.config.js
@@ -176,17 +177,11 @@ Generated on: 2026-09-22
 │   ├── tailwind.config.js
 │   ├── vercel.json
 │   └── vite.config.js
-├── prompts/
-│   ├── capsule/
-│   │   ├── client.md
-│   │   └── main.md
-│   ├── copy.jsx
-│   ├── Main.md
-│   ├── Main2.md
-│   └── Main3.md
 ├── scripts/
 │   └── generate-structure.js
 ├── server/
+│   ├── endpoint_tests/
+│   │   └── system.http
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── bootstrap/
@@ -203,6 +198,21 @@ Generated on: 2026-09-22
 │   │   │   ├── app.js
 │   │   │   ├── index.js
 │   │   │   └── server.js
+│   │   ├── modules/
+│   │   │   ├── identity/
+│   │   │   │   ├── constants/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── session.js
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── Session.js
+│   │   │   │   │   └── User.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── credentialService.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── sessionService.js
+│   │   │   │   └── index.js
+│   │   │   └── index.js
 │   │   ├── shared/
 │   │   │   ├── constants/
 │   │   │   │   ├── httpStatus.js
@@ -210,14 +220,29 @@ Generated on: 2026-09-22
 │   │   │   ├── errors/
 │   │   │   │   ├── appError.js
 │   │   │   │   ├── errorCodes.js
+│   │   │   │   ├── errorHandler.js
 │   │   │   │   ├── index.js
 │   │   │   │   └── notFound.js
 │   │   │   ├── http/
 │   │   │   │   ├── index.js
 │   │   │   │   └── requestMetadata.js
+│   │   │   ├── utils/
+│   │   │   │   ├── apiResponse.js
+│   │   │   │   ├── asyncHandler.js
+│   │   │   │   └── index.js
+│   │   │   ├── validation/
+│   │   │   │   ├── index.js
+│   │   │   │   └── validationRequest.js
 │   │   │   └── index.js
 │   │   └── index.js
+│   ├── tests/
+│   │   └── server/
+│   │       └── src/
+│   │           └── modules/
+│   │               └── identity/
+│   │                   └── services/
 │   ├── .env.development
+│   ├── .env.example
 │   ├── .env.production
 │   ├── .gitignore
 │   └── package.json

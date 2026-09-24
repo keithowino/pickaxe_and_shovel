@@ -54,13 +54,13 @@ Revamp v3 is intentionally being developed in stages.
     ```text
     Phase 1.5A
         ↓
-    Authentication architecture
+    Authentication architecture         ✅
         ↓
-    User model
+    User model                          ✅
         ↓
-    Credential strategy
+    Credential strategy                 ✅
         ↓
-    Session strategy
+    Session strategy                    ✅
         ↓
     Authentication endpoints
         ↓
