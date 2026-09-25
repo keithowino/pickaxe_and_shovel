@@ -6,8 +6,11 @@ import mongoose from "mongoose";
 import {
 	database,
 	Session,
-	sessionService,
 	User,
+	PasswordService,
+	AccessTokenService,
+	hashToken,
+	sessionService,
 } from "../../../../../../src/index.js";
 
 let testUser;
@@ -16,14 +19,9 @@ test("Session Service", async (t) => {
 	t.before(async () => {
 		await database.connectDatabase();
 
-		/**
-		 * The test deliberately uses:
-		 * passwordHash: "test-password-hash",
-		 */
-
 		testUser = await User.create({
 			email: `session-test-${Date.now()}@example.com`,
-			passwordHash: "test-password-hash",
+			passwordHash: await PasswordService.hash("TestPassword123!"),
 			roles: [],
 			status: "active",
 		});
@@ -31,7 +29,7 @@ test("Session Service", async (t) => {
 
 	t.after(async () => {
 		await Session.deleteMany({
-			userId: testUser._id,
+			user: testUser._id,
 		});
 
 		await User.deleteOne({
@@ -41,63 +39,166 @@ test("Session Service", async (t) => {
 		await database.disconnectDatabase();
 	});
 
-	await t.test("createSession creates a session in MongoDB", async () => {
-		const session = await sessionService.createSession(testUser._id);
+	await t.test(
+		"create creates an active session and returns access/refresh tokens",
+		async () => {
+			const result = await sessionService.create(testUser, {
+				ipAddress: "127.0.0.1",
+				userAgent: "node:test",
+			});
 
-		assert.ok(session);
-		assert.ok(session.sessionId);
-		assert.equal(session.userId.toString(), testUser._id.toString());
-		assert.ok(session.expiresAt instanceof Date);
+			assert.ok(result);
+			assert.ok(result.accessToken);
+			assert.ok(result.refreshToken);
 
-		const storedSession = await Session.findOne({
-			sessionId: session.sessionId,
-		});
+			assert.equal(typeof result.accessToken, "string");
 
-		assert.ok(storedSession);
-		assert.equal(storedSession.userId.toString(), testUser._id.toString());
-	});
+			assert.equal(typeof result.refreshToken, "string");
 
-	await t.test("getSession returns a valid session", async () => {
-		const createdSession = await sessionService.createSession(testUser._id);
+			const storedSession = await Session.findOne({
+				user: testUser._id,
+			});
 
-		const session = await sessionService.getSession(
-			createdSession.sessionId,
-		);
+			assert.ok(storedSession);
 
-		assert.ok(session);
-		assert.equal(session.sessionId, createdSession.sessionId);
-		assert.equal(session.userId.toString(), testUser._id.toString());
-	});
+			assert.equal(
+				storedSession.user.toString(),
+				testUser._id.toString(),
+			);
 
-	await t.test("deleteSession removes the session from MongoDB", async () => {
-		const createdSession = await sessionService.createSession(testUser._id);
+			assert.ok(storedSession.refreshTokenHash);
 
-		await sessionService.deleteSession(createdSession.sessionId);
+			assert.notEqual(
+				storedSession.refreshTokenHash,
+				result.refreshToken,
+			);
+
+			assert.equal(storedSession.isRevoked, false);
+
+			assert.ok(storedSession.expiresAt instanceof Date);
+		},
+	);
+
+	await t.test(
+		"validateAccessSession returns an active session",
+		async () => {
+			const result = await sessionService.create(testUser);
+
+			const payload = AccessTokenService.verify(result.accessToken);
+
+			const session = await sessionService.validateAccessSession(
+				payload.sid,
+				payload.sub,
+			);
+
+			assert.ok(session);
+
+			assert.equal(session.user.toString(), testUser._id.toString());
+
+			assert.equal(session.isRevoked, false);
+		},
+	);
+
+	await t.test(
+		"rotate revokes the old session and creates a new session",
+		async () => {
+			const first = await sessionService.create(testUser);
+
+			const oldSession = await Session.findOne({
+				refreshTokenHash: hashToken(first.refreshToken),
+			});
+
+			assert.ok(oldSession);
+
+			const second = await sessionService.rotate(first.refreshToken);
+
+			assert.ok(second.accessToken);
+			assert.ok(second.refreshToken);
+
+			assert.notEqual(second.refreshToken, first.refreshToken);
+
+			const revokedSession = await Session.findById(oldSession._id);
+
+			assert.ok(revokedSession);
+
+			assert.equal(revokedSession.isRevoked, true);
+
+			assert.ok(revokedSession.revokedAt instanceof Date);
+
+			const newSession = await Session.findOne({
+				refreshTokenHash: hashToken(second.refreshToken),
+			});
+
+			assert.ok(newSession);
+
+			assert.equal(newSession.isRevoked, false);
+		},
+	);
+
+	await t.test("logout revokes the session", async () => {
+		const result = await sessionService.create(testUser);
 
 		const session = await Session.findOne({
-			sessionId: createdSession.sessionId,
+			refreshTokenHash: hashToken(result.refreshToken),
 		});
 
-		assert.equal(session, null);
+		assert.ok(session);
+
+		await sessionService.logout(result.refreshToken);
+
+		const revokedSession = await Session.findById(session._id);
+
+		assert.ok(revokedSession);
+
+		assert.equal(revokedSession.isRevoked, true);
+
+		assert.ok(revokedSession.revokedAt instanceof Date);
 	});
 
-	await t.test("getSession returns null for an expired session", async () => {
-		const expiredSession = await Session.create({
-			sessionId: new mongoose.Types.ObjectId().toString(),
-			userId: testUser._id,
-			expiresAt: new Date(Date.now() - 1000),
-		});
+	await t.test(
+		"validateAccessSession rejects a revoked session",
+		async () => {
+			const result = await sessionService.create(testUser);
 
-		const session = await sessionService.getSession(
-			expiredSession.sessionId,
-		);
+			const payload = AccessTokenService.verify(result.accessToken);
 
-		assert.equal(session, null);
+			await sessionService.logout(result.refreshToken);
 
-		const storedSession = await Session.findOne({
-			sessionId: expiredSession.sessionId,
-		});
+			await assert.rejects(
+				() =>
+					sessionService.validateAccessSession(
+						payload.sid,
+						payload.sub,
+					),
+				{
+					name: "AppError",
+					statusCode: 401,
+				},
+			);
+		},
+	);
 
-		assert.equal(storedSession, null);
-	});
+	await t.test(
+		"validateAccessSession rejects an expired session",
+		async () => {
+			const expiredSession = await Session.create({
+				user: testUser._id,
+				refreshTokenHash: new mongoose.Types.ObjectId().toString(),
+				expiresAt: new Date(Date.now() - 1000),
+				isRevoked: false,
+			});
+
+			await assert.rejects(
+				() =>
+					sessionService.validateAccessSession(
+						expiredSession._id,
+						testUser._id,
+					),
+				{
+					name: "AppError",
+					statusCode: 401,
+				},
+			);
+		},
+	);
 });

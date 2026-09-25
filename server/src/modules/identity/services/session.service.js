@@ -59,7 +59,8 @@ class SessionService {
 			);
 		}
 
-		const user = await userRepository.findById(session.user);
+		// const user = await userRepository.findById(session.user);
+		const user = await userRepository.findUserById(session.user);
 
 		if (!user || user.status !== "active") {
 			throw new AppError(

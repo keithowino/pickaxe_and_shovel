@@ -219,4 +219,80 @@ For Pickaxe, the resulting flow will be:
        access + refresh tokens
 ```
 
+## Revised authentication flow
+
+```text
+                         LOGIN
+                           │
+                           ▼
+                    Auth Controller
+                           │
+                           ▼
+                      Auth Service
+                           │
+                           ▼
+                    Session Service
+                     │           │
+                     ▼           ▼
+              Access Token   Refresh Token
+                 JWT             JWT
+                     │           │
+                     └─────┬─────┘
+                           │
+                           ▼
+                    HTTP-only cookies
+                           │
+                           ▼
+                  Browser / React app
+```
+
+---
+
+## The next recommended implementation sequence
+
+1.  Step A — Cookie configuration
+2.  Step B — Authentication controller
+3.  Step C — Routes
+
+- Later:
+
+```text
+GET    /me
+GET    /sessions
+DELETE /sessions/:sessionId
+DELETE /sessions/:sessionId/others
+```
+
+4.  Step D — Authentication middleware
+5.  Step E — Authenticated request context
+
+---
+
+> NB: **_A design issue we should address here:_**
+
+Because we're putting the refresh token into an HTTP-only cookie, requiring the client to send:
+
+```json
+{
+	"refreshToken": "..."
+}
+```
+
+defeats one of the advantages of HTTP-only cookies.
+
+So this controller is intentionally a transitional implementation until we finish the cookie boundary.
+
+The final design should actually be:
+
+```text
+POST /refresh
+     │
+     ▼
+req.cookies.refreshToken
+```
+
+rather than putting the refresh token in the request body.
+
+Therefore, I recommend we make that correction now instead of carrying the transitional design forward.
+
 ---

@@ -1,39 +1,34 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import {
-	hashPassword,
-	verifyPassword,
-} from "../../../../../../src/modules/identity/services/index.js";
+import { PasswordService } from "../../../../../../src/index.js";
 
-test("Credential Service", async (t) => {
-	await t.test("hashPassword returns a bcrypt hash", async () => {
+test("Password Service", async (t) => {
+	await t.test("hash returns a bcrypt hash", async () => {
 		const password = "TestPassword123!";
 
-		const passwordHash = await hashPassword(password);
+		const passwordHash = await PasswordService.hash(password);
 
 		assert.notEqual(passwordHash, password);
 		assert.match(passwordHash, /^\$2[aby]\$/);
 	});
 
-	await t.test(
-		"verifyPassword returns true for the correct password",
-		async () => {
-			const password = "TestPassword123!";
-			const passwordHash = await hashPassword(password);
+	await t.test("compare returns true for the correct password", async () => {
+		const password = "TestPassword123!";
 
-			const isValid = await verifyPassword(password, passwordHash);
+		const passwordHash = await PasswordService.hash(password);
 
-			assert.equal(isValid, true);
-		},
-	);
+		const isValid = await PasswordService.compare(password, passwordHash);
+
+		assert.equal(isValid, true);
+	});
 
 	await t.test(
-		"verifyPassword returns false for an incorrect password",
+		"compare returns false for an incorrect password",
 		async () => {
-			const passwordHash = await hashPassword("TestPassword123!");
+			const passwordHash = await PasswordService.hash("TestPassword123!");
 
-			const isValid = await verifyPassword(
+			const isValid = await PasswordService.compare(
 				"WrongPassword123!",
 				passwordHash,
 			);

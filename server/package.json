@@ -5,6 +5,7 @@
 	"main": "src/app/server.js",
 	"scripts": {
 		"traceWarnings": "nodemon --exec \"node --trace-warnings\" src/app/server.js",
+		"seedAdmin": "node src/scripts/seedAdmin.js",
 		"start": "node src/app/server.js",
 		"dev": "nodemon src/app/server.js",
 		"build": "echo 'No build step needed for server'",

@@ -1,0 +1,36 @@
+@baseUrl = http://localhost:5000/api/v1
+@testEmail = admin-test@example.com
+@testPassword = TestPassword123!
+
+### ========================================
+### 1. LOGIN
+### ========================================
+
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "{{testEmail}}",
+    "password": "{{testPassword}}"
+}
+
+### ========================================
+
+### 2. CURRENT USER
+
+### ========================================
+
+GET {{baseUrl}}/auth/me
+
+### ========================================
+### 3. REFRESH AUTHENTICATION
+### ========================================
+
+POST {{baseUrl}}/auth/refresh
+
+### ========================================
+### 5. LOGOUT
+### ========================================
+
+POST {{baseUrl}}/auth/logout

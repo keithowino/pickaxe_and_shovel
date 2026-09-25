@@ -6,6 +6,8 @@ import SessionService from "./session.service.js";
 
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
 
+import { userPresenter } from "../presenters/index.js";
+
 class AuthService {
 	async login({ data, requestMetadata = {} }) {
 		const user = await userRepository.findUserByEmail(data.email, {
@@ -47,13 +49,18 @@ class AuthService {
 		const tokens = await SessionService.create(user, requestMetadata);
 
 		return {
-			user,
+			user: userPresenter.present(user),
 			...tokens,
 		};
 	}
 
 	async refresh(refreshToken, requestMetadata = {}) {
-		return SessionService.rotate(refreshToken, requestMetadata);
+		const result = await SessionService.rotate(
+			refreshToken,
+			requestMetadata,
+		);
+
+		return result;
 	}
 
 	async logout(refreshToken) {
