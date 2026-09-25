@@ -9,64 +9,47 @@ $ npm run test:server
 > server@1.0.0 test
 > node --test
 
+▶ Authorization Middleware
+  ✔ allows a user with the required role (1.0032ms)
+  ✔ allows a user with one of several permitted roles (0.2147ms)
+  ✔ returns 401 when no authenticated user exists (0.3693ms)
+  ✔ returns 403 when the user lacks the required role (0.2381ms)
+✔ Authorization Middleware (3.3841ms)
 ▶ Password Service
-  ✔ hash returns a bcrypt hash (230.0162ms)
-  ✔ compare returns true for the correct password (443.0218ms)
-  ✔ compare returns false for an incorrect password (437.6311ms)
-✔ Password Service (1111.891ms)
+  ✔ hash returns a bcrypt hash (250.2115ms)
+  ✔ compare returns true for the correct password (476.81ms)
+  ✔ compare returns false for an incorrect password (491.662ms)
+✔ Password Service (1220.2084ms)
 ✅ Connected to MongoDB
 ▶ Session Service
-  ✔ create creates an active session and returns access/refresh tokens (272.0027ms)
-  ✔ validateAccessSession returns an active session (7.7609ms)
-  ✔ rotate revokes the old session and creates a new session (14.3771ms)
-  ✔ logout revokes the session (7.0066ms)
-  ✔ validateAccessSession rejects a revoked session (6.2543ms)
-  ✔ validateAccessSession rejects an expired session (2.5769ms)
+  ✔ create creates an active session and returns access/refresh tokens (295.0109ms)
+  ✔ validateAccessSession returns an active session (8.0587ms)
+  ✔ rotate revokes the old session and creates a new session (14.1582ms)
+  ✔ logout revokes the session (7.0415ms)
+  ✔ validateAccessSession rejects a revoked session (6.7543ms)
+  ✔ validateAccessSession rejects an expired session (2.7847ms)
 🔌 Disconnected from MongoDB
-✔ Session Service (342.6274ms)
-ℹ tests 11
+✔ Session Service (360.6298ms)
+ℹ tests 16
 ℹ suites 0
-ℹ pass 11
+ℹ pass 16
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 1843.3539
+ℹ duration_ms 2291.825
 
 pc@DESKTOP-5UIG07F MINGW64 /c/software_develpment/1_projects/pickaxe_and_shovel (feature-revamp-v3-db-migration)
-$
 ```
-
-```http
-POST {{baseUrl}}/auth/login
-Content-Type: application/json
-
-{
-    "email": "{{testEmail}}",
-    "password": "{{testPassword}}"
-}
-```
-
-Response:
-
-```json
-{
-	"success": true,
-	"message": "Login successful.",
-	"data": {
-		"user": {
-			"id": "6ab5dbaae68728ef9eb9264e",
-			"email": "admin-test@example.com",
-			"roles": ["admin"]
-		}
-	}
-}
-```
-
-with the response headers containing:
 
 ```text
-Set-Cookie: accessToken=..., refreshToken=...
-```
+6. Authorization (covered)
+   ├── Permission model
+   ├── Authorization middleware
+   └── 401/403 handling
 
-Tests 7 - /me, 8 - refresh, 9 - /me after refresh, 10 - logout, 11 - /me after logout, 12 - invalid login all passed successfully and or returned the expected responses.
+7. Administrator authorization <- next
+   ├── Administrator role/permission
+   ├── Protected administrative routes
+   └── Server-side enforcement
+```

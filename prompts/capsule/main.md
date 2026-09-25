@@ -35,62 +35,17 @@ Revamp v3 is intentionally being developed in stages.
    ├── Zod integration
    └── Validation error normalization
 
-5. Authentication
+5. Authentication (covered)
    ├── Identity/session mechanism
    ├── Authentication middleware
    └── Authenticated request context
 
-    #### Recommended implementation order
-    1. Define the identity model
-    2. Implement password handling
-    3. Establish the session mechanism
-    4. Build authentication endpoints
-    5. Build authentication middleware
-    6. Build authorization
-    7. Build administrator authorization
-
-    #### First recommended workflow
-
-    ```text
-    Phase 1.5A
-        ↓
-    Authentication architecture         ✅
-        ↓
-    User model                          ✅
-        ↓
-    Credential strategy                 ✅
-        ↓
-    Session strategy                    ✅
-        ↓
-    Authentication endpoints
-        ↓
-    Authentication middleware
-        ↓
-    Authenticated request context
-        ↓
-    Tests
-    ```
-
-    Only after that is working should we move to:
-
-    ```text
-    Phase 1.5B
-    Authorization
-    ```
-
-    and then:
-
-    ```text
-    Phase 1.5C
-    Administrator authorization
-    ```
-
-6. Authorization
+6. Authorization (covered)
    ├── Permission model
    ├── Authorization middleware
    └── 401/403 handling
 
-7. Administrator authorization
+7. Administrator authorization <- next
    ├── Administrator role/permission
    ├── Protected administrative routes
    └── Server-side enforcement

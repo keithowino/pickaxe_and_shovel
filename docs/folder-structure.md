@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-23
+Generated on: 2026-09-25
 
 ```bash
 ├── client/
@@ -180,8 +180,6 @@ Generated on: 2026-09-23
 ├── scripts/
 │   └── generate-structure.js
 ├── server/
-│   ├── endpoint_tests/
-│   │   └── system.http
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── bootstrap/
@@ -203,16 +201,43 @@ Generated on: 2026-09-23
 │   │   │   │   ├── constants/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── session.js
+│   │   │   │   ├── controllers/
+│   │   │   │   │   ├── auth.controller.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── middleware/
+│   │   │   │   │   ├── authenticate.js
+│   │   │   │   │   └── index.js
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   ├── Session.js
 │   │   │   │   │   └── User.js
-│   │   │   │   ├── services/
-│   │   │   │   │   ├── credentialService.js
+│   │   │   │   ├── presenters/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── sessionService.js
+│   │   │   │   │   └── user.presenter.js
+│   │   │   │   ├── repositories/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── session.repository.js
+│   │   │   │   │   └── user.repository.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── auth.routes.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── security/
+│   │   │   │   │   ├── accessToken.service.js
+│   │   │   │   │   ├── authCookies.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── password.service.js
+│   │   │   │   │   ├── refreshToken.service.js
+│   │   │   │   │   └── tokenHasher.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── auth.service.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── session.service.js
+│   │   │   │   ├── validators/
+│   │   │   │   │   ├── auth.validators.js
+│   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
 │   │   │   └── index.js
+│   │   ├── scripts/
 │   │   ├── shared/
 │   │   │   ├── constants/
 │   │   │   │   ├── httpStatus.js
@@ -229,18 +254,13 @@ Generated on: 2026-09-23
 │   │   │   ├── utils/
 │   │   │   │   ├── apiResponse.js
 │   │   │   │   ├── asyncHandler.js
-│   │   │   │   └── index.js
+│   │   │   │   ├── index.js
+│   │   │   │   └── presenter.js
 │   │   │   ├── validation/
 │   │   │   │   ├── index.js
-│   │   │   │   └── validationRequest.js
+│   │   │   │   └── validateRequest.js
 │   │   │   └── index.js
 │   │   └── index.js
-│   ├── tests/
-│   │   └── server/
-│   │       └── src/
-│   │           └── modules/
-│   │               └── identity/
-│   │                   └── services/
 │   ├── .env.development
 │   ├── .env.example
 │   ├── .env.production
