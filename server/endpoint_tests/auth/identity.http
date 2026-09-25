@@ -1,18 +1,29 @@
 @baseUrl = http://localhost:5000/api/v1
-@testEmail = admin-test@example.com
-@testPassword = TestPassword123!
+@testEmailA = designsolutions@gmail.com
+@testEmailB = rembo1234@gmail.com
+@testPasswordA = keith@1234
+@testPasswordB = rembo@1234
 
 ### ========================================
 ### 1. LOGIN
 ### ========================================
 
-# @name login
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "{{testEmail}}",
-    "password": "{{testPassword}}"
+    "email": "{{testEmailA}}",
+    "password": "{{testPasswordA}}"
+}
+
+###
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "{{testEmailB}}",
+    "password": "{{testPasswordB}}"
 }
 
 ### ========================================

@@ -24,7 +24,7 @@
 		"traceWarnings": "concurrently \"npm run traceServerWarnings\" \"npm run traceClientWarnings\" --names \"TRACEWARNING\"",
 		"docs:structure": "node scripts/generate-structure.js",
 		"test:server": "cd server && npm test",
-		"server:seedAdmin": "cd server && npm run seedAdmin"
+		"server:seedUsers": "cd server && npm run seedUsers"
 	},
 	"repository": {
 		"type": "git",

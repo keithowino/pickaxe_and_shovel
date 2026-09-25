@@ -200,12 +200,14 @@ Generated on: 2026-09-25
 │   │   │   ├── identity/
 │   │   │   │   ├── constants/
 │   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── roles.js
 │   │   │   │   │   └── session.js
 │   │   │   │   ├── controllers/
 │   │   │   │   │   ├── auth.controller.js
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── middleware/
 │   │   │   │   │   ├── authenticate.js
+│   │   │   │   │   ├── authorize.js
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── index.js
@@ -235,6 +237,19 @@ Generated on: 2026-09-25
 │   │   │   │   ├── validators/
 │   │   │   │   │   ├── auth.validators.js
 │   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
+│   │   │   ├── projects/
+│   │   │   │   ├── controllers/
+│   │   │   │   │   └── project.controller.js
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── Project.js
+│   │   │   │   ├── repositories/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── project.repository.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── project.service.js
 │   │   │   │   └── index.js
 │   │   │   └── index.js
 │   │   ├── scripts/

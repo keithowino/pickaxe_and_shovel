@@ -3,6 +3,7 @@ import { Router } from "express";
 import { database } from "../bootstrap/index.js";
 import { success } from "../../shared/index.js";
 import { authRoutes } from "../../modules/identity/index.js";
+import { projectRoutes } from "../../modules/projects/index.js";
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.get("/health", (req, res) => {
 });
 
 router.use("/auth", authRoutes);
+router.use("/projects", projectRoutes);
 
 export default router;

@@ -1,0 +1,75 @@
+@baseUrl = http://localhost:5000/api/v1
+@projectId = 6ab6e644e63fd25eff0b6df8
+
+### 1. Public: List published projects
+GET {{baseUrl}}/projects
+
+### 2. Public: Filter projects by category
+GET {{baseUrl}}/projects?category=Web&page=1&limit=9
+
+### 3. Public: Filter featured projects
+GET {{baseUrl}}/projects?featured=true
+
+### 4. Public: Retrieve project statistics
+GET {{baseUrl}}/projects/stats
+
+### 5. Public: Retrieve a project by ID
+GET {{baseUrl}}/projects/{{projectId}}
+
+### 6. Public: Invalid project ID should fail validation
+GET {{baseUrl}}/projects/not-a-valid-id
+
+### 7. Admin: List all projects without logging in
+GET {{baseUrl}}/projects/admin
+
+### 8. Admin: Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "YOUR_ADMIN_EMAIL",
+    "password": "YOUR_ADMIN_PASSWORD"
+}
+
+### 9. Admin: List all projects
+GET {{baseUrl}}/projects/admin
+
+### 10. Admin: Retrieve administrative statistics
+GET {{baseUrl}}/projects/admin/stats
+
+### 11. Admin: Create a project
+POST {{baseUrl}}/projects/admin
+Content-Type: application/json
+
+{
+    "name": "Project API Test",
+    "description": "A temporary project created to test the Project API.",
+    "githubUrl": "https://github.com/example/project-api-test",
+    "liveUrl": "https://example.com",
+    "primaryLanguage": "JavaScript",
+    "techStack": ["React", "Node.js"],
+    "topics": ["testing", "portfolio"],
+    "category": "Web",
+    "stars": 0,
+    "forks": 0,
+    "pinned": false,
+    "displayOrder": 0,
+    "featured": false,
+    "published": false
+}
+
+### 12. Admin: Update a project
+PATCH {{baseUrl}}/projects/admin/{{projectId}}
+Content-Type: application/json
+
+{
+    "description": "Updated description for the Project API test.",
+    "displayOrder": 1, 
+    "published": true
+}
+
+### 13. Admin: Delete a project
+DELETE {{baseUrl}}/projects/admin/{{projectId}}
+
+### 14. Admin: Invalid project ID should fail validation
+GET {{baseUrl}}/projects/admin/not-a-valid-id
