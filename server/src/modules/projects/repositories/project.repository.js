@@ -1,0 +1,114 @@
+import { Project } from "../models/index.js";
+
+/**
+ * Find projects using filters, sorting, and pagination.
+ *
+ * Pinned projects appear first, followed by display order,
+ * then creation date as a tie-breaker.
+ */
+export const findProjects = async ({
+	filter = {},
+	page = 1,
+	limit = 10,
+} = {}) => {
+	const skip = (page - 1) * limit;
+
+	return Project.find(filter)
+		.sort({
+			pinned: -1,
+			displayOrder: 1,
+			createdAt: -1,
+		})
+		.skip(skip)
+		.limit(limit)
+		.lean();
+};
+
+/**
+ * Count projects matching the supplied filter.
+ */
+export const countProjects = async (filter = {}) => {
+	return Project.countDocuments(filter);
+};
+
+/**
+ * Find a project by its MongoDB document ID.
+ */
+export const findProjectById = async (projectId) => {
+	return Project.findById(projectId).lean();
+};
+
+/**
+ * Find a project using its GitHub repository ID.
+ */
+export const findProjectByGithubRepoId = async (githubRepoId) => {
+	return Project.findOne({ githubRepoId }).lean();
+};
+
+/**
+ * Create a new project.
+ */
+export const createProject = async (projectData) => {
+	return Project.create(projectData);
+};
+
+/**
+ * Update a project by its MongoDB document ID.
+ */
+export const updateProjectById = async (projectId, updates) => {
+	return Project.findByIdAndUpdate(projectId, updates, {
+		new: true,
+		runValidators: true,
+	}).lean();
+};
+
+/**
+ * Delete a project by its MongoDB document ID.
+ */
+export const deleteProjectById = async (projectId) => {
+	return Project.findByIdAndDelete(projectId).lean();
+};
+
+/**
+ * Aggregate project statistics.
+ */
+export const aggregateProjectStats = async (filter = {}) => {
+	const [stats] = await Project.aggregate([
+		{ $match: filter },
+		{
+			$facet: {
+				totals: [
+					{
+						$group: {
+							_id: null,
+							totalProjects: { $sum: 1 },
+							totalStars: { $sum: "$stars" },
+							totalForks: { $sum: "$forks" },
+						},
+					},
+				],
+				categories: [
+					{
+						$group: {
+							_id: "$category",
+							count: { $sum: 1 },
+						},
+					},
+					{ $sort: { _id: 1 } },
+				],
+			},
+		},
+	]);
+
+	return {
+		totals: stats?.totals?.[0] ?? {
+			totalProjects: 0,
+			totalStars: 0,
+			totalForks: 0,
+		},
+		categories: (stats?.categories ?? []).map((item) => ({
+			category: item._id,
+			count: item.count,
+		})),
+	};
+};

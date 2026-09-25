@@ -45,7 +45,7 @@ Revamp v3 is intentionally being developed in stages.
    ├── Authorization middleware
    └── 401/403 handling
 
-7. Administrator authorization <- next
+7. Administrator authorization (covered)
    ├── Administrator role/permission
    ├── Protected administrative routes
    └── Server-side enforcement
@@ -461,5 +461,9 @@ After all functionality has been migrated and verified:
                 ▼
        Production Hardening
 ```
+
+---
+
+Pinned and featured are different concepts. Pinning affects placement; featuring identifies projects for featured sections or other presentation needs.
 
 ---

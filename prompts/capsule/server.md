@@ -296,3 +296,13 @@ rather than putting the refresh token in the request body.
 Therefore, I recommend we make that correction now instead of carrying the transitional design forward.
 
 ---
+
+## How administrator-only routes will work
+
+When we build the Projects administration endpoints, the route will follow this pattern:
+
+```js
+router.post("/projects", authenticate, requireAdmin, projectController.create);
+```
+
+---

@@ -1,4 +1,5 @@
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
+import { ROLES } from "../constants/index.js";
 
 export function requireRole(...allowedRoles) {
 	return function authorize(req, res, next) {
@@ -29,3 +30,5 @@ export function requireRole(...allowedRoles) {
 		next();
 	};
 }
+
+export const requireAdmin = requireRole(ROLES.ADMIN);
