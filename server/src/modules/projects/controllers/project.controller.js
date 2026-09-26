@@ -13,6 +13,7 @@ import {
 	listProjectsQuerySchema,
 	createProjectBodySchema,
 	updateProjectBodySchema,
+	reorderProjectsBodySchema,
 } from "../validators/index.js";
 
 // GET /api/v1/projects
@@ -122,6 +123,15 @@ const update = asyncHandler(async (req, res) => {
 	return success(res, project, "Project updated successfully.");
 });
 
+// PATCH /api/v1/projects/admin/order
+const reorder = asyncHandler(async (req, res) => {
+	const { body } = validateRequest({ body: reorderProjectsBodySchema }, req);
+
+	const result = await projectService.reorderProjects(body.orderedProjectIds);
+
+	return success(res, result, "Projects reordered successfully.");
+});
+
 // DELETE /api/v1/projects/admin/:projectId
 const remove = asyncHandler(async (req, res) => {
 	const { params } = validateRequest({ params: projectIdParamsSchema }, req);
@@ -144,5 +154,6 @@ export default {
 	getAdminById,
 	create,
 	update,
+	reorder,
 	remove,
 };

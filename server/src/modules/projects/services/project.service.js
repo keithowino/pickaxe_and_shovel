@@ -1,12 +1,4 @@
-// import {
-// 	findProjects,
-// 	countProjects,
-// 	findProjectById,
-// 	createProject as createProjectRecord,
-// 	updateProjectById,
-// 	deleteProjectById,
-// 	aggregateProjectStats,
-// } from "../repositories/index.js";
+import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
 import { projectRepository } from "../repositories/index.js";
 
 class ProjectService {
@@ -129,6 +121,62 @@ class ProjectService {
 	 */
 	async deleteProject(projectId) {
 		return projectRepository.deleteProjectById(projectId);
+	}
+
+	/**
+	 * Reorder projects after validating the supplied IDs.
+	 *
+	 * @param {string[]} orderedProjectIds
+	 * @returns {Promise<object>}
+	 *
+	 * This implementation performs one lookup per project ID.
+	 * That is acceptable for an initial small-scale
+	 * implementation, but a single bulk existence query would
+	 * be more efficient for larger lists.
+	 */
+	async reorderProjects(orderedProjectIds) {
+		// 1. Validate the input structure.
+		if (
+			!Array.isArray(orderedProjectIds) ||
+			orderedProjectIds.length === 0
+		) {
+			throw new AppError(
+				"A non-empty array of project IDs is required.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
+
+		// 2. Prevent duplicate project IDs.
+		const uniqueIds = new Set(orderedProjectIds);
+
+		if (uniqueIds.size !== orderedProjectIds.length) {
+			throw new AppError(
+				"Duplicate project IDs are not allowed.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
+
+		// 3. Verify that every project exists.
+		const projects = await Promise.all(
+			orderedProjectIds.map((projectId) =>
+				projectRepository.findProjectById(projectId),
+			),
+		);
+
+		const missingProjects = projects.some((project) => project === null);
+
+		if (missingProjects) {
+			throw new AppError(
+				"One or more projects could not be found.",
+				HTTP_STATUS.NOT_FOUND,
+				ErrorCodes.NOT_FOUND,
+			);
+		}
+
+		// 4. Perform the ordering operation.
+		return projectRepository.reorderProjects(orderedProjectIds);
 	}
 
 	/**

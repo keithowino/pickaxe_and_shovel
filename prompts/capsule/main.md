@@ -11,7 +11,7 @@ Revamp v3 is intentionally being developed in stages.
 - Verify MongoDB connectivity. (covered)
 - Establish Git branching workflow. (covered)
 
-### Phase 1 — Backend Foundation
+### Phase 1 — Backend Foundation (complete)
 
 1. Express application configuration (mostly done)
    ├── Middleware pipeline
@@ -52,44 +52,16 @@ Revamp v3 is intentionally being developed in stages.
 
 ### Phase 2 — Project Domain Migration
 
-- Create Project model.
-- Create Project repository.
-- Create Project service.
-- Create Project controller.
-- Create Project validators.
-- Create Project routes.
-- Migrate project CRUD from Firestore.
-- Migrate project statistics.
-- Migrate project filtering.
-- Add explicit project ordering.
-
-    We would introduce:
-
-    ```text
-    displayOrder
-    ```
-
-    combined with the following semantics:
-
-    ```text
-    pinned
-    featured
-    published
-    ```
-
-    Producing a conceptual ordering:
-
-    ```text
-    Pinned projects
-        ↓
-    Explicit display order
-        ↓
-    Featured projects
-        ↓
-    Normal projects
-        ↓
-    Publication date
-    ```
+- Create Project model. (covered)
+- Create Project repository. (mostly done)
+- Create Project service. (mostly done)
+- Create Project controller. (mostly done)
+- Create Project validators. (covered)
+- Create Project routes. (covered)
+- Migrate project CRUD from Firestore. (covered)
+- Migrate project statistics. (covered)
+- Migrate project filtering. (covered)
+- Add explicit project ordering. (covered)
 
     But we should define the semantics precisely rather than allowing these flags to interact unpredictably.
 
@@ -107,7 +79,7 @@ Revamp v3 is intentionally being developed in stages.
 
     and simply drag projects into the desired order.
 
-- Add pagination.
+- Add pagination. (covered)
 
     We can have:
 

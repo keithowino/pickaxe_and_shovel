@@ -306,3 +306,7 @@ router.post("/projects", authenticate, requireAdmin, projectController.create);
 ```
 
 ---
+
+> **NB:** The `reorderProjects` project.repository.js function, assumes the IDs have already been validated. The service layer will handle duplicate IDs and verify that the projects exist before invoking the repository. We'll also ensure that the operation's scope is clear so that projects outside the submitted ordering list are not accidentally treated as reordered.
+
+---

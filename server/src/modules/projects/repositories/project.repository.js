@@ -63,6 +63,29 @@ export const updateProjectById = async (projectId, updates) => {
 };
 
 /**
+ * Reorder projects by assigning displayOrder values
+ * based on their positions in the supplied ID list.
+ *
+ * Lower displayOrder values appear first.
+ */
+export const reorderProjects = async (orderedProjectIds) => {
+	if (orderedProjectIds.length === 0) {
+		return { modifiedCount: 0 };
+	}
+
+	const operations = orderedProjectIds.map((projectId, index) => ({
+		updateOne: {
+			filter: { _id: projectId },
+			update: {
+				$set: { displayOrder: index },
+			},
+		},
+	}));
+
+	return Project.bulkWrite(operations);
+};
+
+/**
  * Delete a project by its MongoDB document ID.
  */
 export const deleteProjectById = async (projectId) => {
