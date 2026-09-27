@@ -1,6 +1,8 @@
 @baseUrl = http://localhost:5000/api/v1
 @projectId = 6ab6e644e63fd25eff0b6df8
 
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWI2ZGZkMDA1YzkxZGEzYTg3Y2ZkMjMiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uc0BnbWFpbC5jb20iLCJzaWQiOiI2YWI4YjFjZTNmZWYzODk3MDFmMjc4NGMiLCJpYXQiOjE3OTA0ODkwMzgsImV4cCI6MTc5MDU3NTQzOCwiYXVkIjoicGlja2F4ZS1hbmQtc2hvdmVsLWNsaWVudCIsImlzcyI6InBpY2theGUtYW5kLXNob3ZlbCJ9.XIl0icWs9T8JT8WDveaR0CMzHZ7eiycM3F0Wgm1E7Hg
+
 ### 1. Public: List published projects
 GET {{baseUrl}}/projects
 
@@ -33,6 +35,7 @@ Content-Type: application/json
 
 ### 9. Admin: List all projects
 GET {{baseUrl}}/projects/admin
+Cookie: accessToken={{adminToken}}
 
 ### 10. Admin: Retrieve administrative statistics
 GET {{baseUrl}}/projects/admin/stats
@@ -42,7 +45,7 @@ POST {{baseUrl}}/projects/admin
 Content-Type: application/json
 
 {
-    "name": "Project API Test",
+    "name": "Project API Test 3",
     "description": "A temporary project created to test the Project API.",
     "githubUrl": "https://github.com/example/project-api-test",
     "liveUrl": "https://example.com",

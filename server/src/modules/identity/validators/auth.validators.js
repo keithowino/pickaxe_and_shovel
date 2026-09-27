@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { emailSchema, passwordSchema } from "../../../shared/index.js";
 
 export const loginRequestSchema = z.object({
-	email: z.email("A valid email address is required."),
-
-	password: z.string().min(1, "Password is required."),
+	email: emailSchema,
+	password: passwordSchema,
 });

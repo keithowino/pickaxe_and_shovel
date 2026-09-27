@@ -4,8 +4,8 @@ const projectFields = {
 	githubRepoId: z.number().int().positive().optional(),
 	name: z.string().trim().min(1).max(200),
 	description: z.string().trim().max(5000).optional(),
-	githubUrl: z.string().url().optional(),
-	liveUrl: z.string().url().optional(),
+	githubUrl: z.url().optional(),
+	liveUrl: z.url().optional(),
 	primaryLanguage: z.string().trim().max(100).optional(),
 	techStack: z.array(z.string().trim()).optional(),
 	topics: z.array(z.string().trim()).optional(),
@@ -35,3 +35,15 @@ export const createProjectBodySchema = z.object({
 });
 
 export const updateProjectBodySchema = z.object(projectFields).partial();
+
+/**
+ * Validate the request body for reordering projects.
+ *
+ * orderedProjectIds must be a non-empty array of valid
+ * MongoDB ObjectId strings.
+ */
+export const reorderProjectsBodySchema = z.object({
+	orderedProjectIds: z
+		.array(z.string().regex(/^[a-f\d]{24}$/i, "Invalid project ID."))
+		.min(1, "At least one project ID is required."),
+});

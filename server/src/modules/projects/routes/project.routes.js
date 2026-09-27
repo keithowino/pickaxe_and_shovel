@@ -18,6 +18,10 @@ router.get("/admin/stats", projectController.getAdminStats);
 router.get("/admin/:projectId", projectController.getAdminById);
 
 router.post("/admin", projectController.create);
+
+// Project ordering — register before the generic project ID route.
+router.patch("/admin/order", projectController.reorder);
+
 router.patch("/admin/:projectId", projectController.update);
 router.delete("/admin/:projectId", projectController.remove);
 
