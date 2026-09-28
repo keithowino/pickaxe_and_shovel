@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Mail, MapPin, Send, Loader2 } from "lucide-react";
 // import { base44 } from "@/api/base44Client";
 import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
-import MetaDataInsert from "../../../lib/MetaDataInsert";
-import { supabase } from "../../../lib/supabase.js";
-import { platform } from "../../../shared/config/index.js";
+import { MetaDataInsert, supabase } from "../../../lib/index.js";
 import {
 	Button,
 	FeatureGrid,
@@ -17,6 +15,7 @@ import {
 	LoadHeroTitle,
 	PageSection,
 	Paper,
+	platform,
 	SectionHeader,
 } from "../../../shared/index.js";
 

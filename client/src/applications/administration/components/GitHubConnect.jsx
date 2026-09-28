@@ -150,7 +150,7 @@ import {
 	getUserSettings,
 	updateUserSettings,
 } from "../../../lib/firebase.config.js";
-import { useAuth } from "../../../lib/context/AuthContext.jsx";
+import { useAuth } from "../../../lib/index.js";
 import {
 	Button,
 	FeatureGrid,

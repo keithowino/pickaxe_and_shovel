@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { LayoutDashboard } from "lucide-react";
-import { useAuth } from "../../../lib/context/AuthContext";
-import MetaDataInsert from "../../../lib/MetaDataInsert.jsx";
+
+import { MetaDataInsert, useAuth } from "../../../lib/index.js";
 import {
 	Button,
 	Heading,
@@ -9,11 +10,16 @@ import {
 	LoadHeroTitle,
 	PageSection,
 	Text,
+	FormField,
+	FormInput,
+	FormLabel,
 } from "../../../shared/index.js";
+
 import { GitHubConnect, ProjectsTable, RepoList } from "../components/index.js";
 
 const AdminGateway = () => {
-	const { user, isLoadingAuth, signInWithGoogle } = useAuth();
+	// const { user, isLoadingAuth, signInWithGoogle } = useAuth();
+	const { user, isAdmin, isLoadingAuth, authError, login } = useAuth();
 
 	/**
 	 * #### Placeholders
@@ -21,6 +27,26 @@ const AdminGateway = () => {
 	 * let isLoadingAuth = true;
 	 * let user = false;
 	 */
+
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [loginError, setLoginError] = useState("");
+
+	const handleLogin = async (event) => {
+		event.preventDefault();
+
+		setLoginError("");
+		setIsSubmitting(true);
+
+		try {
+			await login(email.trim(), password);
+		} catch (error) {
+			setLoginError(error.message || "Unable to sign in.");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
 
 	if (isLoadingAuth) {
 		return <Loader type="page" />;
@@ -30,11 +56,12 @@ const AdminGateway = () => {
 		return (
 			<>
 				<MetaDataInsert title={"Admin Login"} />
+
 				<PageSection
 					className="min-h-[75svh] sm:min-h-[80svh] flex items-center"
 					containerClassName="flex items-center justify-center"
 				>
-					<div className="max-w-md w-full border border-border bg-card/50 p-6 sm:p-8 text-center">
+					{/* <div className="max-w-md w-full border border-border bg-card/50 p-6 sm:p-8 text-center">
 						<LayoutDashboard className="h-10 w-10 sm:h-12 sm:w-12 text-primary mx-auto mb-4" />
 						<Heading level={3}>Admin Access</Heading>
 						<Text className="mb-6">
@@ -44,24 +71,120 @@ const AdminGateway = () => {
 						<Button onClick={signInWithGoogle} fullWidthMobile>
 							Sign in with Google
 						</Button>
+					</div> */}
+					<div className="max-w-md w-full border border-border bg-card/50 p-6 sm:p-8">
+						<LayoutDashboard className="h-10 w-10 sm:h-12 sm:w-12 text-primary mx-auto mb-4" />
+						<Heading level={3}>Admin Access</Heading>
+						<Text className="mb-6">
+							Sign in with your administrator credentials to
+							manage your portfolio.
+						</Text>
+
+						<form onSubmit={handleLogin} className="space-y-4">
+							<FormField>
+								<FormLabel htmlFor="admin-email">
+									EMAIL ADDRESS
+								</FormLabel>
+								<FormInput
+									id="admin-email"
+									name="email"
+									type="email"
+									autoComplete="username"
+									value={email}
+									onChange={(event) =>
+										setEmail(event.target.value)
+									}
+									placeholder="you@example.com"
+									required
+								/>
+							</FormField>
+
+							<FormField>
+								<FormLabel htmlFor="admin-password">
+									PASSWORD
+								</FormLabel>
+								<FormInput
+									id="admin-password"
+									name="password"
+									type="password"
+									autoComplete="current-password"
+									value={password}
+									onChange={(event) =>
+										setPassword(event.target.value)
+									}
+									placeholder="Enter your password"
+									required
+								/>
+							</FormField>
+
+							{(loginError || authError) && (
+								<div
+									role="alert"
+									className="border border-destructive/50 bg-destructive/5 text-destructive p-3 text-sm"
+								>
+									{loginError || authError.message}
+								</div>
+							)}
+
+							<Button
+								onClick={handleLogin}
+								disabled={
+									isSubmitting || !email.trim() || !password
+								}
+								fullWidthMobile
+							>
+								{isSubmitting ? (
+									<Loader type="inline" />
+								) : (
+									"Sign In"
+								)}
+							</Button>
+						</form>
 					</div>
 				</PageSection>
 			</>
 		);
 	}
 
-	const Desc = () => {
-		return (
-			<>
-				Welcome, <strong>{user.full_name || user.email}</strong>. Manage
-				your portfolio from here.
-			</>
-		);
-	};
+	/**
+	 * This implementation was part of the migration.
+	 * There is the possibility we might not need it because
+	 * it's function is or could already be handled by
+	 * `~\client\src\platform\routing\components\AuthenticatedRoute.jsx`
+	 */
+	// if (!isAdmin) {
+	// 	return (
+	// 		<>
+	// 			<MetaDataInsert title="Admin Access Denied" />
+
+	// 			<PageSection className="min-h-[75svh] flex items-center">
+	// 				<div
+	// 					className="max-w-md mx-auto border border-destructive/50 bg-destructive/5 p-6 sm:p-8 text-center"
+	// 					role="alert"
+	// 				>
+	// 					<Heading level={3}>Access Denied</Heading>
+	// 					<Text>
+	// 						This account does not have administrator
+	// 						permissions.
+	// 					</Text>
+	// 				</div>
+	// 			</PageSection>
+	// 		</>
+	// 	);
+	// }
+
+	const Desc = () => (
+		<>
+			Welcome,{" "}
+			<strong>{user.full_name || user.name || user.email}</strong>. Manage
+			your portfolio from here.
+		</>
+	);
 
 	return (
 		<>
 			<MetaDataInsert title={"Admin"} />
+
 			<Hero
 				metadata={{
 					description: <Desc />,

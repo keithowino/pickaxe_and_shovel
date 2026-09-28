@@ -200,7 +200,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import MetaDataInsert from "../../../lib/MetaDataInsert";
+import { MetaDataInsert } from "../../../lib/index.js";
 import {
 	FeatureGrid,
 	Heading,

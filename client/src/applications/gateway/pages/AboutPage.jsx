@@ -1,4 +1,4 @@
-import MetaDataInsert from "../../../lib/MetaDataInsert";
+import { MetaDataInsert } from "../../../lib/index.js";
 import {
 	Hero,
 	LoadHeroTitle,

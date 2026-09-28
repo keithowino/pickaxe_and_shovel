@@ -1,5 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAuth } from "../../../lib/context/AuthContext.jsx";
+import { useAuth } from "../../../lib/index.js";
 import { Loader2 } from "lucide-react";
 
 // import useAuthenticatedRoute from "../hooks/useAuthenticatedRoute";

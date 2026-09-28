@@ -5,7 +5,7 @@ import {
 	platform,
 	Skills,
 } from "../../../shared/index.js";
-import MetaDataInsert from "../../../lib/MetaDataInsert.jsx";
+import { MetaDataInsert } from "../../../lib/index.js";
 import { Terminal, Cpu } from "lucide-react";
 
 const heroTitle = () => {

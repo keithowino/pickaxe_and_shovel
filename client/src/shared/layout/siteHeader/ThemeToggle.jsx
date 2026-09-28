@@ -1,5 +1,4 @@
-import React from "react";
-import { useTheme } from "../../../lib/ThemeContext";
+import { useTheme } from "../../../lib/index.js";
 import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 

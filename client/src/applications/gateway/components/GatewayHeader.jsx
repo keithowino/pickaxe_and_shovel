@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { SiteHeader } from "../../../shared/index.js";
-import { useAuth } from "../../../lib/context/AuthContext.jsx";
+import { useAuth } from "../../../lib/index.js";
 
 const BASE_LINKS = [
 	{ to: "/", label: "Home", end: true },

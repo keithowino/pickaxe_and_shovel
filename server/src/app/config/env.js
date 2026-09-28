@@ -42,6 +42,13 @@ const envSchema = z.object({
 	JWT_ISSUER: z.string().default("pickaxe-and-shovel"),
 
 	JWT_AUDIENCE: z.string().default("pickaxe-and-shovel-client"),
+
+	GITHUB_TOKEN_ENCRYPTION_KEY: z
+		.string()
+		.regex(
+			/^[0-9a-fA-F]{64}$/,
+			"GITHUB_TOKEN_ENCRYPTION_KEY must be a 32-byte hexadecimal key.",
+		),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -75,5 +82,9 @@ export const env = {
 		refreshExpires: parsedEnv.data.JWT_REFRESH_EXPIRES,
 		issuer: parsedEnv.data.JWT_ISSUER,
 		audience: parsedEnv.data.JWT_AUDIENCE,
+	},
+
+	github: {
+		tokenEncryptionKey: parsedEnv.data.GITHUB_TOKEN_ENCRYPTION_KEY,
 	},
 };

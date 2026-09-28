@@ -7,8 +7,7 @@
  * - Localization
  */
 import { HelmetProvider } from "react-helmet-async";
-import { ThemeProvider } from "../../lib/ThemeContext.jsx";
-import { AuthProvider } from "../../lib/context/AuthContext.jsx";
+import { AuthProvider, ThemeProvider } from "../../lib/index.js";
 
 export function AppProviders({ children }) {
 	return (

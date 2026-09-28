@@ -4,7 +4,7 @@ import {
 	gatewayRoutes,
 	platformRoutes,
 } from "../../applications/index.js";
-import { useAuth } from "../../lib/context/AuthContext.jsx";
+import { useAuth } from "../../lib/index.js";
 import { Loader } from "../../shared/index.js";
 
 // import Portfolio from "./pages/Portfolio";

@@ -477,3 +477,69 @@ We'll keep the work incremental:
 5. Test persistence and pinned-project behavior. Verify the saved order after reloading the page.
 
 ---
+
+## Still dependent on Firebase, next migration plan
+
+1. Finish authentication integration (partially covered)
+    - Align AuthContext.jsx with the API client, replace the Google sign-in interface in AdminGateway.jsx with email/password login, and verify the admin access checks.
+
+2. Migrate GitHub connection settings
+    - The current GitHub connection workflow stores the Personal Access Token (PAT) in Firestore and exposes it to the browser.
+    - For the MongoDB migration, we should change the architecture:
+        - Frontend — GitHubConnect.jsx
+
+            Collects the GitHub username and token, then submits them to the backend.
+
+        - Backend — Express API
+
+            Authenticates the admin, validates the settings, and securely stores the token.
+
+        - MongoDB
+
+            Stores the GitHub connection settings, with the token protected from direct client access.
+
+    - The backend should also handle authenticated GitHub API requests so that the PAT is not returned to the frontend when loading settings.
+    - We should establish the settings endpoints before rewriting GitHubConnect.jsx and RepoList.jsx.
+
+3. Migrate repository browsing and importing
+    - Connect repository listing and import operations to the backend, including duplicate detection and project creation or updating.
+
+4. Migrate project management
+    - Replace Firebase CRUD in ProjectsTable.jsx with the Express API, including the admin listing endpoint and the existing project update and delete endpoints.
+
+5. Connect drag-and-drop ordering
+    - Use the existing ordering endpoint after the project list is served by MongoDB. Preserve the established pinned and display-order rules.
+
+## GitHub integration migration:
+
+1. GitHub settings
+    - Backend endpoints to retrieve, save, and disconnect a GitHub account. Store the Personal Access Token securely in MongoDB, never in frontend code.
+2. Repository browsing
+    - A backend endpoint that uses the stored GitHub credentials to retrieve repositories from GitHub.
+3. Project import
+    - Backend endpoints to import a repository, update an existing imported project, and refresh its metadata.
+4. Project CRUD
+    - Replace Firebase operations in ProjectsTable.jsx with the existing MongoDB-backed project endpoints, preserving editing, deletion, and project ordering.
+
+## Proposed API endpoints
+
+### GitHub integration
+
+|          |                           |
+| -------- | ------------------------- |
+| `GET`    | `/api/v1/github/settings` |
+| `PUT`    | `/api/v1/github/settings` |
+| `DELETE` | `/api/v1/github/settings` |
+| `GET`    | `/api/v1/github/repos`    |
+
+### Project import and management
+
+|          |                                             |
+| -------- | ------------------------------------------- |
+| `POST`   | `/api/v1/projects/admin/import`             |
+| `POST`   | `/api/v1/projects/admin/:projectId/refresh` |
+| `GET`    | `/api/v1/projects/admin`                    |
+| `PATCH`  | `/api/v1/projects/admin/:projectId`         |
+| `DELETE` | `/api/v1/projects/admin/:projectId`         |
+
+---

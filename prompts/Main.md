@@ -1,37 +1,60 @@
-This is the client's `env.js` file, check to evaluate whether i configured it correctly or as recommended:
-
 ```js
-`~\client\src\app\config\env.js`;
+`~\server\src\app\config\env.js`;
 
 import dotenv from "dotenv";
 import { z } from "zod";
 
-// const env = Object.freeze({
-// 	supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
-// 	supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-
-// 	firebaseAPIKey: import.meta.env.VITE_FIREBASE_API_KEY,
-// 	firebaseAuthDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-// 	firebaseProjectID: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-// 	firebaseStorageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-// 	firebaseMsgSenderID: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-// 	firebaseAppID: import.meta.env.VITE_FIREBASE_APP_ID,
-// });
-
-// dotenv.config({
-// 	path: `.env.${process.env.NODE_ENV || "development"}`,
-// });
+dotenv.config({
+	path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 
 const envSchema = z.object({
 	NODE_ENV: z
 		.enum(["development", "production", "test"])
 		.default("development"),
 
-	VITE_API_URL: z.string().min(1, "API_URL is required."),
+	// Environment variables arrive as strings hence the `z.coerce.number()`.
+	PORT: z.coerce.number().int().positive().default(5000),
+
+	MONGODB_URI: z.string().min(1, "MONGODB_URI is required."),
+
+	CLIENT_URL: z.string().url().default("http://localhost:3000"),
+
+	CLOUDINARY_CLOUD_NAME: z
+		.string()
+		.min(1, "CLOUDINARY_CLOUD_NAME is required."),
+
+	CLOUDINARY_API_KEY: z.string().min(1, "CLOUDINARY_API_KEY is required."),
+
+	CLOUDINARY_API_SECRET: z
+		.string()
+		.min(1, "CLOUDINARY_API_SECRET is required."),
+
+	JWT_ACCESS_SECRET: z
+		.string()
+		.min(32, "JWT_ACCESS_SECRET must be at least 32 characters."),
+
+	JWT_REFRESH_SECRET: z
+		.string()
+		.min(32, "JWT_REFRESH_SECRET must be at least 32 characters."),
+
+	JWT_ACCESS_EXPIRES: z.string().default("15m"),
+
+	JWT_REFRESH_EXPIRES: z.string().default("7d"),
+
+	JWT_ISSUER: z.string().default("pickaxe-and-shovel"),
+
+	JWT_AUDIENCE: z.string().default("pickaxe-and-shovel-client"),
+
+	GITHUB_TOKEN_ENCRYPTION_KEY: z
+		.string()
+		.regex(
+			/^[0-9a-fA-F]{64}$/,
+			"GITHUB_TOKEN_ENCRYPTION_KEY must be a 32-byte hexadecimal key.",
+		),
 });
 
-// const parsedEnv = envSchema.safeParse(process.env);
-const parsedEnv = envSchema.safeParse(import.meta.env);
+const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
 	console.error("❌ Invalid server environment configuration:");
@@ -43,45 +66,33 @@ if (!parsedEnv.success) {
 	process.exit(1);
 }
 
-const env = {
+export const env = {
 	nodeEnv: parsedEnv.data.NODE_ENV,
-	apiUrl: parsedEnv.data.VITE_API_URL,
+	port: parsedEnv.data.PORT,
+	mongoUri: parsedEnv.data.MONGODB_URI,
+	clientUrl: parsedEnv.data.CLIENT_URL,
+
+	cloudinary: {
+		cloudName: parsedEnv.data.CLOUDINARY_CLOUD_NAME,
+		apiKey: parsedEnv.data.CLOUDINARY_API_KEY,
+		apiSecret: parsedEnv.data.CLOUDINARY_API_SECRET,
+	},
+
+	jwt: {
+		accessSecret: parsedEnv.data.JWT_ACCESS_SECRET,
+		refreshSecret: parsedEnv.data.JWT_REFRESH_SECRET,
+		accessExpires: parsedEnv.data.JWT_ACCESS_EXPIRES,
+		refreshExpires: parsedEnv.data.JWT_REFRESH_EXPIRES,
+		issuer: parsedEnv.data.JWT_ISSUER,
+		audience: parsedEnv.data.JWT_AUDIENCE,
+	},
+
+	github: {
+		tokenEncryptionKey: parsedEnv.data.GITHUB_TOKEN_ENCRYPTION_KEY,
+	},
 };
-
-export default env;
 ```
 
-I would like for you to evaluate it because i am not confident with it's current state and the console has this message "Module "url" has been externalized for browser compatibility. Cannot access "url.URL" in client code. See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details."
+The foundation is in place keeping the first change focused ensuring the backend can start with the required encryption configuration before we add credential storage. We may proceed to add the encryption/decryption utility and extend User.js with the GitHub settings field. Then build the GitHub API service and its endpoints.
 
-Despite `env.js` configuration, on testing:
-
-```jsx
-`~\client\src\App.jsx`;
-
-import { AppProviders, AppRouter } from "./app/index.js";
-import { apiRequest } from "./lib/apiClient.js";
-
-const test = async () => {
-	const result = await apiRequest("/health");
-
-	console.log(result);
-};
-
-export default function App() {
-	test();
-
-	return (
-		<AppProviders>
-			<AppRouter />
-		</AppProviders>
-	);
-}
-```
-
-This was logged in the console:
-
-```text
-{success: true, message: 'API is healthy.', data: {…}}
-```
-
-While we are doing this verifications, we may proceed with Step 2: migrating AuthContext.jsx to the backend's login, session restoration, refresh, and logout endpoints.
+While on that, when i am at this route `http://localhost:3000/admin` attempting to login with the correct admin email and password, after clicking the signin button the unauthorized access component is rendered while the console has this message "apiClient.js:8 GET http://localhost:5000/api/v1/auth/me 401 (Unauthorized)".

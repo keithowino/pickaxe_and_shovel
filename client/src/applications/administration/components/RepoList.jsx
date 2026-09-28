@@ -11,7 +11,7 @@ import {
 	createProject,
 	updateProject,
 } from "../../../lib/firebase.config";
-import { useAuth } from "../../../lib/context/AuthContext";
+import { useAuth } from "../../../lib/index.js";
 import {
 	Button,
 	FormInput,
