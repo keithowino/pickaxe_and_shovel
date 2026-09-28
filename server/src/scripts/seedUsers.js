@@ -9,7 +9,7 @@ async function seedUsers() {
 		const userPasswordHash = await PasswordService.hash("rembo@1234");
 
 		const admin = await User.create({
-			email: "designsolutions@gmail.com",
+			email: "designsolutions1629@gmail.com",
 			passwordHash: adminPasswordHash,
 			roles: ["admin"],
 			status: "active",

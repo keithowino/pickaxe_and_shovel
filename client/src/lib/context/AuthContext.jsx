@@ -174,6 +174,9 @@ export const AuthProvider = ({ children }) => {
 			} catch (error) {
 				clearUser();
 
+				/**
+				 * It was recommended that this was to be removed.
+				 */
 				setAuthError({
 					type: error.status === 401 ? "unauthorized" : "auth_error",
 					message: error.message || "Failed to sign in.",

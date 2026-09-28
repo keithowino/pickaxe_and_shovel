@@ -7,3 +7,7 @@ git commit -m "feat(Notification): Integrate AuthService publication."
 For your information so as to avoid inconsistencies, here is the current state(s) of a portion of the folder structure and files we recently created or optimized:
 
 Access and respond to what i have just attached
+
+In the browser's Developer Tools → Network tab
+
+---

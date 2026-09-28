@@ -1,7 +1,7 @@
 import { HTTP_STATUS } from "../constants/index.js";
 import ErrorCodes from "./errorCodes.js";
 
-export default class AppError extends Error {
+export class AppError extends Error {
 	constructor(
 		message,
 		statusCode = HTTP_STATUS.INTERNAL_SERVER_ERROR,
@@ -14,5 +14,15 @@ export default class AppError extends Error {
 		this.code = code;
 		this.details = details;
 		Error.captureStackTrace(this, this.constructor);
+	}
+}
+
+export class GitHubApiError extends Error {
+	constructor(message, statusCode = 502, code = "GITHUB_API_ERROR") {
+		super(message);
+
+		this.name = "GitHubApiError";
+		this.statusCode = statusCode;
+		this.code = code;
 	}
 }
