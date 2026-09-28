@@ -126,13 +126,10 @@ class ProjectService {
 	/**
 	 * Reorder projects after validating the supplied IDs.
 	 *
+	 * The request must contain every project ID in the database.
+	 *
 	 * @param {string[]} orderedProjectIds
 	 * @returns {Promise<object>}
-	 *
-	 * This implementation performs one lookup per project ID.
-	 * That is acceptable for an initial small-scale
-	 * implementation, but a single bulk existence query would
-	 * be more efficient for larger lists.
 	 */
 	async reorderProjects(orderedProjectIds) {
 		// 1. Validate the input structure.
@@ -158,16 +155,17 @@ class ProjectService {
 			);
 		}
 
-		// 3. Verify that every project exists.
-		const projects = await Promise.all(
-			orderedProjectIds.map((projectId) =>
-				projectRepository.findProjectById(projectId),
-			),
+		// 3. Retrieve every project ID from the database.
+		const existingProjectIds = await projectRepository.findAllProjectIds();
+
+		const existingIdsSet = new Set(existingProjectIds);
+
+		// 4. Check whether any submitted IDs do not exist.
+		const hasUnknownIds = orderedProjectIds.some(
+			(projectId) => !existingIdsSet.has(projectId),
 		);
 
-		const missingProjects = projects.some((project) => project === null);
-
-		if (missingProjects) {
+		if (hasUnknownIds) {
 			throw new AppError(
 				"One or more projects could not be found.",
 				HTTP_STATUS.NOT_FOUND,
@@ -175,7 +173,19 @@ class ProjectService {
 			);
 		}
 
-		// 4. Perform the ordering operation.
+		// 5. Check whether any existing projects were omitted.
+		const hasOmittedProjects =
+			orderedProjectIds.length !== existingProjectIds.length;
+
+		if (hasOmittedProjects) {
+			throw new AppError(
+				"All project IDs must be included when reordering projects.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
+
+		// 6. Perform the ordering operation.
 		return projectRepository.reorderProjects(orderedProjectIds);
 	}
 

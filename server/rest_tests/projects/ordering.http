@@ -5,6 +5,7 @@
 @projectIdA = 6ab8b4023fef389701f27851
 @projectIdB = 6ab8b40f3fef389701f27852
 @projectIdC = 6ab8b41b3fef389701f27853
+@projectIdD = 6ab8bdcc1f2f83c21fd6fd8e
 
 ### Test 1: Successfully reorder projects
 PATCH {{baseUrl}}/projects/admin/order
@@ -13,7 +14,9 @@ Cookie: accessToken={{adminToken}}
 
 {
   "orderedProjectIds": [
-    "{{projectIdA}}",
-    "{{projectIdC}}",
+    "{{projectIdB}}", 
+    "{{projectIdD}}", 
+    "{{projectIdA}}", 
+    "{{projectIdC}}"
   ]
 }

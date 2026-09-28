@@ -1,3 +1,12 @@
+> **IMPORTANT**
+>
+> - dotenv is intended for Node.js environments, not browser-side Vite configuration. It can trigger the url externalization warning.
+> - Vite provides MODE, DEV, and PROD; MODE is the appropriate way to determine the frontend's current mode.
+> - Vite automatically loads environment variables and exposes those prefixed with VITE\_ to frontend code. You don't need to call dotenv.config() in this file.
+> - The warning about url.URL is consistent with a Node.js-only dependency being imported into the browser bundle. Removing the dotenv import is the first correction to make.
+
+---
+
 ## Roadmap
 
 Revamp v3 is intentionally being developed in stages.
@@ -90,6 +99,23 @@ Revamp v3 is intentionally being developed in stages.
     or eventually use cursor pagination if the dataset warrants it.
 
 - Replace client-side Firebase project access.
+
+    The administrator will be able to:
+    1. View the complete list of projects, including unpublished projects.
+    2. Enter a reorder mode.
+    3. Drag and drop projects into the desired order.
+    4. Save the new order to the backend using PATCH /api/v1/projects/admin/order.
+    5. See confirmation when the operation succeeds, or an error if it fails.
+
+    Then the implementation plan:
+
+    | Step | Task                                                              |
+    | :--: | :---------------------------------------------------------------- |
+    | 8.1  | Review the existing admin projects page and table.                |
+    | 8.2  | Add a reorder mode and drag-and-drop interaction.                 |
+    | 8.3  | Connect the interface to the existing ordering API.               |
+    | 8.4  | Add save, cancel, loading, and error states.                      |
+    | 8.5  | Test ordering, persistence, and interaction with pinned projects. |
 
 ### Phase 3 — Project Taxonomy
 
@@ -437,5 +463,17 @@ After all functionality has been migrated and verified:
 ---
 
 Pinned and featured are different concepts. Pinning affects placement; featuring identifies projects for featured sections or other presentation needs.
+
+---
+
+## Recommended implementation sequence
+
+We'll keep the work incremental:
+
+1. Confirm the frontend API client and authentication setup. We need to know how the client makes authenticated requests to the new backend.
+2. Connect the project list to the backend. Ensure the admin can retrieve all projects, including unpublished ones.
+3. Add reorder mode. Introduce drag-and-drop while preserving the existing project-management controls.
+4. Connect Save and Cancel. Send the ordered IDs to the endpoint and handle loading, success, and error states.
+5. Test persistence and pinned-project behavior. Verify the saved order after reloading the page.
 
 ---

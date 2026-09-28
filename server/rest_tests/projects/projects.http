@@ -39,13 +39,15 @@ Cookie: accessToken={{adminToken}}
 
 ### 10. Admin: Retrieve administrative statistics
 GET {{baseUrl}}/projects/admin/stats
+Cookie: accessToken={{adminToken}}
 
 ### 11. Admin: Create a project
 POST {{baseUrl}}/projects/admin
 Content-Type: application/json
+Cookie: accessToken={{adminToken}}
 
 {
-    "name": "Project API Test 3",
+    "name": "Project API Test",
     "description": "A temporary project created to test the Project API.",
     "githubUrl": "https://github.com/example/project-api-test",
     "liveUrl": "https://example.com",

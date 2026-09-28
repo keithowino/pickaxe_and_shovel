@@ -63,6 +63,20 @@ export const updateProjectById = async (projectId, updates) => {
 };
 
 /**
+ * Retrieve the IDs of all projects.
+ *
+ * Used to validate that a reorder request includes
+ * every project in the database.
+ *
+ * @returns {Promise<string[]>}
+ */
+export const findAllProjectIds = async () => {
+	const projects = await Project.find().select("_id").lean();
+
+	return projects.map((project) => project._id.toString());
+};
+
+/**
  * Reorder projects by assigning displayOrder values
  * based on their positions in the supplied ID list.
  *

@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-25
+Generated on: 2026-09-27
 
 ```bash
 ├── client/
@@ -180,6 +180,13 @@ Generated on: 2026-09-25
 ├── scripts/
 │   └── generate-structure.js
 ├── server/
+│   ├── rest_tests/
+│   │   ├── auth/
+│   │   │   └── identity.http
+│   │   ├── projects/
+│   │   │   ├── ordering.http
+│   │   │   └── projects.http
+│   │   └── system.http
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── bootstrap/
@@ -240,6 +247,7 @@ Generated on: 2026-09-25
 │   │   │   │   └── index.js
 │   │   │   ├── projects/
 │   │   │   │   ├── controllers/
+│   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.controller.js
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── index.js
@@ -247,12 +255,20 @@ Generated on: 2026-09-25
 │   │   │   │   ├── repositories/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.repository.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── project.routes.js
 │   │   │   │   ├── services/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.service.js
-│   │   │   │   └── index.js
+│   │   │   │   ├── validators/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── project.validators.js
+│   │   │   │   ├── index.js
+│   │   │   │   └── README.md
 │   │   │   └── index.js
 │   │   ├── scripts/
+│   │   │   └── seedUsers.js
 │   │   ├── shared/
 │   │   │   ├── constants/
 │   │   │   │   ├── httpStatus.js
@@ -270,9 +286,12 @@ Generated on: 2026-09-25
 │   │   │   │   ├── apiResponse.js
 │   │   │   │   ├── asyncHandler.js
 │   │   │   │   ├── index.js
-│   │   │   │   └── presenter.js
+│   │   │   │   ├── presenter.js
+│   │   │   │   └── slugify.js
 │   │   │   ├── validation/
+│   │   │   │   ├── email.schema.js
 │   │   │   │   ├── index.js
+│   │   │   │   ├── password.schema.js
 │   │   │   │   └── validateRequest.js
 │   │   │   └── index.js
 │   │   └── index.js
