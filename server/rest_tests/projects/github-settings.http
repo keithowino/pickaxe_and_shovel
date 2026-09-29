@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:5000/api/v1
+@adminCookie = YOUR_ADMIN_AUTH_COOKIE
+@githubToken = YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+
+### 1. Retrieve GitHub connection status
+
+GET {{baseUrl}}/admin/github/settings
+Cookie: {{adminCookie}}
+
+### 2. Connect GitHub
+
+PUT {{baseUrl}}/admin/github/settings
+Content-Type: application/json
+Cookie: {{adminCookie}}
+
+{
+    "token": "{{githubToken}}"
+}
+
+### 3. Disconnect GitHub
+
+DELETE {{baseUrl}}/admin/github/settings
+Cookie: {{adminCookie}}
+
+### 4. Fetch GitHub repositories
+
+GET {{baseUrl}}/admin/github/repositories
+Cookie: {{adminCookie}}
+
+### 5. Import selected GitHub repositories
+
+POST {{baseUrl}}/admin/github/repositories/import
+Content-Type: application/json
+Cookie: {{adminCookie}}
+
+{
+    "githubRepoIds": [
+        1214353222,
+        1379815660
+    ]
+}

@@ -534,12 +534,12 @@ We'll keep the work incremental:
 
 ### Project import and management
 
-|          |                                             |
-| -------- | ------------------------------------------- |
-| `POST`   | `/api/v1/projects/admin/import`             |
-| `POST`   | `/api/v1/projects/admin/:projectId/refresh` |
-| `GET`    | `/api/v1/projects/admin`                    |
-| `PATCH`  | `/api/v1/projects/admin/:projectId`         |
-| `DELETE` | `/api/v1/projects/admin/:projectId`         |
+| Method   | Endpoint                                               | Responsibility                            |
+| -------- | ------------------------------------------------------ | ----------------------------------------- |
+| `GET`    | `/api/v1/admin/github/repositories`                    | Fetch repositories from GitHub            |
+| `POST`   | `/api/v1/admin/github/repositories/import`             | Import selected repositories into Pickaxe |
+| `POST`   | `/api/v1/admin/github/repositories/:projectId/refresh` |                                           |
+| `PATCH`  | `/api/v1/admin/github/repositories/:projectId`         |                                           |
+| `DELETE` | `/api/v1/admin/github/repositories/:projectId`         |                                           |
 
 ---

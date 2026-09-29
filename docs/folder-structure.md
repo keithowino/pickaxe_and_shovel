@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-27
+Generated on: 2026-09-29
 
 ```bash
 ├── client/
@@ -75,14 +75,17 @@ Generated on: 2026-09-27
 │   │   │   └── index.js
 │   │   ├── lib/
 │   │   │   ├── context/
-│   │   │   │   └── AuthContext.jsx
+│   │   │   │   ├── AuthContext.jsx
+│   │   │   │   ├── index.js
+│   │   │   │   └── ThemeContext.jsx
 │   │   │   ├── pages/
 │   │   │   │   └── TestFirebase.jsx
+│   │   │   ├── apiClient.js
 │   │   │   ├── firebase.config.js
 │   │   │   ├── github.js
+│   │   │   ├── index.js
 │   │   │   ├── MetaDataInsert.jsx
-│   │   │   ├── supabase.js
-│   │   │   └── ThemeContext.jsx
+│   │   │   └── supabase.js
 │   │   ├── platform/
 │   │   │   ├── routing/
 │   │   │   │   ├── components/
@@ -184,6 +187,7 @@ Generated on: 2026-09-27
 │   │   ├── auth/
 │   │   │   └── identity.http
 │   │   ├── projects/
+│   │   │   ├── github-settings.http
 │   │   │   ├── ordering.http
 │   │   │   └── projects.http
 │   │   └── system.http
@@ -204,6 +208,21 @@ Generated on: 2026-09-27
 │   │   │   ├── index.js
 │   │   │   └── server.js
 │   │   ├── modules/
+│   │   │   ├── administration/
+│   │   │   │   ├── controllers/
+│   │   │   │   │   ├── githubRepositories.controller.js
+│   │   │   │   │   ├── githubSettings.controller.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── githubRepositories.routes.js
+│   │   │   │   │   ├── githubSettings.routes.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── githubApi.service.js
+│   │   │   │   │   ├── githubRepositories.service.js
+│   │   │   │   │   ├── githubSettings.service.js
+│   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
 │   │   │   ├── identity/
 │   │   │   │   ├── constants/
 │   │   │   │   │   ├── index.js
@@ -233,6 +252,7 @@ Generated on: 2026-09-27
 │   │   │   │   ├── security/
 │   │   │   │   │   ├── accessToken.service.js
 │   │   │   │   │   ├── authCookies.js
+│   │   │   │   │   ├── githubTokenEncryption.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   ├── password.service.js
 │   │   │   │   │   ├── refreshToken.service.js

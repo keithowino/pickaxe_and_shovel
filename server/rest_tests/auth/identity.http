@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:5000/api/v1
-@testEmailA = designsolutions@gmail.com
+@testEmailA = designsolutions1629@gmail.com
 @testEmailB = rembo1234@gmail.com
 @testPasswordA = keith@1234
 @testPasswordB = rembo@1234

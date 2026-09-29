@@ -310,3 +310,30 @@ router.post("/projects", authenticate, requireAdmin, projectController.create);
 > **NB:** The `reorderProjects` project.repository.js function, assumes the IDs have already been validated. The service layer will handle duplicate IDs and verify that the projects exist before invoking the repository. We'll also ensure that the operation's scope is clear so that projects outside the submitted ordering list are not accidentally treated as reordered.
 
 ---
+
+## GitHub repository import endpoints
+
+We'll extend the existing administration module and reuse the GitHub API and settings services already in place.
+
+### The proposed workflow is:
+
+Step 1 — Fetch repositories
+Retrieve repositories from the connected GitHub account and return the data needed for the admin interface.
+
+Step 2 — Select repositories
+The administrator chooses which repositories to import.
+
+Step 3 — Import into Pickaxe
+The backend creates or updates the corresponding project records in MongoDB.
+
+### Implementation roadmap
+
+We'll build and test the functionality in this order:
+
+1. Fetch repositories from the connected GitHub account.
+2. Import selected repositories into MongoDB, handling duplicates and preserving existing project settings.
+3. Refresh a project using its latest GitHub metadata.
+4. Update a project's GitHub-related data through an administrative endpoint.
+5. Delete a GitHub-linked project through the administrative endpoint.
+
+---
