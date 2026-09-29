@@ -91,6 +91,27 @@ class GitHubAPI {
 	}
 
 	/**
+	 * Maps a GitHub repository response to the application's
+	 * standard repository structure.
+	 */
+	mapGitHubRepository(repo) {
+		return {
+			githubRepoId: repo.id,
+			name: repo.name,
+			fullName: repo.full_name,
+			description: repo.description,
+			githubUrl: repo.html_url,
+			primaryLanguage: repo.language,
+			topics: repo.topics ?? [],
+			stars: repo.stargazers_count,
+			forks: repo.forks_count,
+			isPrivate: repo.private,
+			defaultBranch: repo.default_branch,
+			updatedAt: repo.updated_at,
+		};
+	}
+
+	/**
 	 * Retrieves the authenticated GitHub user's profile.
 	 *
 	 * Used to validate a token and obtain the account username.
@@ -105,6 +126,26 @@ class GitHubAPI {
 			avatarUrl: user.avatar_url,
 			profileUrl: user.html_url,
 		};
+	}
+
+	/**
+	 * Retrieves a single repository using its numeric GitHub ID.
+	 */
+	async getGitHubRepositoryById(token, githubRepoId) {
+		if (!Number.isInteger(githubRepoId) || githubRepoId < 1) {
+			throw new GitHubApiError(
+				"A valid GitHub repository ID is required.",
+				HTTP_STATUS.BAD_REQUEST,
+				"GITHUB_INVALID_REPOSITORY_ID",
+			);
+		}
+
+		const repo = await this.requestGitHubApi(
+			`/repositories/${githubRepoId}`,
+			token,
+		);
+
+		return this.mapGitHubRepository(repo);
 	}
 
 	/**
@@ -141,20 +182,7 @@ class GitHubAPI {
 			token,
 		);
 
-		return repositories.map((repo) => ({
-			githubRepoId: repo.id,
-			name: repo.name,
-			fullName: repo.full_name,
-			description: repo.description,
-			githubUrl: repo.html_url,
-			primaryLanguage: repo.language,
-			topics: repo.topics ?? [],
-			stars: repo.stargazers_count,
-			forks: repo.forks_count,
-			isPrivate: repo.private,
-			defaultBranch: repo.default_branch,
-			updatedAt: repo.updated_at,
-		}));
+		return repositories.map((repo) => this.mapGitHubRepository(repo));
 	}
 }
 

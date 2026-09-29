@@ -43,6 +43,19 @@ class GitHubRepositoriesController {
 			HTTP_STATUS.OK,
 		);
 	});
+
+	refresh = asyncHandler(async (req, res) => {
+		const project = await gitHubRepositoriesService.refreshRepository(
+			req.user._id,
+			req.params.projectId,
+		);
+
+		return success(
+			res,
+			project,
+			"GitHub repository metadata refreshed successfully.",
+		);
+	});
 }
 
 export default new GitHubRepositoriesController();

@@ -115,6 +115,56 @@ class GitHubRepositoriesService {
 			notFound,
 		};
 	}
+
+	/**
+	 * Refreshes GitHub-sourced metadata for an existing project.
+	 */
+	async refreshRepository(userId, projectId) {
+		// 1. Find the existing project in MongoDB.
+		const project = await projectRepository.findProjectById(projectId);
+
+		if (!project) {
+			throw new AppError(
+				"Project not found.",
+				HTTP_STATUS.NOT_FOUND,
+				ErrorCodes.NOT_FOUND,
+			);
+		}
+
+		// 2. Ensure the project is linked to a GitHub repository.
+		if (!project.githubRepoId) {
+			throw new AppError(
+				"This project is not linked to a GitHub repository.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
+
+		// 3. Retrieve the stored GitHub token.
+		const token = await gitHubSettings.getStoredGitHubToken(userId);
+
+		// 4. Fetch the latest metadata from GitHub.
+		const repository = await gitHubAPI.getGitHubRepositoryById(
+			token,
+			project.githubRepoId,
+		);
+
+		// 5. Update GitHub-sourced fields only.
+		const updatedProject = await projectRepository.updateProjectById(
+			projectId,
+			{
+				name: repository.name,
+				description: repository.description ?? "",
+				githubUrl: repository.githubUrl,
+				primaryLanguage: repository.primaryLanguage ?? "",
+				topics: repository.topics ?? [],
+				stars: repository.stars ?? 0,
+				forks: repository.forks ?? 0,
+			},
+		);
+
+		return updatedProject;
+	}
 }
 
 export default new GitHubRepositoriesService();

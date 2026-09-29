@@ -2,6 +2,8 @@
 @adminCookie = YOUR_ADMIN_AUTH_COOKIE
 @githubToken = YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 
+@projectId = 6abb7543c88738df83bdb61c
+
 ### 1. Retrieve GitHub connection status
 
 GET {{baseUrl}}/admin/github/settings
@@ -39,3 +41,8 @@ Cookie: {{adminCookie}}
         1379815660
     ]
 }
+
+### 6. Refresh GitHub repository metadata
+
+POST {{baseUrl}}/admin/github/repositories/{{projectId}}/refresh
+Cookie: {{adminCookie}}

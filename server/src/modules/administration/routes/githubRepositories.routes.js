@@ -15,4 +15,6 @@ router.get("/", gitHubRepositoriesController.list);
 // POST /repositories/import
 router.post("/import", gitHubRepositoriesController.importSelected);
 
+router.post("/:projectId/refresh", gitHubRepositoriesController.refresh);
+
 export default router;
