@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
 import { RefreshCw, Trash2, Edit3, Save, X } from "lucide-react";
-import {
-	getProjects,
-	deleteProject,
-	updateProject,
-} from "../../../lib/firebase.config";
-import {
-	getUserSettings,
-	updateUserSettings,
-} from "../../../lib/firebase.config";
-import { fetchRepoDetails, mapRepoToProject } from "../../../lib/github";
 import { useAuth } from "../../../lib/context/AuthContext";
 import {
 	Button,
@@ -22,6 +12,13 @@ import {
 } from "../../../shared/index.js";
 import { BiImport } from "react-icons/bi";
 
+import {
+	deleteAdminProject,
+	getAdminProjects,
+	refreshAdminProject,
+	updateAdminProject,
+} from "../services/index.js";
+
 const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
 const SELECT_CLASS =
 	"w-full bg-background border border-border px-4 py-3 text-sm focus:border-primary focus-visible:outline-none transition-colors disabled:opacity-50";
@@ -33,27 +30,14 @@ export default function ProjectsTable() {
 	const [busy, setBusy] = useState({});
 	const [editing, setEditing] = useState(null);
 	const [draft, setDraft] = useState({});
-	const [githubSettings, setGithubSettings] = useState(null);
-
-	// Load GitHub settings
-	useEffect(() => {
-		const loadSettings = async () => {
-			if (!user?.uid) return;
-			const settings = await getUserSettings(user.uid);
-			setGithubSettings(settings?.github || null);
-		};
-		loadSettings();
-	}, [user]);
 
 	const loadProjects = async () => {
 		setLoading(true);
+
 		try {
-			const data = await getProjects();
-			// Sort by created date descending
-			const sorted = data.sort((a, b) =>
-				(b.createdAt || "").localeCompare(a.createdAt || ""),
-			);
-			setProjects(sorted);
+			const { projects } = await getAdminProjects();
+
+			setProjects(projects);
 		} catch (error) {
 			console.error("Failed to load projects:", error);
 		} finally {
@@ -66,34 +50,15 @@ export default function ProjectsTable() {
 	}, []);
 
 	const refreshFromGitHub = async (project) => {
-		if (!githubSettings?.pat || !project.github_url) return;
+		if (!project.githubRepoId) return;
+
 		setBusy((b) => ({ ...b, [project.id]: "refresh" }));
+
 		try {
-			// Parse owner/repo from URL
-			const urlParts = project.github_url
-				.replace("https://github.com/", "")
-				.split("/");
-			const owner = urlParts[0];
-			const repo = urlParts[1];
-
-			const details = await fetchRepoDetails(
-				owner,
-				repo,
-				githubSettings.pat,
-			);
-			const payload = mapRepoToProject(details);
-
-			// Preserve manual overrides
-			await updateProject(project.id, {
-				...payload,
-				live_url: project.live_url || payload.live_url,
-				thumbnail_url: project.thumbnail_url || payload.thumbnail_url,
-				notes: project.notes || "",
-				featured: project.featured || false,
-			});
+			await refreshAdminProject(project.id);
 			await loadProjects();
-		} catch (e) {
-			alert("Refresh failed: " + e.message);
+		} catch (error) {
+			alert("Refresh failed: " + error.message);
 		} finally {
 			setBusy((b) => ({ ...b, [project.id]: null }));
 		}
@@ -103,7 +68,7 @@ export default function ProjectsTable() {
 		if (!confirm(`Delete "${project.name}" from portfolio?`)) return;
 		setBusy((b) => ({ ...b, [project.id]: "delete" }));
 		try {
-			await deleteProject(project.id);
+			await deleteAdminProject(project.id);
 			await loadProjects();
 		} catch (error) {
 			alert("Delete failed: " + error.message);
@@ -114,19 +79,40 @@ export default function ProjectsTable() {
 
 	const startEdit = (project) => {
 		setEditing(project.id);
+
 		setDraft({
-			live_url: project.live_url || "",
-			thumbnail_url: project.thumbnail_url || "",
-			notes: project.notes || "",
+			name: project.name || "",
+			description: project.description || "",
+			liveUrl: project.liveUrl || "",
+			thumbnailUrl: project.thumbnailUrl || "",
+			primaryLanguage: project.primaryLanguage || "",
+			techStack: project.techStack || [],
+			topics: project.topics || [],
 			category: project.category || "Web",
 			featured: project.featured || false,
+			published: project.published ?? false,
 		});
 	};
 
 	const saveEdit = async (project) => {
 		setBusy((b) => ({ ...b, [project.id]: "save" }));
+
 		try {
-			await updateProject(project.id, draft);
+			const updates = {
+				name: draft.name,
+				description: draft.description,
+				liveUrl: draft.liveUrl,
+				thumbnailUrl: draft.thumbnailUrl,
+				primaryLanguage: draft.primaryLanguage,
+				techStack: draft.techStack,
+				topics: draft.topics,
+				category: draft.category,
+				featured: draft.featured,
+				published: draft.published,
+			};
+
+			await updateAdminProject(project.id, updates);
+
 			await loadProjects();
 			setEditing(null);
 		} catch (error) {
@@ -181,6 +167,15 @@ export default function ProjectsTable() {
 												FEATURED
 											</span>
 										)}
+										{p.published ? (
+											<span className="text-xs px-2 py-0.5 border border-border">
+												PUBLISHED
+											</span>
+										) : (
+											<span className="text-xs px-2 py-0.5 border border-border text-muted-foreground">
+												DRAFT
+											</span>
+										)}
 									</div>
 
 									<Text className="line-clamp-1 mt-1">
@@ -188,7 +183,7 @@ export default function ProjectsTable() {
 									</Text>
 								</div>
 								<div className="flex items-center gap-2 shrink-0">
-									{githubSettings?.pat && (
+									{p.githubRepoId && (
 										<Button
 											variant="outline"
 											size="sm"
@@ -240,17 +235,34 @@ export default function ProjectsTable() {
 							{editing === p.id && (
 								<div className="px-4 pb-4 border-t border-border pt-4 grid md:grid-cols-2 gap-3">
 									<FormField>
+										<FormLabel htmlFor="projectName">
+											PROJECT NAME
+										</FormLabel>
+										<FormInput
+											name="name"
+											id="projectName"
+											value={draft.name}
+											onChange={(e) =>
+												setDraft((d) => ({
+													...d,
+													name: e.target.value,
+												}))
+											}
+										/>
+									</FormField>
+
+									<FormField>
 										<FormLabel htmlFor="liveUrl">
 											LIVE URL
 										</FormLabel>
 										<FormInput
 											name="live-url"
 											id="liveUrl"
-											value={draft.live_url}
+											value={draft.liveUrl}
 											onChange={(e) =>
 												setDraft((d) => ({
 													...d,
-													live_url: e.target.value,
+													liveUrl: e.target.value,
 												}))
 											}
 										/>
@@ -263,11 +275,11 @@ export default function ProjectsTable() {
 										<FormInput
 											name="thumbnail-url"
 											id="thumbnailUrl"
-											value={draft.thumbnail_url}
+											value={draft.thumbnailUrl}
 											onChange={(e) =>
 												setDraft((d) => ({
 													...d,
-													thumbnail_url:
+													thumbnailUrl:
 														e.target.value,
 												}))
 											}
@@ -305,7 +317,7 @@ export default function ProjectsTable() {
 									</FormField>
 
 									<FormField>
-										<FormLabel htmlFor="featured-projects">
+										<FormLabel htmlFor="featuredProjects">
 											FEATURED
 										</FormLabel>
 										<select
@@ -328,20 +340,44 @@ export default function ProjectsTable() {
 										</select>
 									</FormField>
 
+									<FormField>
+										<FormLabel htmlFor="publishedProject">
+											PUBLISHED
+										</FormLabel>
+
+										<select
+											name="published-project"
+											id="publishedProject"
+											value={draft.published}
+											onChange={(e) =>
+												setDraft((d) => ({
+													...d,
+													published:
+														e.target.value ===
+														"true",
+												}))
+											}
+											className={SELECT_CLASS}
+										>
+											<option value="false">No</option>
+											<option value="true">Yes</option>
+										</select>
+									</FormField>
+
 									<FormField className="md:col-span-2">
 										<FormLabel htmlFor="project-notes">
-											NOTES / OVERRIDE DESCRIPTION
+											DESCRIPTION
 										</FormLabel>
 										<FormInput
 											as="textarea"
 											name="project-notes"
 											id="projectNotes"
 											rows={2}
-											value={draft.notes}
+											value={draft.description}
 											onChange={(e) =>
 												setDraft((d) => ({
 													...d,
-													notes: e.target.value,
+													description: e.target.value,
 												}))
 											}
 										/>

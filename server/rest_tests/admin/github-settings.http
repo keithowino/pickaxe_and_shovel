@@ -2,7 +2,7 @@
 @adminCookie = YOUR_ADMIN_AUTH_COOKIE
 @githubToken = YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
 
-@projectId = 6abb7543c88738df83bdb61c
+@projectId = 6abb7543c88738df83bdb61b
 
 ### 1. Retrieve GitHub connection status
 

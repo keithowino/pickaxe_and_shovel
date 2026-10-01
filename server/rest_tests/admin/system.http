@@ -1,0 +1,22 @@
+@PS_API_BASE_URL = http://localhost:5000/api/v1
+@GITHUB_API_BASE_URL = https://api.github.com
+
+@githubToken = YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+
+@user = YOUR_GITHUB_USERNAME
+
+### 1. Health Check
+
+GET {{PS_API_BASE_URL}}/health
+
+#### 2. token data response
+
+GET {{GITHUB_API_BASE_URL}}
+Accept: application/vnd.github+json
+Authorization: Bearer {{githubToken}}
+
+#### 2. token data repositories response
+
+GET {{GITHUB_API_BASE_URL}}/users/{{user}}/repos
+Accept: application/vnd.github+json
+Authorization: Bearer {{githubToken}}

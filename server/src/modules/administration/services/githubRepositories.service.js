@@ -1,6 +1,5 @@
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
-
-import { projectRepository } from "../../projects/repositories/index.js";
+import { projectPresenter, projectRepository } from "../../projects/index.js";
 
 import gitHubAPI from "./githubApi.service.js";
 import gitHubSettings from "./githubSettings.service.js";
@@ -9,6 +8,9 @@ import gitHubSettings from "./githubSettings.service.js";
  * #### Important limitation in this first version
  *
  * Your current GitHub API service fetches up to 100 repositories per request. Therefore, a repository outside the fetched page may appear in notFound, even if it exists in your GitHub account. We'll address pagination in a later step if needed.
+ *
+ * importRepositories() and refreshRepository()
+ * could letter become syncRepository()
  */
 
 class GitHubRepositoriesService {
@@ -16,34 +18,13 @@ class GitHubRepositoriesService {
 	 * Import selected GitHub repositories as Pickaxe projects.
 	 */
 	async importRepositories(userId, githubRepoIds) {
-		// 1. Validate the submitted repository IDs.
-		if (!Array.isArray(githubRepoIds) || githubRepoIds.length === 0) {
-			throw new AppError(
-				"A non-empty array of GitHub repository IDs is required.",
-				HTTP_STATUS.BAD_REQUEST,
-				ErrorCodes.BAD_REQUEST,
-			);
-		}
-
-		const hasInvalidIds = githubRepoIds.some(
-			(id) => !Number.isSafeInteger(id) || id <= 0,
-		);
-
-		if (hasInvalidIds) {
-			throw new AppError(
-				"All GitHub repository IDs must be positive integers.",
-				HTTP_STATUS.BAD_REQUEST,
-				ErrorCodes.BAD_REQUEST,
-			);
-		}
-
-		// 2. Remove duplicate IDs from the request.
+		// 1. Remove duplicate IDs from the request.
 		const uniqueRepoIds = [...new Set(githubRepoIds)];
 
-		// 3. Retrieve the connected GitHub token.
+		// 2. Retrieve the connected GitHub token.
 		const token = await gitHubSettings.getStoredGitHubToken(userId);
 
-		// 4. Fetch repositories from GitHub.
+		// 3. Fetch repositories from GitHub.
 		const repositories = await gitHubAPI.getGitHubRepositories(token);
 
 		const requestedIds = new Set(uniqueRepoIds);
@@ -52,14 +33,14 @@ class GitHubRepositoriesService {
 			requestedIds.has(repository.githubRepoId),
 		);
 
-		// 5. Identify requested IDs that were not returned by GitHub.
+		// 4. Identify requested IDs that were not returned by GitHub.
 		const foundIds = new Set(
 			selectedRepositories.map((repository) => repository.githubRepoId),
 		);
 
 		const notFound = uniqueRepoIds.filter((id) => !foundIds.has(id));
 
-		// 6. Import repositories individually.
+		// 5. Import repositories individually.
 		const imported = [];
 		const skipped = [];
 
@@ -84,6 +65,7 @@ class GitHubRepositoriesService {
 				name: repository.name,
 				description: repository.description ?? "",
 				githubUrl: repository.githubUrl,
+				liveUrl: repository.liveUrl ?? "",
 				primaryLanguage: repository.primaryLanguage ?? "",
 				techStack: repository.primaryLanguage
 					? [repository.primaryLanguage]
@@ -150,20 +132,24 @@ class GitHubRepositoriesService {
 		);
 
 		// 5. Update GitHub-sourced fields only.
+		/**
+		 * #### The following were removed
+		 *
+		 * name: repository.name,
+		 * description: repository.description ?? "",
+		 * githubUrl: repository.githubUrl,
+		 * primaryLanguage: repository.primaryLanguage ??
+		 * topics: repository.topics ?? [],
+		 */
 		const updatedProject = await projectRepository.updateProjectById(
 			projectId,
 			{
-				name: repository.name,
-				description: repository.description ?? "",
-				githubUrl: repository.githubUrl,
-				primaryLanguage: repository.primaryLanguage ?? "",
-				topics: repository.topics ?? [],
 				stars: repository.stars ?? 0,
 				forks: repository.forks ?? 0,
 			},
 		);
 
-		return updatedProject;
+		return projectPresenter.present(updatedProject);
 	}
 }
 

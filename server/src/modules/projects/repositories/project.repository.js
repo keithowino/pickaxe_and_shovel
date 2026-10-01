@@ -57,7 +57,6 @@ export const createProject = async (projectData) => {
  */
 export const updateProjectById = async (projectId, updates) => {
 	return Project.findByIdAndUpdate(projectId, updates, {
-		// new: true,
 		returnDocument: "after",
 		runValidators: true,
 	}).lean();

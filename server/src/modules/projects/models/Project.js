@@ -32,6 +32,12 @@ const projectSchema = new mongoose.Schema(
 			trim: true,
 		},
 
+		thumbnailUrl: {
+			type: String,
+			default: "",
+			trim: true,
+		},
+
 		primaryLanguage: {
 			type: String,
 			default: "",

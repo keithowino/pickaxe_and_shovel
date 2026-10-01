@@ -1,0 +1,63 @@
+@baseUrl = http://localhost:5000/api/v1
+@adminCookie = YOUR_ADMIN_AUTH_COOKIE
+
+@projectIdA = 6abb7543c88738df83bdb61b
+@projectIdB = 6abd1534ca1fbaf31b5dd5a6
+
+### 1. List all projects
+
+GET {{baseUrl}}/admin/projects
+Cookie: accessToken={{adminCookie}}
+
+### 2. Retrieve administrative statistics
+
+GET {{baseUrl}}/admin/projects/stats
+Cookie: accessToken={{adminCookie}}
+
+### 3. Create a project
+
+POST {{baseUrl}}/admin/projects
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+    "name": "Project API Test",
+    "description": "A temporary project created to test the Project API.",
+    "githubUrl": "https://github.com/example/project-api-test",
+    "liveUrl": "https://example.com",
+    "primaryLanguage": "JavaScript",
+    "techStack": ["React", "Node.js"],
+    "topics": ["testing", "portfolio"],
+    "category": "Web",
+    "pinned": false,
+    "featured": false,
+    "published": true
+}
+
+### 4. Update a project
+
+PATCH {{baseUrl}}/admin/projects/{{projectIdA}}
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+    "description": "Updated description for the Project API test."
+}
+
+### 5. Delete a project
+
+DELETE {{baseUrl}}/admin/projects/{{projectIdA}}
+Cookie: accessToken={{adminCookie}}
+
+### 6. Successfully reorder projects
+
+PATCH {{baseUrl}}/admin/projects/order
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+  "orderedProjectIds": [
+    "{{projectIdA}}", 
+    "{{projectIdB}}"
+  ]
+}

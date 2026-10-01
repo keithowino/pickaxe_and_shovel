@@ -1,10 +1,20 @@
-import { asyncHandler, HTTP_STATUS, success } from "../../../shared/index.js";
+import {
+	asyncHandler,
+	HTTP_STATUS,
+	success,
+	validateRequest,
+} from "../../../shared/index.js";
 
 import {
 	gitHubAPI,
 	gitHubRepositoriesService,
 	gitHubSettings,
 } from "../services/index.js";
+
+import {
+	importRepositoriesBodySchema,
+	projectIdParamsSchema,
+} from "../validators/index.js";
 
 class GitHubRepositoriesController {
 	/**
@@ -29,11 +39,16 @@ class GitHubRepositoriesController {
 	 * Import selected GitHub repositories into Pickaxe.
 	 */
 	importSelected = asyncHandler(async (req, res) => {
-		const { githubRepoIds } = req.body;
+		const { body } = validateRequest(
+			{
+				body: importRepositoriesBodySchema,
+			},
+			req,
+		);
 
 		const result = await gitHubRepositoriesService.importRepositories(
 			req.user._id,
-			githubRepoIds,
+			body.githubRepoIds,
 		);
 
 		return success(
@@ -45,9 +60,16 @@ class GitHubRepositoriesController {
 	});
 
 	refresh = asyncHandler(async (req, res) => {
+		const { params } = validateRequest(
+			{
+				params: projectIdParamsSchema,
+			},
+			req,
+		);
+
 		const project = await gitHubRepositoriesService.refreshRepository(
 			req.user._id,
-			req.params.projectId,
+			params.projectId,
 		);
 
 		return success(

@@ -1,0 +1,26 @@
+@baseUrl = http://localhost:5000/api/v1
+@projectId = 6abb7543c88738df83bdb61b
+
+### 1. Public: List published projects
+
+GET {{baseUrl}}/projects
+
+### 2. Public: Filter projects by category
+
+GET {{baseUrl}}/projects?category=Web&page=1&limit=9
+
+### 3. Public: Filter featured projects
+
+GET {{baseUrl}}/projects?featured=true
+
+### 4. Public: Retrieve project statistics
+
+GET {{baseUrl}}/projects/stats
+
+### 5. Public: Retrieve a project by ID
+
+GET {{baseUrl}}/projects/{{projectId}}
+
+### 6. Public: Invalid project ID should fail validation
+
+GET {{baseUrl}}/projects/not-a-valid-id

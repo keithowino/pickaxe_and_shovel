@@ -466,24 +466,12 @@ Pinned and featured are different concepts. Pinning affects placement; featuring
 
 ---
 
-## Recommended implementation sequence
-
-We'll keep the work incremental:
-
-1. Confirm the frontend API client and authentication setup. We need to know how the client makes authenticated requests to the new backend.
-2. Connect the project list to the backend. Ensure the admin can retrieve all projects, including unpublished ones.
-3. Add reorder mode. Introduce drag-and-drop while preserving the existing project-management controls.
-4. Connect Save and Cancel. Send the ordered IDs to the endpoint and handle loading, success, and error states.
-5. Test persistence and pinned-project behavior. Verify the saved order after reloading the page.
-
----
-
 ## Still dependent on Firebase, next migration plan
 
 1. Finish authentication integration (partially covered)
     - Align AuthContext.jsx with the API client, replace the Google sign-in interface in AdminGateway.jsx with email/password login, and verify the admin access checks.
 
-2. Migrate GitHub connection settings
+2. Migrate GitHub connection settings (covered)
     - The current GitHub connection workflow stores the Personal Access Token (PAT) in Firestore and exposes it to the browser.
     - For the MongoDB migration, we should change the architecture:
         - Frontend — GitHubConnect.jsx
@@ -501,7 +489,7 @@ We'll keep the work incremental:
     - The backend should also handle authenticated GitHub API requests so that the PAT is not returned to the frontend when loading settings.
     - We should establish the settings endpoints before rewriting GitHubConnect.jsx and RepoList.jsx.
 
-3. Migrate repository browsing and importing
+3. Migrate repository browsing and importing (covered)
     - Connect repository listing and import operations to the backend, including duplicate detection and project creation or updating.
 
 4. Migrate project management
@@ -521,25 +509,34 @@ We'll keep the work incremental:
 4. Project CRUD
     - Replace Firebase operations in ProjectsTable.jsx with the existing MongoDB-backed project endpoints, preserving editing, deletion, and project ordering.
 
-## Proposed API endpoints
+---
 
-### GitHub integration
+Think of these modules as:
 
-|          |                           |
-| -------- | ------------------------- |
-| `GET`    | `/api/v1/github/settings` |
-| `PUT`    | `/api/v1/github/settings` |
-| `DELETE` | `/api/v1/github/settings` |
-| `GET`    | `/api/v1/github/repos`    |
+```text
+projects
+    = Project domain/resource
 
-### Project import and management
+administration
+    = privileged administrative capabilities
+```
 
-| Method   | Endpoint                                               | Responsibility                            |
-| -------- | ------------------------------------------------------ | ----------------------------------------- |
-| `GET`    | `/api/v1/admin/github/repositories`                    | Fetch repositories from GitHub            |
-| `POST`   | `/api/v1/admin/github/repositories/import`             | Import selected repositories into Pickaxe |
-| `POST`   | `/api/v1/admin/github/repositories/:projectId/refresh` |                                           |
-| `PATCH`  | `/api/v1/admin/github/repositories/:projectId`         |                                           |
-| `DELETE` | `/api/v1/admin/github/repositories/:projectId`         |                                           |
+That allows Projects to expose public operations:
+
+```text
+GET /projects
+GET /projects/:projectId
+GET /projects/stats
+```
+
+while Administration exposes privileged operations:
+
+```text
+GET    /administration/projects
+POST   /administration/projects
+PATCH  /administration/projects/:projectId
+DELETE /administration/projects/:projectId
+PATCH  /administration/projects/order
+```
 
 ---

@@ -63,211 +63,6 @@ Return session
 
 ---
 
-## Let's adopt the proven Identity architecture
-
-I would now establish this as the Pickaxe identity structure:
-
-```text
-server/src/modules/identity/
-│
-├── constants/
-│   ├── index.js
-│   └── session.js
-│
-├── controllers/
-│   └── auth.controller.js
-│
-├── middleware/
-│   └── authenticate.js
-│
-├── models/
-│   ├── index.js
-│   ├── User.js
-│   └── Session.js
-│
-├── presenters/
-│   ├── index.js
-│   ├── user.presenter.js
-│   └── session.presenter.js
-│
-├── repositories/
-│   ├── index.js
-│   ├── user.repository.js
-│   └── session.repository.js
-│
-├── routes/
-│   ├── index.js
-│   └── auth.routes.js
-│
-├── security/
-│   ├── index.js
-│   ├── password.service.js
-│   ├── accessToken.service.js
-│   ├── refreshToken.service.js
-│   └── tokenHasher.js
-│
-├── services/
-│   ├── index.js
-│   ├── auth.service.js
-│   └── session.service.js
-│
-├── validators/
-│   ├── index.js
-│   └── auth.validators.js
-│
-└── index.js
-```
-
----
-
-## The revised Phase 1.5A architecture
-
-```text
-Phase 1.5A — Authentication
-
-                    ┌─────────────────────┐
-                    │       Routes        │
-                    └──────────┬──────────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │    Controllers      │
-                    └──────────┬──────────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │    Validators       │
-                    └─────────────────────┘
-
-                               ↓
-
-                    ┌─────────────────────┐
-                    │     AuthService     │
-                    └──────┬────────┬─────┘
-                           │        │
-               ┌───────────┘        └───────────┐
-               ↓                                ↓
-       ┌─────────────────┐              ┌─────────────────┐
-       │ PasswordService │              │ SessionService  │
-       └────────┬────────┘              └────────┬────────┘
-                ↓                                ↓
-             bcrypt                       Token Services
-                                                 │
-                                                 ↓
-                                         Session Repository
-                                                 │
-                                                 ↓
-                                              MongoDB
-
-Authentication middleware
-        │
-        ├── AccessTokenService
-        ├── SessionService
-        ├── UserRepository
-        │
-        └── req.user
-            req.sessionId
-```
-
-## Our immediate sequence becomes:
-
-```text
-Phase 1.5A
-│
-├── Authentication architecture      ✅
-├── User model                       ✅
-├── Credential strategy              ✅
-├── Session architecture             🔄 REFINING
-│
-├── Token strategy                   ← next
-├── Session model refinement
-├── Session repository refinement
-├── Auth service
-├── Auth validators
-├── Auth presenter
-├── Auth controller
-├── Auth routes
-├── Authentication middleware
-├── Authenticated request context
-└── Integration tests
-```
-
-## Target authentication flow
-
-For Pickaxe, the resulting flow will be:
-
-```text
-                    LOGIN
-                      │
-                      ▼
-              AuthController
-                      │
-                      ▼
-                AuthService
-                 │       │
-                 │       └── PasswordService
-                 │
-                 ▼
-             SessionService
-              │         │
-              │         ├── RefreshTokenService
-              │         ├── TokenHasher
-              │         └── SessionRepository
-              │
-              ▼
-        MongoDB Session
-              │
-              ▼
-       access + refresh tokens
-```
-
-## Revised authentication flow
-
-```text
-                         LOGIN
-                           │
-                           ▼
-                    Auth Controller
-                           │
-                           ▼
-                      Auth Service
-                           │
-                           ▼
-                    Session Service
-                     │           │
-                     ▼           ▼
-              Access Token   Refresh Token
-                 JWT             JWT
-                     │           │
-                     └─────┬─────┘
-                           │
-                           ▼
-                    HTTP-only cookies
-                           │
-                           ▼
-                  Browser / React app
-```
-
----
-
-## The next recommended implementation sequence
-
-1.  Step A — Cookie configuration
-2.  Step B — Authentication controller
-3.  Step C — Routes
-
-- Later:
-
-```text
-GET    /me
-GET    /sessions
-DELETE /sessions/:sessionId
-DELETE /sessions/:sessionId/others
-```
-
-4.  Step D — Authentication middleware
-5.  Step E — Authenticated request context
-
----
-
 > NB: **_A design issue we should address here:_**
 
 Because we're putting the refresh token into an HTTP-only cookie, requiring the client to send:
@@ -317,13 +112,13 @@ We'll extend the existing administration module and reuse the GitHub API and set
 
 ### The proposed workflow is:
 
-Step 1 — Fetch repositories
+Step 1 — Fetch repositories (covered)
 Retrieve repositories from the connected GitHub account and return the data needed for the admin interface.
 
-Step 2 — Select repositories
+Step 2 — Select repositories (covered)
 The administrator chooses which repositories to import.
 
-Step 3 — Import into Pickaxe
+Step 3 — Import into Pickaxe (covered)
 The backend creates or updates the corresponding project records in MongoDB.
 
 ### Implementation roadmap
@@ -335,5 +130,217 @@ We'll build and test the functionality in this order:
 3. Refresh a project using its latest GitHub metadata.
 4. Update a project's GitHub-related data through an administrative endpoint.
 5. Delete a GitHub-linked project through the administrative endpoint.
+
+---
+
+```text
+1. Review current Projects module
+          ↓
+2. Review current Administration module
+          ↓
+3. Identify duplicated responsibilities
+          ↓
+4. Decide ownership of each responsibility
+          ↓
+5. Restructure routes/controllers/services
+          ↓
+6. Remove duplicated functionality
+          ↓
+7. Confirm final API surface
+          ↓
+8. THEN implement request validation
+```
+
+I also agree with this structure:
+
+```text
+server/src/modules/
+
+├── administration/
+│   ├── controllers/
+│   │   ├── githubRepositories.controller.js
+│   │   ├── githubSettings.controller.js
+│   │   └── projects.controller.js
+│   │
+│   ├── repositories/
+│   │   └── ...
+│   │
+│   ├── routes/
+│   │   ├── githubRepositories.routes.js
+│   │   ├── githubSettings.routes.js
+│   │   └── projects.routes.js
+│   │
+│   ├── services/
+│   │   ├── githubApi.service.js
+│   │   ├── githubRepositories.service.js
+│   │   ├── githubSettings.service.js
+│   │   └── projects.service.js
+│   │
+│   └── validators/
+│       └── projects.validators.js
+│
+├── identity/
+│   └── ...
+│
+└── projects/
+    ├── models/
+    │   └── Project.js
+    ├── repositories/
+    │   └── project.repository.js
+    ├── services/
+    │   └── project.service.js
+    └── ...
+```
+
+---
+
+## I would introduce operation-specific schemas
+
+Conceptually:
+
+```text
+Project persistence shape
+        │
+        ├── Public query schema
+        ├── Admin create schema
+        ├── Admin update schema
+        ├── Admin reorder schema
+        └── GitHub import schema
+```
+
+---
+
+## The clearest ownership model
+
+I would now formalize the boundary as:
+
+```text
+projects/
+    Project resource
+    ├── model
+    ├── repository
+    ├── domain-level service
+    └── public project API
+
+administration/
+    Administrative use cases
+    ├── project administration
+    ├── GitHub administration
+    └── GitHub settings
+```
+
+giving us:
+
+```text
+/api/v1/projects
+    GET    /                       Public project listing
+    GET    /stats                  Public project statistics
+    GET    /:projectId             Public project details
+
+
+/api/v1/admin/projects
+    GET    /                       Admin project listing
+    GET    /stats                  Admin statistics
+    GET    /:projectId             Admin project details
+    POST   /                       Admin project creation
+    PATCH  /:projectId             Admin project editing
+    PATCH  /order                  Admin project ordering
+    DELETE /:projectId             Admin project deletion
+
+
+/api/v1/admin/github
+    ...                            GitHub settings
+
+
+/api/v1/admin/github/repositories
+    GET    /                       GitHub repository listing
+    POST   /import                 Import GitHub repositories
+    POST   /:projectId/refresh     Refresh GitHub-backed data
+```
+
+---
+
+## Responsibility mapping
+
+| Current functionality     | Current location | Eventual owner   |
+| ------------------------- | ---------------- | ---------------- |
+| Public project listing    | `projects`       | `projects`       |
+| Public project stats      | `projects`       | `projects`       |
+| Public project detail     | `projects`       | `projects`       |
+| Admin project listing     | `projects`       | `administration` |
+| Admin project stats       | `projects`       | `administration` |
+| Admin project detail      | `projects`       | `administration` |
+| Admin project creation    | `projects`       | `administration` |
+| Admin project update      | duplicated       | `administration` |
+| Admin project reorder     | `projects`       | `administration` |
+| Admin project deletion    | duplicated       | `administration` |
+| GitHub repository listing | `administration` | `administration` |
+| GitHub repository import  | `administration` | `administration` |
+| GitHub repository refresh | `administration` | `administration` |
+| GitHub settings           | `administration` | `administration` |
+| Project persistence       | `projects`       | `projects`       |
+
+---
+
+## One issue we should deliberately postpone
+
+There is one architectural question exposed by the current refreshRepository() implementation:
+
+```text
+GitHub refresh
+    ↓
+updates name
+description
+githubUrl
+primaryLanguage
+topics
+stars
+forks
+```
+
+But we've also established that an administrator can override some Project metadata.
+
+That creates a potential conflict:
+
+```text
+Admin changes description
+        ↓
+GitHub refresh
+        ↓
+description comes from GitHub again
+        ↓
+admin override disappears
+```
+
+---
+
+## Proposed implementation order
+
+Phase 1 — Create the new administration Project surface
+
+Create:
+
+```text
+administration/
+├── controllers/projects.controller.js
+├── routes/projects.routes.js
+└── services/projects.service.js
+```
+
+Phase 2 — Move administrative route ownership
+
+Phase 3 — Move administrative controller responsibilities
+
+Phase 4 — Move GitHub Project mutations
+
+Phase 5 — Update exports and api.js
+
+Phase 6 — Remove obsolete code
+
+Phase 7 — Validation redesign
+
+Create the operation-specific Zod schemas and enforce the editable/protected field rules.
+
+Phase 8 — Final API audit
 
 ---

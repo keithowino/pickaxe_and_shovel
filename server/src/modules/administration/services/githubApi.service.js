@@ -101,6 +101,7 @@ class GitHubAPI {
 			fullName: repo.full_name,
 			description: repo.description,
 			githubUrl: repo.html_url,
+			liveUrl: repo.homepage,
 			primaryLanguage: repo.language,
 			topics: repo.topics ?? [],
 			stars: repo.stargazers_count,

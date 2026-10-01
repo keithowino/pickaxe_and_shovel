@@ -10,7 +10,7 @@ export default function AdministrationLayout() {
 		<AppShell
 			mainClassName="min-h-0"
 			header={<AdministrationHeader />}
-			// footer={<GatewayFooter />}
+			// footer={<AdministrationFooter />}
 		>
 			<main className="flex-1 pt-16">
 				<AnimatePresence mode="wait">

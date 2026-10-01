@@ -1,4 +1,5 @@
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
+import { projectPresenter } from "../presenters/index.js";
 import { projectRepository } from "../repositories/index.js";
 
 class ProjectService {
@@ -61,7 +62,7 @@ class ProjectService {
 		]);
 
 		return {
-			projects,
+			projects: projectPresenter.presentMany(projects),
 			pagination: {
 				page,
 				limit,
@@ -71,17 +72,6 @@ class ProjectService {
 				hasPreviousPage: page > 1,
 			},
 		};
-	}
-
-	/**
-	 * List all projects for administrative use.
-	 * Includes unpublished projects.
-	 */
-	async listAdminProjects(options = {}) {
-		return this.listProjects({
-			...options,
-			includeUnpublished: true,
-		});
 	}
 
 	/**
@@ -99,27 +89,54 @@ class ProjectService {
 			return null;
 		}
 
-		return project;
+		return projectPresenter.present(project);
 	}
 
 	/**
 	 * Create a project.
 	 */
 	async createProject(projectData) {
-		return projectRepository.createProject(projectData);
+		const project = await projectRepository.createProject(projectData);
+
+		return projectPresenter.present(project);
 	}
 
 	/**
 	 * Update a project.
 	 */
 	async updateProject(projectId, updates) {
-		return projectRepository.updateProjectById(projectId, updates);
+		const project = await projectRepository.findProjectById(projectId);
+
+		if (!project) {
+			throw new AppError(
+				"Project not found.",
+				HTTP_STATUS.NOT_FOUND,
+				ErrorCodes.NOT_FOUND,
+			);
+		}
+
+		const updatedProject = await projectRepository.updateProjectById(
+			projectId,
+			updates,
+		);
+
+		return projectPresenter.present(updatedProject);
 	}
 
 	/**
 	 * Delete a project.
 	 */
 	async deleteProject(projectId) {
+		const project = await projectRepository.findProjectById(projectId);
+
+		if (!project) {
+			throw new AppError(
+				"Project not found.",
+				HTTP_STATUS.NOT_FOUND,
+				ErrorCodes.NOT_FOUND,
+			);
+		}
+
 		return projectRepository.deleteProjectById(projectId);
 	}
 

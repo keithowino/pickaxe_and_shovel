@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-09-29
+Generated on: 2026-10-01
 
 ```bash
 ├── client/
@@ -40,6 +40,9 @@ Generated on: 2026-09-29
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── administration.routes.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── administrationProjects.js
 │   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
 │   │   │   ├── gateway/
@@ -184,13 +187,14 @@ Generated on: 2026-09-29
 │   └── generate-structure.js
 ├── server/
 │   ├── rest_tests/
+│   │   ├── admin/
+│   │   │   ├── github-settings.http
+│   │   │   ├── project-settings.http
+│   │   │   └── system.http
 │   │   ├── auth/
 │   │   │   └── identity.http
-│   │   ├── projects/
-│   │   │   ├── github-settings.http
-│   │   │   ├── ordering.http
-│   │   │   └── projects.http
-│   │   └── system.http
+│   │   └── public/
+│   │       └── projects.http
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── bootstrap/
@@ -212,16 +216,23 @@ Generated on: 2026-09-29
 │   │   │   │   ├── controllers/
 │   │   │   │   │   ├── githubRepositories.controller.js
 │   │   │   │   │   ├── githubSettings.controller.js
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── projects.controller.js
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── githubRepositories.routes.js
 │   │   │   │   │   ├── githubSettings.routes.js
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── projects.routes.js
 │   │   │   │   ├── services/
 │   │   │   │   │   ├── githubApi.service.js
 │   │   │   │   │   ├── githubRepositories.service.js
 │   │   │   │   │   ├── githubSettings.service.js
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── projects.service.js
+│   │   │   │   ├── validators/
+│   │   │   │   │   ├── githubRepositories.validators.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── projects.validators.js
 │   │   │   │   └── index.js
 │   │   │   ├── identity/
 │   │   │   │   ├── constants/
@@ -272,6 +283,9 @@ Generated on: 2026-09-29
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── Project.js
+│   │   │   │   ├── presenters/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── project.presenter.js
 │   │   │   │   ├── repositories/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.repository.js
