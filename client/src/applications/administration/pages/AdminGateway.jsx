@@ -146,33 +146,6 @@ const AdminGateway = () => {
 		);
 	}
 
-	/**
-	 * This implementation was part of the migration.
-	 * There is the possibility we might not need it because
-	 * it's function is or could already be handled by
-	 * `~\client\src\platform\routing\components\AuthenticatedRoute.jsx`
-	 */
-	// if (!isAdmin) {
-	// 	return (
-	// 		<>
-	// 			<MetaDataInsert title="Admin Access Denied" />
-
-	// 			<PageSection className="min-h-[75svh] flex items-center">
-	// 				<div
-	// 					className="max-w-md mx-auto border border-destructive/50 bg-destructive/5 p-6 sm:p-8 text-center"
-	// 					role="alert"
-	// 				>
-	// 					<Heading level={3}>Access Denied</Heading>
-	// 					<Text>
-	// 						This account does not have administrator
-	// 						permissions.
-	// 					</Text>
-	// 				</div>
-	// 			</PageSection>
-	// 		</>
-	// 	);
-	// }
-
 	const Desc = () => (
 		<>
 			Welcome,{" "}

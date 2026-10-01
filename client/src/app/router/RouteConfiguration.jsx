@@ -7,24 +7,11 @@ import {
 import { useAuth } from "../../lib/index.js";
 import { Loader } from "../../shared/index.js";
 
-// import Portfolio from "./pages/Portfolio";
-// import Contact from "./pages/Contact";
-// import Services from "./pages/Services";
-// import Admin from "./pages/Admin";
-// import ProtectedRoute from "./components/ProtectedRoute";
-
-// // REMOVED: import SetupAdmin from "./pages/SetupAdmin";
-// // REMOVED: import TestFirebase from "./pages/TestFirebase";
-
-// <Route path="/setup-admin" element={<SetupAdmin />} />
-// <Route path="/test-firebase" element={<TestFirebase />} />
-
-// <Route
-// 	element={<ProtectedRoute requireAdmin={true} showLoginScreen={true} />}
-// >
-// 	<Route path="/admin" element={<Admin />} />
-// </Route>;
-
+/**
+ * Without this gate, the application could start
+ * rendering protected routes while this request is
+ * still running:
+ */
 function AuthReadyGate() {
 	const { isLoadingAuth, authChecked } = useAuth();
 

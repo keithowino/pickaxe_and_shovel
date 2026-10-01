@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { RefreshCw, Trash2, Edit3, Save, X } from "lucide-react";
-import { useAuth } from "../../../lib/context/AuthContext";
 import {
 	Button,
 	FormField,
@@ -24,7 +23,6 @@ const SELECT_CLASS =
 	"w-full bg-background border border-border px-4 py-3 text-sm focus:border-primary focus-visible:outline-none transition-colors disabled:opacity-50";
 
 export default function ProjectsTable() {
-	const { user } = useAuth();
 	const [projects, setProjects] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [busy, setBusy] = useState({});

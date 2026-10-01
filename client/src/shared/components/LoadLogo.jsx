@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function PickaxeShovelLogo({ className = "h-8 w-8" }) {
 	return (
 		<svg

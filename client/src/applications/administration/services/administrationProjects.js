@@ -57,6 +57,12 @@ export const deleteAdminProject = async (projectId) => {
 // 	return apiRequest("/admin/projects/stats");
 // };
 
+/**
+ * Refresh GitHub-managed metadata for an existing project.
+ *
+ * The backend currently refreshes stars and forks while preserving
+ * administrator-editable fields.
+ */
 export const refreshAdminProject = async (projectId) => {
 	const response = await apiRequest(
 		`/admin/github/repositories/${projectId}/refresh`,

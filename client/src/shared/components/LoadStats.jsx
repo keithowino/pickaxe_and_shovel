@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { MapPin, Hammer, Rocket } from "lucide-react";
-import {
-	fetchProjects,
-	getProjectStats,
-} from "../../services/projectServices.js";
+
+import { getProjectStats } from "../../applications/index.js";
 import { FeatureGrid, PageSection } from "../layout/index.js";
 import { Paper } from "../ui/index.js";
 
 export default function LoadStats() {
-	const [projectCount, setProjectCount] = useState(null);
 	const [stats, setStats] = useState(null);
 	const [loading, setLoading] = useState(true);
 
@@ -19,16 +15,10 @@ export default function LoadStats() {
 
 	const loadStats = async () => {
 		try {
-			// Get all projects for count
-			const allProjects = await fetchProjects();
-			setProjectCount(allProjects.length);
-
-			// Get detailed stats
 			const projectStats = await getProjectStats();
 			setStats(projectStats);
 		} catch (error) {
 			console.error("Failed to load stats:", error);
-			setProjectCount(0);
 		} finally {
 			setLoading(false);
 		}
@@ -40,8 +30,8 @@ export default function LoadStats() {
 			label: "Projects Built",
 			value: loading
 				? "—"
-				: projectCount !== null
-					? `${projectCount}`
+				: stats.total !== null
+					? `${stats.total}`
 					: "—",
 			color: "text-primary",
 		},
