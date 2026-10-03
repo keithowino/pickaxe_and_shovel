@@ -59,7 +59,7 @@ Revamp v3 is intentionally being developed in stages.
    ├── Protected administrative routes
    └── Server-side enforcement
 
-### Phase 2 — Project Domain Migration
+### Phase 2 — Project Domain Migration (Firebase removed)
 
 - Create Project model. (covered)
 - Create Project repository. (mostly done)
@@ -101,21 +101,11 @@ Revamp v3 is intentionally being developed in stages.
 - Replace client-side Firebase project access.
 
     The administrator will be able to:
-    1. View the complete list of projects, including unpublished projects.
+    1. View the complete list of projects, including unpublished projects. (covered)
     2. Enter a reorder mode.
     3. Drag and drop projects into the desired order.
     4. Save the new order to the backend using PATCH /api/v1/projects/admin/order.
     5. See confirmation when the operation succeeds, or an error if it fails.
-
-    Then the implementation plan:
-
-    | Step | Task                                                              |
-    | :--: | :---------------------------------------------------------------- |
-    | 8.1  | Review the existing admin projects page and table.                |
-    | 8.2  | Add a reorder mode and drag-and-drop interaction.                 |
-    | 8.3  | Connect the interface to the existing ordering API.               |
-    | 8.4  | Add save, cancel, loading, and error states.                      |
-    | 8.5  | Test ordering, persistence, and interaction with pinned projects. |
 
 ### Phase 3 — Project Taxonomy
 
@@ -225,6 +215,59 @@ Revamp v3 is intentionally being developed in stages.
 - Add active/inactive state.
 - Update project references to use the managed taxonomy.
 - Update portfolio filtering.
+
+#### Implementation
+
+```text
+
+3.1 Define ProjectCategory model <- DONE
+    └── name
+    └── slug
+    └── description
+    └── displayOrder
+    └── active
+    └── timestamps
+
+3.2 Implement ProjectCategory CRUD <- DONE
+    └── repository
+    └── service
+    └── validators
+    └── presenter
+    └── controller
+    └── routes
+
+3.3 Add category administration
+    └── Administration frontend
+        ├── category list
+        ├── create category
+        ├── edit category
+        ├── activate/deactivate
+        └── reorder categories
+
+3.4 Migrate Project.category
+    └── String → ObjectId reference
+    └── migrate existing categories
+    └── update validation
+    └── update project CRUD
+
+3.5 Update GitHub/import/refresh behavior
+    └── imported projects must receive a managed category
+    └── administrator overrides remain authoritative
+
+3.6 Update public Project presentation
+    └── category name
+    └── category slug
+
+3.7 Update portfolio filtering
+    └── filter by managed category
+    └── inactive categories excluded from public filtering
+
+3.8 REST testing
+
+3.9 Frontend administration
+
+3.10 Frontend portfolio filtering
+```
 
 ### Phase 4 — Portfolio Experience
 

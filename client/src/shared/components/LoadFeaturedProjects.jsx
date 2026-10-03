@@ -110,7 +110,7 @@ export default function LoadFeaturedProjects() {
 									</div>
 								)}
 								<div className="absolute top-3 left-3 serial-number bg-background/80 backdrop-blur px-2 py-1">
-									{p.category || "Web"}
+									{p.category.name || "Web development"}
 								</div>
 
 								<div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-end p-3">

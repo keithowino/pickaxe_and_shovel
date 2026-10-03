@@ -1,5 +1,10 @@
 import { Project } from "../models/index.js";
 
+export const CATEGORY_POPULATE = {
+	path: "category",
+	select: "name slug description displayOrder active",
+};
+
 /**
  * Find projects using filters, sorting, and pagination.
  *
@@ -14,6 +19,7 @@ export const findProjects = async ({
 	const skip = (page - 1) * limit;
 
 	return Project.find(filter)
+		.populate(CATEGORY_POPULATE)
 		.sort({
 			pinned: -1,
 			displayOrder: 1,
@@ -31,11 +37,17 @@ export const countProjects = async (filter = {}) => {
 	return Project.countDocuments(filter);
 };
 
+export const countProjectsByCategory = async (categoryId) => {
+	return Project.countDocuments({
+		category: categoryId,
+	});
+};
+
 /**
  * Find a project by its MongoDB document ID.
  */
 export const findProjectById = async (projectId) => {
-	return Project.findById(projectId).lean();
+	return Project.findById(projectId).populate(CATEGORY_POPULATE).lean();
 };
 
 /**
@@ -49,7 +61,9 @@ export const findProjectByGithubRepoId = async (githubRepoId) => {
  * Create a new project.
  */
 export const createProject = async (projectData) => {
-	return Project.create(projectData);
+	const project = await Project.create(projectData);
+
+	return Project.findById(project._id).populate(CATEGORY_POPULATE).lean();
 };
 
 /**
@@ -59,7 +73,9 @@ export const updateProjectById = async (projectId, updates) => {
 	return Project.findByIdAndUpdate(projectId, updates, {
 		returnDocument: "after",
 		runValidators: true,
-	}).lean();
+	})
+		.populate(CATEGORY_POPULATE)
+		.lean();
 };
 
 /**

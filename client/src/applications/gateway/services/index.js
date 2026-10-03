@@ -4,4 +4,4 @@ export {
 	fetchProjects,
 	fetchProjectsByCategory,
 	getProjectStats,
-} from "./projectServices.js";
+} from "./project.services.js";

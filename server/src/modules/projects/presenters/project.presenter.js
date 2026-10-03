@@ -17,7 +17,16 @@ class ProjectPresenter {
 			primaryLanguage: project.primaryLanguage ?? "",
 			techStack: project.techStack ?? [],
 			topics: project.topics ?? [],
-			category: project.category ?? "",
+			category: project.category
+				? {
+						id: getId(project.category),
+						name: project.category.name,
+						slug: project.category.slug,
+						description: project.category.description ?? "",
+						displayOrder: project.category.displayOrder ?? 0,
+						active: project.category.active ?? true,
+					}
+				: null,
 			stars: project.stars ?? 0,
 			forks: project.forks ?? 0,
 			pinned: project.pinned ?? false,

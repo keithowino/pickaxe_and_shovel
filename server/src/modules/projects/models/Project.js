@@ -55,9 +55,10 @@ const projectSchema = new mongoose.Schema(
 		},
 
 		category: {
-			type: String,
-			default: "Web",
-			trim: true,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "ProjectCategory",
+			required: true,
+			index: true,
 		},
 
 		stars: {

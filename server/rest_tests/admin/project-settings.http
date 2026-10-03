@@ -1,8 +1,10 @@
 @baseUrl = http://localhost:5000/api/v1
 @adminCookie = YOUR_ADMIN_AUTH_COOKIE
 
-@projectIdA = 6abb7543c88738df83bdb61b
+@projectIdA = 6abfc13109273fe94ac01702
 @projectIdB = 6abd1534ca1fbaf31b5dd5a6
+
+@categoryId = 6abfc02309273fe94ac01700
 
 ### 1. List all projects
 
@@ -28,7 +30,7 @@ Cookie: accessToken={{adminCookie}}
     "primaryLanguage": "JavaScript",
     "techStack": ["React", "Node.js"],
     "topics": ["testing", "portfolio"],
-    "category": "Web",
+    "category": "6abfc04609273fe94ac01701",
     "pinned": false,
     "featured": false,
     "published": true
@@ -41,7 +43,8 @@ Content-Type: application/json
 Cookie: accessToken={{adminCookie}}
 
 {
-    "description": "Updated description for the Project API test."
+    "description": "Updated description for the Project API test.", 
+    "category": "6abfc02309273fe94ac01700"
 }
 
 ### 5. Delete a project

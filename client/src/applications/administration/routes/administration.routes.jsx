@@ -1,4 +1,4 @@
-import { AdminGateway } from "../pages/index.js";
+import { AdminGateway, ProjectCategoriesPage } from "../pages/index.js";
 import { AuthenticatedRoute } from "../../../platform/index.js";
 import { AdministrationLayout } from "../layouts/index.js";
 
@@ -15,6 +15,10 @@ const administrationRoutes = [
 					{
 						index: true,
 						element: <AdminGateway />,
+					},
+					{
+						path: "categories",
+						element: <ProjectCategoriesPage />,
 					},
 				],
 			},

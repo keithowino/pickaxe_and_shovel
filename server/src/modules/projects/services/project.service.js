@@ -1,6 +1,9 @@
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
 import { projectPresenter } from "../presenters/index.js";
-import { projectRepository } from "../repositories/index.js";
+import {
+	projectCategoryRepository,
+	projectRepository,
+} from "../repositories/index.js";
 
 class ProjectService {
 	/**
@@ -42,6 +45,30 @@ class ProjectService {
 		}
 
 		return filter;
+	}
+
+	async validateProjectCategory(categoryId) {
+		if (!categoryId) {
+			return;
+		}
+
+		const category = await projectCategoryRepository.findById(categoryId);
+
+		if (!category) {
+			throw new AppError(
+				"Project category not found.",
+				HTTP_STATUS.NOT_FOUND,
+				ErrorCodes.NOT_FOUND,
+			);
+		}
+
+		if (!category.active) {
+			throw new AppError(
+				"Project category is inactive.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
 	}
 
 	/**
@@ -96,6 +123,8 @@ class ProjectService {
 	 * Create a project.
 	 */
 	async createProject(projectData) {
+		await this.validateProjectCategory(projectData.category);
+
 		const project = await projectRepository.createProject(projectData);
 
 		return projectPresenter.present(project);
@@ -114,6 +143,8 @@ class ProjectService {
 				ErrorCodes.NOT_FOUND,
 			);
 		}
+
+		await this.validateProjectCategory(updates.category);
 
 		const updatedProject = await projectRepository.updateProjectById(
 			projectId,

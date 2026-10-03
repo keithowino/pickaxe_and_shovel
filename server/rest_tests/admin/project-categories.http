@@ -1,0 +1,71 @@
+@baseUrl = http://localhost:5000/api/v1
+
+@adminCookie = YOUR_ADMIN_AUTH_COOKIE
+
+@categoryId = 6abfc02309273fe94ac01700
+
+### Create category
+
+POST {{baseUrl}}/project-categories
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+	"name": "Web Development",
+	"description": "Web applications, websites, and web platforms.",
+	"displayOrder": 1,
+	"active": true
+}
+
+# {
+# 	"name": "Mechatronics",
+# 	"description": "Projects combining mechanical, electronic, and software systems.",
+# 	"displayOrder": 2,
+# 	"active": true
+# }
+
+### List categories
+
+GET {{baseUrl}}/project-categories
+
+
+### List active categories
+
+GET {{baseUrl}}/project-categories?active=true
+
+
+### Get category
+
+GET {{baseUrl}}/project-categories/{{categoryId}}
+
+
+### Update category
+
+PATCH {{baseUrl}}/project-categories/{{categoryId}}
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+	"name": "L I M B"
+}
+
+# {
+# 	"description": "Web applications, websites, and web platforms built as portfolio projects.",
+# 	"displayOrder": 10
+# }
+
+
+### Deactivate category
+
+PATCH {{baseUrl}}/project-categories/{{categoryId}}
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+	"active": false
+}
+
+
+### Delete category
+DELETE {{baseUrl}}/project-categories/{{categoryId}}
+Cookie: accessToken={{adminCookie}}

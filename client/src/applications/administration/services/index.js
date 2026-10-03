@@ -1,4 +1,19 @@
 export {
+	disconnectGitHub,
+	getGitHubRepositories,
+	getGitHubSettings,
+	importGitHubRepositories,
+	saveGitHubSettings,
+} from "./github.settings.service.js";
+
+export {
+	createProjectCategory,
+	deleteProjectCategory,
+	fetchProjectCategories,
+	updateProjectCategory,
+} from "./projects.category.service.js";
+
+export {
 	// createAdminProject,
 	deleteAdminProject,
 	// getAdminProject,
@@ -7,12 +22,4 @@ export {
 	refreshAdminProject,
 	// reorderAdminProjects,
 	updateAdminProject,
-} from "./administrationProjects.js";
-
-export {
-	disconnectGitHub,
-	getGitHubRepositories,
-	getGitHubSettings,
-	importGitHubRepositories,
-	saveGitHubSettings,
-} from "./administrationGitHub.js";
+} from "./projects.crud.service.js";

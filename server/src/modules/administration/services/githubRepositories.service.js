@@ -1,5 +1,9 @@
 import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
-import { projectPresenter, projectRepository } from "../../projects/index.js";
+import {
+	projectCategoryRepository,
+	projectPresenter,
+	projectRepository,
+} from "../../projects/index.js";
 
 import gitHubAPI from "./githubApi.service.js";
 import gitHubSettings from "./githubSettings.service.js";
@@ -44,6 +48,25 @@ class GitHubRepositoriesService {
 		const imported = [];
 		const skipped = [];
 
+		const defaultCategory =
+			await projectCategoryRepository.findBySlug("web-development");
+
+		if (!defaultCategory) {
+			throw new AppError(
+				'The default project category "web-development" does not exist.',
+				HTTP_STATUS.INTERNAL_SERVER_ERROR,
+				ErrorCodes.INTERNAL_SERVER_ERROR,
+			);
+		}
+
+		if (!defaultCategory.active) {
+			throw new AppError(
+				'The default project category "web-development" is inactive.',
+				HTTP_STATUS.INTERNAL_SERVER_ERROR,
+				ErrorCodes.INTERNAL_SERVER_ERROR,
+			);
+		}
+
 		for (const repository of selectedRepositories) {
 			const existingProject =
 				await projectRepository.findProjectByGithubRepoId(
@@ -75,7 +98,7 @@ class GitHubRepositoriesService {
 				forks: repository.forks ?? 0,
 
 				// Administrative defaults for newly imported projects.
-				category: "Web",
+				category: defaultCategory._id,
 				pinned: false,
 				displayOrder: 0,
 				featured: false,

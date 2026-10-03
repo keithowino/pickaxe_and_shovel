@@ -1,7 +1,8 @@
 import { SiteHeader } from "../../../shared/index.js";
 
 const BASE_LINKS = [
-	{ to: "/", label: "Home", end: true },
+	{ to: "/admin", label: "Dashboard", end: true },
+	{ to: "/admin/categories", label: "Categories" },
 	{ to: "/portfolio", label: "Portfolio" },
 ];
 

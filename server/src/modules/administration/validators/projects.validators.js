@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { objectIdSchema } from "../../../shared/index.js";
 
 const editableProjectFields = {
 	name: z.string().trim().min(1).max(200).optional(),
@@ -10,7 +11,7 @@ const editableProjectFields = {
 	primaryLanguage: z.string().trim().max(100).optional(),
 	techStack: z.array(z.string().trim()).optional(),
 	topics: z.array(z.string().trim()).optional(),
-	category: z.string().trim().min(1).max(100).optional(),
+	category: objectIdSchema.optional(),
 	featured: z.boolean().optional(),
 	published: z.boolean().optional(),
 };
@@ -55,7 +56,7 @@ export const updateProjectBodySchema = z.object(editableProjectFields).strict();
  * Validate a project ID route parameter.
  */
 export const projectIdParamsSchema = z.object({
-	projectId: z.string().regex(/^[a-f\d]{24}$/i, "Invalid project ID."),
+	projectId: objectIdSchema,
 });
 
 /**
@@ -64,7 +65,7 @@ export const projectIdParamsSchema = z.object({
 export const listProjectsQuerySchema = z.object({
 	page: z.coerce.number().int().min(1).optional(),
 	limit: z.coerce.number().int().min(1).max(100).optional(),
-	category: z.string().trim().optional(),
+	category: objectIdSchema.optional(),
 	featured: z.enum(["true", "false"]).optional(),
 });
 
@@ -76,6 +77,6 @@ export const listProjectsQuerySchema = z.object({
  */
 export const reorderProjectsBodySchema = z.object({
 	orderedProjectIds: z
-		.array(z.string().regex(/^[a-f\d]{24}$/i, "Invalid project ID."))
+		.array(objectIdSchema)
 		.min(1, "At least one project ID is required."),
 });

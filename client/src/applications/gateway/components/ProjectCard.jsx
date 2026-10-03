@@ -39,7 +39,7 @@ export default function ProjectCard({ project, onClick, index }) {
 					SN/{String(index + 1).padStart(3, "0")}
 				</span>
 				<span className="serial-number text-primary">
-					{project.category || "Web"}
+					{project.category.name || "Web Development"}
 				</span>
 			</div>
 
@@ -71,7 +71,7 @@ export default function ProjectCard({ project, onClick, index }) {
 			<div className="p-5 flex-1 flex flex-col">
 				<Heading
 					level={4}
-					className="group-hover:text-primary transition-colors uppercase"
+					className="group-hover:text-primary transition-colors"
 				>
 					{project.name}
 				</Heading>

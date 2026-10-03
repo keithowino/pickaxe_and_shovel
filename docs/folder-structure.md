@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-10-01
+Generated on: 2026-10-02
 
 ```bash
 ├── client/
@@ -42,6 +42,7 @@ Generated on: 2026-10-01
 │   │   │   │   │   ├── administration.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
+│   │   │   │   │   ├── administrationGitHub.js
 │   │   │   │   │   ├── administrationProjects.js
 │   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
@@ -66,6 +67,9 @@ Generated on: 2026-10-01
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── gateway.routes.jsx
 │   │   │   │   │   └── index.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── projectServices.js
 │   │   │   │   └── index.js
 │   │   │   ├── platform/
 │   │   │   │   ├── pages/
@@ -81,11 +85,7 @@ Generated on: 2026-10-01
 │   │   │   │   ├── AuthContext.jsx
 │   │   │   │   ├── index.js
 │   │   │   │   └── ThemeContext.jsx
-│   │   │   ├── pages/
-│   │   │   │   └── TestFirebase.jsx
 │   │   │   ├── apiClient.js
-│   │   │   ├── firebase.config.js
-│   │   │   ├── github.js
 │   │   │   ├── index.js
 │   │   │   ├── MetaDataInsert.jsx
 │   │   │   └── supabase.js
@@ -96,8 +96,6 @@ Generated on: 2026-10-01
 │   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
 │   │   │   └── index.js
-│   │   ├── services/
-│   │   │   └── projectServices.js
 │   │   ├── shared/
 │   │   │   ├── components/
 │   │   │   │   ├── marquee/
@@ -189,6 +187,7 @@ Generated on: 2026-10-01
 │   ├── rest_tests/
 │   │   ├── admin/
 │   │   │   ├── github-settings.http
+│   │   │   ├── project-categories.http
 │   │   │   ├── project-settings.http
 │   │   │   └── system.http
 │   │   ├── auth/
@@ -279,25 +278,32 @@ Generated on: 2026-10-01
 │   │   │   ├── projects/
 │   │   │   │   ├── controllers/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.controller.js
+│   │   │   │   │   ├── project.controller.js
+│   │   │   │   │   └── projectCategory.controller.js
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── Project.js
+│   │   │   │   │   ├── Project.js
+│   │   │   │   │   └── ProjectCategory.js
 │   │   │   │   ├── presenters/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.presenter.js
+│   │   │   │   │   ├── project.presenter.js
+│   │   │   │   │   └── projectCategory.presenter.js
 │   │   │   │   ├── repositories/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.repository.js
+│   │   │   │   │   ├── project.repository.js
+│   │   │   │   │   └── projectCategory.repository.js
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.routes.js
+│   │   │   │   │   ├── project.routes.js
+│   │   │   │   │   └── projectCategory.routes.js
 │   │   │   │   ├── services/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.service.js
+│   │   │   │   │   ├── project.service.js
+│   │   │   │   │   └── projectCategory.service.js
 │   │   │   │   ├── validators/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── project.validators.js
+│   │   │   │   │   ├── project.validators.js
+│   │   │   │   │   └── projectCategory.validators.js
 │   │   │   │   ├── index.js
 │   │   │   │   └── README.md
 │   │   │   └── index.js
@@ -325,6 +331,7 @@ Generated on: 2026-10-01
 │   │   │   ├── validation/
 │   │   │   │   ├── email.schema.js
 │   │   │   │   ├── index.js
+│   │   │   │   ├── objectId.schema.js
 │   │   │   │   ├── password.schema.js
 │   │   │   │   └── validateRequest.js
 │   │   │   └── index.js

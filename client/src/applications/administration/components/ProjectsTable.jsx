@@ -158,7 +158,8 @@ export default function ProjectsTable() {
 											{p.name}
 										</span>
 										<span className="text-xs px-2 py-0.5 border border-border">
-											{p.category || "Web"}
+											{p.category.name ||
+												"Web Development"}
 										</span>
 										{p.featured && (
 											<span className="text-xs px-2 py-0.5 bg-primary text-primary-foreground">

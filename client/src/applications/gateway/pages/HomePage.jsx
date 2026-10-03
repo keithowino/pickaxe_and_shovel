@@ -7,6 +7,7 @@ import {
 } from "../../../shared/index.js";
 import { MetaDataInsert } from "../../../lib/index.js";
 import { Terminal, Cpu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const heroTitle = () => {
 	return (
@@ -41,18 +42,19 @@ const HomePage = () => {
 						"Web Designer → Mechatronics Engineer. Crafting software today, forging automated hardware for East Africa tomorrow.",
 					callToAction: [
 						{
+							as: Link,
 							to: "/portfolio",
+							redirect: "forward",
 							icon: <Terminal className="h-4 w-4" />,
 							label: "Explore Projects",
-							className:
-								"bg-primary text-primary-foreground hover:bg-primary/90 transition-all",
 						},
 						{
+							as: Link,
 							to: "/contact",
+							redirect: "forward",
 							icon: <Cpu className="h-4 w-4" />,
 							label: "Get in Touch",
-							className:
-								"border border-border hover:border-primary hover:text-primary transition-colors",
+							variant: "outline",
 						},
 					],
 				}}

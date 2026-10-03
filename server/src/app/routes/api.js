@@ -2,13 +2,15 @@ import { Router } from "express";
 
 import { database } from "../bootstrap/index.js";
 import { success } from "../../shared/index.js";
-import { authRoutes } from "../../modules/identity/index.js";
-import { projectRoutes } from "../../modules/projects/index.js";
+
 import {
 	administrationProjectsRoutes,
+	authRoutes,
 	githubRepositoriesRoutes,
 	githubSettingsRoutes,
-} from "../../modules/administration/index.js";
+	projectCategoryRoutes,
+	projectRoutes,
+} from "../../modules/index.js";
 
 const router = Router();
 
@@ -38,5 +40,7 @@ router.use("/admin/github/repositories", githubRepositoriesRoutes);
 router.use("/admin/projects", administrationProjectsRoutes);
 
 router.use("/projects", projectRoutes);
+
+router.use("/project-categories", projectCategoryRoutes);
 
 export default router;
