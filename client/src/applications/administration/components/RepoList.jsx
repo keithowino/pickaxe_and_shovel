@@ -14,6 +14,7 @@ import {
 	FormInput,
 	Loader,
 	SectionHeader,
+	showToastMessage,
 	Text,
 } from "../../../shared/index.js";
 
@@ -28,7 +29,7 @@ import {
 
 const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
 
-export default function RepoList() {
+export default function RepoList({ onImported, refreshKey }) {
 	const [repos, setRepos] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -77,7 +78,7 @@ export default function RepoList() {
 
 	useEffect(() => {
 		loadData();
-	}, []);
+	}, [refreshKey]);
 
 	useEffect(() => {
 		if (!githubSettings?.connected) return;
@@ -165,7 +166,17 @@ export default function RepoList() {
 				return next;
 			});
 
+			showToastMessage({
+				msg: `${selectedIds.length > 1 ? "Repositories" : "Repository"} imported successfully.`,
+				type: "success",
+			});
+
 			setSelected({});
+
+			/**
+			 * Notify parent so ProjectsTable can refresh
+			 */
+			onImported?.();
 		} catch (error) {
 			console.error("Failed to import GitHub repositories:", error);
 

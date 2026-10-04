@@ -1,10 +1,21 @@
 @baseUrl = http://localhost:5000/api/v1
-@adminCookie = YOUR_ADMIN_AUTH_COOKIE
+# @adminCookie = YOUR_ADMIN_AUTH_COOKIE
+@adminCookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWJhYTQ0NWZiOWQ3Y2IyY2JkYjc5YWQiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uczE2MjlAZ21haWwuY29tIiwic2lkIjoiNmFjMTYxNGM2OTM0MDVmZDYzNDI5ZjQ0IiwiaWF0IjoxNzkxMDU4MjUyLCJleHAiOjE3OTExNDQ2NTIsImF1ZCI6InBpY2theGUtYW5kLXNob3ZlbC1jbGllbnQiLCJpc3MiOiJwaWNrYXhlLWFuZC1zaG92ZWwifQ.A-GrqWl71XDsEVRxyaSilPv_8QDNucNrK0wYNwmuark
 
-@projectIdA = 6abfc13109273fe94ac01702
+@projectIdA = 6ac13040cc829113f2b9cf71
 @projectIdB = 6abd1534ca1fbaf31b5dd5a6
 
 @categoryId = 6abfc02309273fe94ac01700
+
+### Set project as unpublished
+
+PATCH {{baseUrl}}/admin/projects/{{projectIdA}}
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+    "published": true
+}
 
 ### 1. List all projects
 

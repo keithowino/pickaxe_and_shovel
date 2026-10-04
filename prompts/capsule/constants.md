@@ -11,3 +11,13 @@ Access and respond to what i have just attached
 In the browser's Developer Tools → Network tab
 
 ---
+
+## Roadmap
+
+Phase 0 — Baseline and Documentation (complete)
+
+Phase 1 — Backend Foundation (complete)
+
+Phase 2 — Project Domain Migration (Firebase removed)
+
+Phase 3 — Project Taxonomy (completed)

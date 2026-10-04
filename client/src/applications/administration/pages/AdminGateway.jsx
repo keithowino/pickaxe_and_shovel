@@ -34,6 +34,11 @@ const AdminGateway = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [loginError, setLoginError] = useState("");
 
+	/**
+	 * Shared refresh signal for admin data modules
+	 */
+	const [projectsRefreshKey, setProjectsRefreshKey] = useState(0);
+
 	const handleLogin = async (event) => {
 		event.preventDefault();
 
@@ -190,8 +195,14 @@ const AdminGateway = () => {
 
 			<PageSection className="!pt-0 space-y-4 sm:space-y-6">
 				<GitHubConnect />
-				<RepoList />
-				<ProjectsTable />
+				<RepoList
+					onImported={() => setProjectsRefreshKey((k) => k + 1)}
+					refreshKey={projectsRefreshKey}
+				/>
+				<ProjectsTable
+					onDelete={() => setProjectsRefreshKey((k) => k + 1)}
+					refreshKey={projectsRefreshKey}
+				/>
 			</PageSection>
 		</>
 	);

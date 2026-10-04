@@ -63,7 +63,7 @@ export default function ProjectModal({ project, onClose }) {
 									TECHNICAL READOUT
 								</span>
 								<span className="serial-number text-muted-foreground hidden sm:inline">
-									{project.category || "Web"}
+									{project.category.name || "Web development"}
 								</span>
 							</div>
 							<button
@@ -104,7 +104,7 @@ export default function ProjectModal({ project, onClose }) {
 						<div className="p-5 sm:p-8 md:p-10">
 							<div className="flex items-center gap-2 mb-2 sm:hidden">
 								<span className="serial-number text-muted-foreground">
-									{project.category || "Web"}
+									{project.category.name || "Web development"}
 								</span>
 							</div>
 							<Heading className="uppercase">
@@ -113,14 +113,6 @@ export default function ProjectModal({ project, onClose }) {
 							<Text className="mb-6">
 								{project.description || "No description."}
 							</Text>
-
-							{/* {project.notes && (
-								<div className="mb-6 border-l-2 border-primary pl-4 py-1">
-									<Text className="italic">
-										{project.notes}
-									</Text>
-								</div>
-							)} */}
 
 							{/* Stats */}
 							<FeatureGrid className="mb-8 !gap-2 !sm:gap-3">

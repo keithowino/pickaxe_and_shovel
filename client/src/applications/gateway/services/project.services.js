@@ -14,7 +14,8 @@ export const fetchProjects = async (options = {}) => {
 	searchParams.set("page", page);
 	searchParams.set("limit", limit);
 
-	if (category && category !== "All") {
+	// if (category && category !== "All") {
+	if (category && category !== "all") {
 		searchParams.set("category", category);
 	}
 

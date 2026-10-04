@@ -7,12 +7,14 @@ import {
 	FormLabel,
 	Loader,
 	SectionHeader,
+	showToastMessage,
 	Text,
 } from "../../../shared/index.js";
 import { BiImport } from "react-icons/bi";
 
 import {
 	deleteAdminProject,
+	fetchProjectCategories,
 	getAdminProjects,
 	refreshAdminProject,
 	updateAdminProject,
@@ -22,8 +24,9 @@ const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
 const SELECT_CLASS =
 	"w-full bg-background border border-border px-4 py-3 text-sm focus:border-primary focus-visible:outline-none transition-colors disabled:opacity-50";
 
-export default function ProjectsTable() {
+export default function ProjectsTable({ onDelete, refreshKey }) {
 	const [projects, setProjects] = useState([]);
+	const [categories, setCategories] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [busy, setBusy] = useState({});
 	const [editing, setEditing] = useState(null);
@@ -33,9 +36,13 @@ export default function ProjectsTable() {
 		setLoading(true);
 
 		try {
-			const { projects } = await getAdminProjects();
+			const [projects, projectCategories] = await Promise.all([
+				getAdminProjects(),
+				fetchProjectCategories(),
+			]);
 
-			setProjects(projects);
+			setProjects(projects.projects);
+			setCategories(projectCategories);
 		} catch (error) {
 			console.error("Failed to load projects:", error);
 		} finally {
@@ -45,7 +52,7 @@ export default function ProjectsTable() {
 
 	useEffect(() => {
 		loadProjects();
-	}, []);
+	}, [refreshKey]);
 
 	const refreshFromGitHub = async (project) => {
 		if (!project.githubRepoId) return;
@@ -55,6 +62,11 @@ export default function ProjectsTable() {
 		try {
 			await refreshAdminProject(project.id);
 			await loadProjects();
+
+			showToastMessage({
+				msg: `${project.name} GitHub'S information synced.`,
+				type: "success",
+			});
 		} catch (error) {
 			alert("Refresh failed: " + error.message);
 		} finally {
@@ -68,6 +80,13 @@ export default function ProjectsTable() {
 		try {
 			await deleteAdminProject(project.id);
 			await loadProjects();
+
+			onDelete?.();
+
+			showToastMessage({
+				msg: "Project deleted successfully.",
+				type: "success",
+			});
 		} catch (error) {
 			alert("Delete failed: " + error.message);
 		} finally {
@@ -86,7 +105,7 @@ export default function ProjectsTable() {
 			primaryLanguage: project.primaryLanguage || "",
 			techStack: project.techStack || [],
 			topics: project.topics || [],
-			category: project.category || "Web",
+			category: project.category?.id || "",
 			featured: project.featured || false,
 			published: project.published ?? false,
 		});
@@ -302,15 +321,14 @@ export default function ProjectsTable() {
 											// className="w-full bg-background border border-border px-3 py-2 text-sm focus:border-primary outline-none"
 											className={SELECT_CLASS}
 										>
-											{[
-												"Web",
-												"Mechatronics",
-												"IoT",
-												"Robotics",
-												"In Progress",
-												"Agentic Programming",
-											].map((c) => (
-												<option key={c}>{c}</option>
+											{categories.map((c) => (
+												// <option key={c.name}>
+												<option
+													key={c.name}
+													value={c.id}
+												>
+													{c.name}
+												</option>
 											))}
 										</select>
 									</FormField>

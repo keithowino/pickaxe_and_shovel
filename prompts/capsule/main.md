@@ -107,87 +107,10 @@ Revamp v3 is intentionally being developed in stages.
     4. Save the new order to the backend using PATCH /api/v1/projects/admin/order.
     5. See confirmation when the operation succeeds, or an error if it fails.
 
-### Phase 3 — Project Taxonomy
+### Phase 3 — Project Taxonomy (completed)
 
 - Define the project-category model.
-
-    Something along these lines:
-
-    ```text
-    Project
-    │
-    ├── identity
-    │   ├── title
-    │   ├── slug
-    │   └── description
-    │
-    ├── presentation
-    │   ├── thumbnail
-    │   ├── images
-    │   ├── featured
-    │   └── pinned
-    │
-    ├── classification
-    │   ├── category
-    │   ├── technologies
-    │   └── tags
-    │
-    ├── content
-    │   ├── overview
-    │   ├── challenge
-    │   ├── solution
-    │   └── outcome
-    │
-    ├── links
-    │   ├── repository
-    │   └── live
-    │
-    └── publication
-        ├── published
-        ├── publishedAt
-        ├── displayOrder
-        ├── createdAt
-        └── updatedAt
-    ```
-
 - Create category CRUD.
-
-    > "what are categories when it comes to the projects?"
-
-    Current projects are categorized according to the following:
-
-    ```text
-    "Web"
-    "Mechatronics"
-    "IoT"
-    "Robotics"
-    "In Progress"
-    "Agentic Programming"
-    "Other"
-    ```
-
-    You mentioned, we should not continue with them being arbitrary strings they are inside each project.
-
-    Instead:
-
-    ```text
-    ProjectCategory
-    ```
-
-    becomes its own managed resource.
-
-    For example:
-
-    ```text
-    ProjectCategory
-    ├── name
-    ├── slug
-    ├── description
-    ├── displayOrder
-    ├── active
-    ├── createdAt
-    └── updatedAt
-    ```
 
     Then the Admin can manage:
 
@@ -236,7 +159,7 @@ Revamp v3 is intentionally being developed in stages.
     └── controller
     └── routes
 
-3.3 Add category administration
+3.3 Add category administration <- DONE
     └── Administration frontend
         ├── category list
         ├── create category
@@ -244,21 +167,21 @@ Revamp v3 is intentionally being developed in stages.
         ├── activate/deactivate
         └── reorder categories
 
-3.4 Migrate Project.category
+3.4 Migrate Project.category <- DONE
     └── String → ObjectId reference
     └── migrate existing categories
     └── update validation
     └── update project CRUD
 
-3.5 Update GitHub/import/refresh behavior
+3.5 Update GitHub/import/refresh behavior <- DONE
     └── imported projects must receive a managed category
     └── administrator overrides remain authoritative
 
-3.6 Update public Project presentation
+3.6 Update public Project presentation <- DONE
     └── category name
     └── category slug
 
-3.7 Update portfolio filtering
+3.7 Update portfolio filtering <- DONE
     └── filter by managed category
     └── inactive categories excluded from public filtering
 

@@ -11,16 +11,12 @@ import {
 } from "../../../shared/index.js";
 import { fetchProjects } from "../services/index.js";
 import { ProjectCard, ProjectModal } from "../components/index.js";
+import { fetchProjectCategories } from "../../administration/index.js";
 
-const CATEGORIES = [
-	"All",
-	"Web",
-	"Mechatronics",
-	"IoT",
-	"Robotics",
-	"In Progress",
-	"Agentic Programming",
-];
+const ALL_CATEGORY = {
+	slug: "all",
+	name: "All",
+};
 
 const heroTitle = () => {
 	return (
@@ -32,9 +28,12 @@ const heroTitle = () => {
 
 const PortfolioPage = () => {
 	const [projects, setProjects] = useState([]);
+	const [categories, setCategories] = useState([]);
+
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [category, setCategory] = useState("All");
+
+	const [category, setCategory] = useState(ALL_CATEGORY.slug);
 	const [selected, setSelected] = useState(null);
 
 	useEffect(() => {
@@ -45,9 +44,13 @@ const PortfolioPage = () => {
 		setLoading(true);
 		setError(null);
 		try {
-			const data = await fetchProjects();
+			const [projectsData, categoriesData] = await Promise.all([
+				fetchProjects(),
+				fetchProjectCategories({ active: true }),
+			]);
 
-			setProjects(data);
+			setProjects(projectsData);
+			setCategories(categoriesData);
 		} catch (err) {
 			console.error("Failed to load projects:", err);
 			setError("Failed to load projects. Please try again later.");
@@ -56,13 +59,15 @@ const PortfolioPage = () => {
 		}
 	};
 
-	const filtered = useMemo(
-		() =>
-			category === "All"
-				? projects
-				: projects.filter((p) => (p.category || "Web") === category),
-		[projects, category],
-	);
+	const filtered = useMemo(() => {
+		if (category === ALL_CATEGORY.slug) {
+			return projects;
+		}
+
+		return projects.filter(
+			(project) => project.category?.slug === category,
+		);
+	}, [projects, category]);
 
 	// Retry button handler
 	const handleRetry = () => {
@@ -97,24 +102,25 @@ const PortfolioPage = () => {
 				<PageSection className="!pt-0 sm:!pt-0">
 					<div className="border-b border-border pb-4">
 						<div className="flex gap-2 overflow-x-auto scrollbar-hide fade-edges-x snap-x snap-mandatory -mx-1 px-1">
-							{CATEGORIES.map((c) => {
-								// Count projects in each category for visual feedback
+							{[ALL_CATEGORY, ...categories].map((item) => {
 								const count =
-									c === "All"
+									item.slug === ALL_CATEGORY.slug
 										? projects.length
 										: projects.filter(
-												(p) =>
-													(p.category || "Web") === c,
+												(project) =>
+													project.category?.slug ===
+													item.slug,
 											).length;
 
-								const isActive = category === c;
+								const isActive = category === item.slug;
 								const isEmptyCategory =
-									count === 0 && c !== "All";
+									count === 0 &&
+									item.slug !== ALL_CATEGORY.slug;
 
 								return (
 									<button
-										key={c}
-										onClick={() => setCategory(c)}
+										key={item.slug}
+										onClick={() => setCategory(item.slug)}
 										aria-pressed={isActive}
 										className={`shrink-0 snap-start whitespace-nowrap px-4 py-2.5 text-sm font-medium border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
 											isActive
@@ -124,7 +130,7 @@ const PortfolioPage = () => {
 													: "border-border hover:border-primary"
 										}`}
 									>
-										{c}
+										{item.name}
 										<span className="ml-2 text-xs opacity-70">
 											({count})
 										</span>
@@ -155,8 +161,11 @@ const PortfolioPage = () => {
 						<div className="serial-number text-destructive mb-4">
 							ERROR // CONNECTION FAILED
 						</div>
+
 						<Heading level={3}>Unable to load projects</Heading>
+
 						<Text className="mb-6">{error}</Text>
+
 						<button
 							onClick={handleRetry}
 							className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3 font-medium hover:bg-primary/90 active:scale-[0.98] transition-all"
@@ -170,11 +179,13 @@ const PortfolioPage = () => {
 							NO RECORDS FOUND
 						</div>
 						<Heading level={3}>The workshop is quiet.</Heading>
+
 						<Text className="mb-6">
-							{category === "All"
+							{category === ALL_CATEGORY.slug
 								? "No projects have been imported yet."
 								: `No projects found in the "${category}" category.`}
 						</Text>
+
 						<Link
 							to="/admin"
 							className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-3 font-medium hover:bg-primary/90 active:scale-[0.98] transition-all"
@@ -184,12 +195,12 @@ const PortfolioPage = () => {
 					</div>
 				) : (
 					<FeatureGrid>
-						{filtered.map((p, i) => (
+						{filtered.map((project, index) => (
 							<ProjectCard
-								key={p.id}
-								project={p}
-								index={i}
-								onClick={() => setSelected(p)}
+								key={project.id}
+								project={project}
+								index={index}
+								onClick={() => setSelected(project)}
 							/>
 						))}
 					</FeatureGrid>

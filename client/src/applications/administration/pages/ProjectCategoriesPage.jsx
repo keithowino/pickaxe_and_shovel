@@ -14,6 +14,7 @@ import {
 	FormLabel,
 	Hero,
 	LoadHeroTitle,
+	SectionHeader,
 } from "../../../shared/index.js";
 
 import {
@@ -23,11 +24,10 @@ import {
 	updateProjectCategory,
 } from "../services/index.js";
 
-// I used variant="outline" on Button because it is a common pattern, but your shared Button implementation wasn't included in the files you supplied. If your Button doesn't expose that variant, remove the prop and give that cancel button the project's existing secondary styling.
-
 const emptyForm = {
 	name: "",
 	description: "",
+	displayOrder: null,
 };
 
 const ProjectCategoriesPage = () => {
@@ -68,7 +68,8 @@ const ProjectCategoriesPage = () => {
 
 	const openCreateForm = () => {
 		setEditingCategory(null);
-		setForm(emptyForm);
+		// setForm(emptyForm);
+		setForm({ ...emptyForm, displayOrder: categories.length + 1 });
 		setFormError("");
 		setSuccessMessage("");
 		setIsCreating(true);
@@ -259,7 +260,6 @@ const ProjectCategoriesPage = () => {
 
 			<Hero
 				metadata={{
-					// description: <Desc />,
 					description:
 						"Manage the categories used to classify projects in the portfolio.",
 					floatingTools: false,
@@ -299,6 +299,7 @@ const ProjectCategoriesPage = () => {
 					>
 						{successMessage}
 						<Button
+							type="button"
 							onClick={() => setSuccessMessage("")}
 							size="sm"
 							variant="outline"
@@ -315,6 +316,7 @@ const ProjectCategoriesPage = () => {
 					>
 						{error}
 						<Button
+							type="button"
 							onClick={() => setError("")}
 							variant="ghost"
 							size="sm"
@@ -327,17 +329,19 @@ const ProjectCategoriesPage = () => {
 				{(isCreating || editingCategory) && (
 					<div className="mb-6 border border-border bg-card/50 p-5 sm:p-6">
 						<div className="mb-5">
-							<div className="serial-number text-muted-foreground mb-1">
-								{editingCategory
-									? "// EDIT CATEGORY"
-									: "// NEW CATEGORY"}
-							</div>
-
-							<Heading level={3}>
-								{editingCategory
-									? "Edit Category"
-									: "Create Category"}
-							</Heading>
+							<SectionHeader
+								serial={
+									editingCategory
+										? "// EDIT CATEGORY"
+										: "// NEW CATEGORY"
+								}
+								title={
+									editingCategory
+										? "Edit Category"
+										: "Create Category"
+								}
+								align="left"
+							/>
 						</div>
 
 						<form onSubmit={handleSubmit} className="space-y-5">
@@ -383,9 +387,16 @@ const ProjectCategoriesPage = () => {
 							{formError && (
 								<div
 									role="alert"
-									className="border border-destructive/50 bg-destructive/5 p-3 text-sm text-destructive"
+									className="flex items-center justify-between border border-destructive/50 bg-destructive/5 p-3 text-sm text-destructive"
 								>
 									{formError}
+									<Button
+										onClick={() => setFormError("")}
+										variant="ghost"
+										size="sm"
+									>
+										<X />
+									</Button>
 								</div>
 							)}
 
@@ -461,7 +472,7 @@ const ProjectCategoriesPage = () => {
 											</div>
 
 											<div className="flex">
-												<button
+												<Button
 													type="button"
 													onClick={() =>
 														moveCategory(index, -1)
@@ -471,12 +482,13 @@ const ProjectCategoriesPage = () => {
 														!!actionId
 													}
 													aria-label={`Move ${category.name} up`}
-													className="border border-border p-1.5 disabled:cursor-not-allowed disabled:opacity-30 hover:border-primary"
+													size="sm"
+													variant="secondary"
 												>
 													<ArrowUp className="h-4 w-4" />
-												</button>
+												</Button>
 
-												<button
+												<Button
 													type="button"
 													onClick={() =>
 														moveCategory(index, 1)
@@ -487,10 +499,11 @@ const ProjectCategoriesPage = () => {
 																1 || !!actionId
 													}
 													aria-label={`Move ${category.name} down`}
-													className="border-y border-r border-border p-1.5 disabled:cursor-not-allowed disabled:opacity-30 hover:border-primary"
+													size="sm"
+													variant="secondary"
 												>
 													<ArrowDown className="h-4 w-4" />
-												</button>
+												</Button>
 											</div>
 										</div>
 
@@ -510,48 +523,51 @@ const ProjectCategoriesPage = () => {
 										</div>
 
 										<div>
-											<button
+											<Button
 												type="button"
 												onClick={() =>
 													toggleActive(category)
 												}
 												disabled={isBusy}
-												className={`px-3 py-1 text-xs font-medium border transition-colors ${
-													category.active
-														? "border-primary/40 bg-primary/5 text-primary"
-														: "border-border text-muted-foreground"
+												size="sm"
+												variant="outline"
+												className={` ${
+													category.active &&
+													"border-primary/40 bg-primary/5 text-primary"
 												}`}
 											>
 												{category.active
 													? "Active"
 													: "Inactive"}
-											</button>
+											</Button>
 										</div>
 
 										<div className="flex items-center gap-1">
-											<button
+											<Button
 												type="button"
 												onClick={() =>
 													openEditForm(category)
 												}
 												disabled={!!actionId}
 												aria-label={`Edit ${category.name}`}
-												className="border border-border p-2 hover:border-primary disabled:opacity-30"
+												size="sm"
+												variant="outline"
 											>
 												<Pencil className="h-4 w-4" />
-											</button>
+											</Button>
 
-											<button
+											<Button
 												type="button"
 												onClick={() =>
 													handleDelete(category)
 												}
 												disabled={isBusy}
 												aria-label={`Delete ${category.name}`}
-												className="border border-border p-2 hover:border-destructive hover:text-destructive disabled:opacity-30"
+												size="sm"
+												variant="destructive"
 											>
 												<Trash2 className="h-4 w-4" />
-											</button>
+											</Button>
 										</div>
 									</div>
 								);
