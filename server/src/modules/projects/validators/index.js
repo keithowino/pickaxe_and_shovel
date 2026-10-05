@@ -1,7 +1,4 @@
-export {
-	projectIdParamsSchema,
-	listProjectsQuerySchema,
-} from "./project.validators.js";
+export { listProjectsQuerySchema } from "./project.validators.js";
 
 export {
 	createProjectCategorySchema,

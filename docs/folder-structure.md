@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-10-02
+Generated on: 2026-10-05
 
 ```bash
 ├── client/
@@ -37,14 +37,16 @@ Generated on: 2026-10-02
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── pages/
 │   │   │   │   │   ├── AdminGateway.jsx
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── ProjectCategoriesPage.jsx
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── administration.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
-│   │   │   │   │   ├── administrationGitHub.js
-│   │   │   │   │   ├── administrationProjects.js
-│   │   │   │   │   └── index.js
+│   │   │   │   │   ├── github.settings.service.js
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── projects.category.service.js
+│   │   │   │   │   └── projects.crud.service.js
 │   │   │   │   └── index.js
 │   │   │   ├── gateway/
 │   │   │   │   ├── components/
@@ -69,7 +71,7 @@ Generated on: 2026-10-02
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
 │   │   │   │   │   ├── index.js
-│   │   │   │   │   └── projectServices.js
+│   │   │   │   │   └── project.services.js
 │   │   │   │   └── index.js
 │   │   │   ├── platform/
 │   │   │   │   ├── pages/
@@ -98,6 +100,9 @@ Generated on: 2026-10-02
 │   │   │   └── index.js
 │   │   ├── shared/
 │   │   │   ├── components/
+│   │   │   │   ├── communication/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── ShowToastMessage.jsx
 │   │   │   │   ├── marquee/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── skills.jsx
@@ -184,16 +189,6 @@ Generated on: 2026-10-02
 ├── scripts/
 │   └── generate-structure.js
 ├── server/
-│   ├── rest_tests/
-│   │   ├── admin/
-│   │   │   ├── github-settings.http
-│   │   │   ├── project-categories.http
-│   │   │   ├── project-settings.http
-│   │   │   └── system.http
-│   │   ├── auth/
-│   │   │   └── identity.http
-│   │   └── public/
-│   │       └── projects.http
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── bootstrap/
@@ -332,6 +327,7 @@ Generated on: 2026-10-02
 │   │   │   │   ├── email.schema.js
 │   │   │   │   ├── index.js
 │   │   │   │   ├── objectId.schema.js
+│   │   │   │   ├── paramsSchema.js
 │   │   │   │   ├── password.schema.js
 │   │   │   │   └── validateRequest.js
 │   │   │   └── index.js

@@ -1,5 +1,13 @@
-import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
-import { projectPresenter } from "../presenters/index.js";
+import {
+	AppError,
+	ErrorCodes,
+	HTTP_STATUS,
+	slugify,
+} from "../../../shared/index.js";
+import {
+	projectNavigationPresenter,
+	projectPresenter,
+} from "../presenters/index.js";
 import {
 	projectCategoryRepository,
 	projectRepository,
@@ -119,13 +127,95 @@ class ProjectService {
 		return projectPresenter.present(project);
 	}
 
+	async getProjectBySlug(slug, { includeUnpublished = false } = {}) {
+		const project = await projectRepository.findProjectBySlug(slug);
+
+		if (!project) {
+			return null;
+		}
+
+		if (!includeUnpublished && !project.published) {
+			return null;
+		}
+
+		return projectPresenter.present(project);
+	}
+
+	/**
+	 * Get the complete public context for a project detail page.
+	 *
+	 * The project itself is identified by its stable slug.
+	 * Previous/next navigation follows the canonical portfolio ordering.
+	 * Related projects are published projects from the same category,
+	 * excluding the current project and limited to three.
+	 */
+	async getProjectDetailBySlug(slug) {
+		const project = await projectRepository.findProjectBySlug(slug);
+
+		if (!project || !project.published) {
+			return null;
+		}
+
+		const orderedProjects =
+			await projectRepository.findPublishedProjectsForNavigation();
+
+		const currentIndex = orderedProjects.findIndex(
+			(item) => item._id.toString() === project._id.toString(),
+		);
+
+		const previousProject =
+			currentIndex > 0 ? orderedProjects[currentIndex - 1] : null;
+
+		const nextProject =
+			currentIndex >= 0 && currentIndex < orderedProjects.length - 1
+				? orderedProjects[currentIndex + 1]
+				: null;
+
+		const relatedProjects = orderedProjects
+			.filter(
+				(item) =>
+					item._id.toString() !== project._id.toString() &&
+					item.category?._id?.toString() ===
+						project.category?._id?.toString(),
+			)
+			.slice(0, 3);
+
+		return {
+			project: projectPresenter.present(project),
+
+			navigation: {
+				previous:
+					projectNavigationPresenter.presentNavigation(
+						previousProject,
+					),
+				next: projectNavigationPresenter.presentNavigation(nextProject),
+			},
+
+			relatedProjects:
+				projectNavigationPresenter.presentCollection(relatedProjects),
+		};
+	}
+
 	/**
 	 * Create a project.
 	 */
 	async createProject(projectData) {
 		await this.validateProjectCategory(projectData.category);
 
-		const project = await projectRepository.createProject(projectData);
+		const slug = slugify(projectData.name);
+
+		if (!slug) {
+			throw new AppError(
+				"A valid project name is required to generate a slug.",
+				HTTP_STATUS.BAD_REQUEST,
+				ErrorCodes.BAD_REQUEST,
+			);
+		}
+
+		const project = await projectRepository.createProject({
+			...projectData,
+			slug,
+		});
 
 		return projectPresenter.present(project);
 	}

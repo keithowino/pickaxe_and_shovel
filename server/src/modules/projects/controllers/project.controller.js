@@ -4,14 +4,13 @@ import {
 	error,
 	validateRequest,
 	HTTP_STATUS,
+	// projectIdParamsSchema,
+	projectSlugParamsSchema,
 } from "../../../shared/index.js";
 
 import { projectService } from "../services/index.js";
 
-import {
-	projectIdParamsSchema,
-	listProjectsQuerySchema,
-} from "../validators/index.js";
+import { listProjectsQuerySchema } from "../validators/index.js";
 
 const list = asyncHandler(async (req, res) => {
 	const { query } = validateRequest({ query: listProjectsQuerySchema }, req);
@@ -27,10 +26,27 @@ const getStats = asyncHandler(async (req, res) => {
 	return success(res, stats, "Project statistics retrieved successfully.");
 });
 
-const getById = asyncHandler(async (req, res) => {
-	const { params } = validateRequest({ params: projectIdParamsSchema }, req);
+// const getById = asyncHandler(async (req, res) => {
+// 	const { params } = validateRequest({ params: projectIdParamsSchema }, req);
 
-	const project = await projectService.getProjectById(params.projectId);
+// 	const project = await projectService.getProjectById(params.projectId);
+
+// 	if (!project) {
+// 		return error(res, "Project not found.", HTTP_STATUS.NOT_FOUND);
+// 	}
+
+// 	return success(res, project, "Project retrieved successfully.");
+// });
+
+// ---
+
+const getBySlug = asyncHandler(async (req, res) => {
+	const { params } = validateRequest(
+		{ params: projectSlugParamsSchema },
+		req,
+	);
+
+	const project = await projectService.getProjectDetailBySlug(params.slug);
 
 	if (!project) {
 		return error(res, "Project not found.", HTTP_STATUS.NOT_FOUND);
@@ -42,5 +58,6 @@ const getById = asyncHandler(async (req, res) => {
 export default {
 	list,
 	getStats,
-	getById,
+	// getById,
+	getBySlug,
 };

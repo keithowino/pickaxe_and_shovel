@@ -1,6 +1,7 @@
 import {
 	asyncHandler,
 	HTTP_STATUS,
+	projectIdParamsSchema,
 	success,
 	validateRequest,
 } from "../../../shared/index.js";
@@ -11,10 +12,7 @@ import {
 	gitHubSettings,
 } from "../services/index.js";
 
-import {
-	importRepositoriesBodySchema,
-	projectIdParamsSchema,
-} from "../validators/index.js";
+import { importRepositoriesBodySchema } from "../validators/index.js";
 
 class GitHubRepositoriesController {
 	/**

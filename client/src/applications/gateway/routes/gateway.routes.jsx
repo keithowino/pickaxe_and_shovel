@@ -4,6 +4,7 @@ import {
 	ContactPage,
 	HomePage,
 	PortfolioPage,
+	ProjectDetailPage,
 	ServicePage,
 } from "../pages/index.js";
 
@@ -26,6 +27,10 @@ const gatewayRoutes = [
 			{
 				path: "/portfolio",
 				element: <PortfolioPage />,
+			},
+			{
+				path: "/portfolio/:slug",
+				element: <ProjectDetailPage />,
 			},
 			{
 				path: "/contact",

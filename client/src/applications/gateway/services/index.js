@@ -1,6 +1,7 @@
 export {
 	fetchFeaturedProjects,
-	fetchProjectById,
+	fetchProjectBySlug,
+	// fetchProjectById,
 	fetchProjects,
 	fetchProjectsByCategory,
 	getProjectStats,

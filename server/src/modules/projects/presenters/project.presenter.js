@@ -10,6 +10,7 @@ class ProjectPresenter {
 			id: getId(project),
 			githubRepoId: project.githubRepoId ?? null,
 			name: project.name,
+			slug: project.slug,
 			description: project.description ?? "",
 			githubUrl: project.githubUrl ?? "",
 			liveUrl: project.liveUrl ?? "",

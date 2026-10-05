@@ -1,11 +1,11 @@
 @baseUrl = http://localhost:5000/api/v1
 # @adminCookie = YOUR_ADMIN_AUTH_COOKIE
-@adminCookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWJhYTQ0NWZiOWQ3Y2IyY2JkYjc5YWQiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uczE2MjlAZ21haWwuY29tIiwic2lkIjoiNmFjMTYxNGM2OTM0MDVmZDYzNDI5ZjQ0IiwiaWF0IjoxNzkxMDU4MjUyLCJleHAiOjE3OTExNDQ2NTIsImF1ZCI6InBpY2theGUtYW5kLXNob3ZlbC1jbGllbnQiLCJpc3MiOiJwaWNrYXhlLWFuZC1zaG92ZWwifQ.A-GrqWl71XDsEVRxyaSilPv_8QDNucNrK0wYNwmuark
+@adminCookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWJhYTQ0NWZiOWQ3Y2IyY2JkYjc5YWQiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uczE2MjlAZ21haWwuY29tIiwic2lkIjoiNmFjMmUyNGVjNDkzMDUwYzUyZThjN2IwIiwiaWF0IjoxNzkxMTU2ODE0LCJleHAiOjE3OTEyNDMyMTQsImF1ZCI6InBpY2theGUtYW5kLXNob3ZlbC1jbGllbnQiLCJpc3MiOiJwaWNrYXhlLWFuZC1zaG92ZWwifQ.XsrKKMc5JfpvM3pzfdwfXBPtBszWac2QeegjZ8ShiwI
 
-@projectIdA = 6ac13040cc829113f2b9cf71
+@projectIdA = 6ac2cf95d142a2a5324eb13f
 @projectIdB = 6abd1534ca1fbaf31b5dd5a6
 
-@categoryId = 6abfc02309273fe94ac01700
+@categoryId = 6ac12d93cc829113f2b9cf69
 
 ### Set project as unpublished
 
@@ -41,7 +41,7 @@ Cookie: accessToken={{adminCookie}}
     "primaryLanguage": "JavaScript",
     "techStack": ["React", "Node.js"],
     "topics": ["testing", "portfolio"],
-    "category": "6abfc04609273fe94ac01701",
+    "category": "{{categoryId}}",
     "pinned": false,
     "featured": false,
     "published": true
@@ -54,9 +54,14 @@ Content-Type: application/json
 Cookie: accessToken={{adminCookie}}
 
 {
-    "description": "Updated description for the Project API test.", 
-    "category": "6abfc02309273fe94ac01700"
+    "name": "R4 Hub Platform",
+    "description": "Updated description for the Project API test."
 }
+
+# {
+#     "description": "Updated description for the Project API test.", 
+#     "category": "{{projectIdA}}"
+# }
 
 ### 5. Delete a project
 
@@ -75,3 +80,8 @@ Cookie: accessToken={{adminCookie}}
     "{{projectIdB}}"
   ]
 }
+
+### 7. Retrieve unpublished project administratively
+
+GET {{baseUrl}}/admin/projects/{{projectIdA}}
+Cookie: accessToken={{adminCookie}}

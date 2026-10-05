@@ -1,5 +1,10 @@
 export { default as GatewayFooter } from "./GatewayFooter.jsx";
 export { default as GatewayHeader } from "./GatewayHeader.jsx";
+export { default as ProjectHero } from "./ProjectHero.jsx";
+export { default as ProjectNavigation } from "./ProjectNavigation.jsx";
+export { default as ProjectOverview } from "./ProjectOverview.jsx";
+export { default as ProjectStats } from "./ProjectStats.jsx";
+export { default as ProjectTechnology } from "./ProjectTechnology.jsx";
+export { default as RelatedProjects } from "./RelatedProjects.jsx";
 export { default as ProjectCard } from "./ProjectCard.jsx";
-export { default as ProjectModal } from "./ProjectModal.jsx";
 export { default as Timeline } from "./Timeline.jsx";

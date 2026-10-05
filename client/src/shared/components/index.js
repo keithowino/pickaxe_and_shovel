@@ -1,5 +1,6 @@
 export * from "./communication/index.js";
 export * from "./marquee/index.js";
+export * from "./notFound/index.js";
 
 export * from "./Loader.jsx";
 

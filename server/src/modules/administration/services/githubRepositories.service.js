@@ -1,4 +1,9 @@
-import { AppError, ErrorCodes, HTTP_STATUS } from "../../../shared/index.js";
+import {
+	AppError,
+	ErrorCodes,
+	HTTP_STATUS,
+	slugify,
+} from "../../../shared/index.js";
 import {
 	projectCategoryRepository,
 	projectPresenter,
@@ -83,9 +88,12 @@ class GitHubRepositoriesService {
 				continue;
 			}
 
+			const slug = slugify(repository.name);
+
 			const project = await projectRepository.createProject({
 				githubRepoId: repository.githubRepoId,
 				name: repository.name,
+				slug,
 				description: repository.description ?? "",
 				githubUrl: repository.githubUrl,
 				liveUrl: repository.liveUrl ?? "",

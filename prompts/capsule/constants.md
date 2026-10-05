@@ -21,3 +21,14 @@ Phase 1 — Backend Foundation (complete)
 Phase 2 — Project Domain Migration (Firebase removed)
 
 Phase 3 — Project Taxonomy (completed)
+
+Phase 4 — Portfolio Experience <- NOW
+
+## Categories
+
+API Build Tutorials
+Learning
+Collaborations
+Mechatronics
+Web Development
+Model Context Protocol

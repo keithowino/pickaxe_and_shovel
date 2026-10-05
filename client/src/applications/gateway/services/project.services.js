@@ -31,12 +31,29 @@ export const fetchProjects = async (options = {}) => {
 	}
 };
 
+// /**
+//  * Get a single published project by its MongoDB ID.
+//  */
+// export const fetchProjectById = async (projectId) => {
+// 	try {
+// 		const response = await apiRequest(`/projects/${projectId}`);
+
+// 		return response.data;
+// 	} catch (error) {
+// 		console.error("Error fetching project:", error);
+// 		throw error;
+// 	}
+// };
+
 /**
- * Get a single published project by its MongoDB ID.
+ * Get the complete public project-detail context.
+ *
+ * Includes the project itself, previous/next navigation,
+ * and related projects.
  */
-export const fetchProjectById = async (projectId) => {
+export const fetchProjectBySlug = async (slug) => {
 	try {
-		const response = await apiRequest(`/projects/${projectId}`);
+		const response = await apiRequest(`/projects/${slug}`);
 
 		return response.data;
 	} catch (error) {

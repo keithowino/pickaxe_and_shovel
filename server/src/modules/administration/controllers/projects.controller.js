@@ -2,16 +2,18 @@ import {
 	asyncHandler,
 	error,
 	HTTP_STATUS,
+	projectIdParamsSchema,
 	success,
 	validateRequest,
 } from "../../../shared/index.js";
+
 import {
 	createProjectBodySchema,
 	listProjectsQuerySchema,
-	projectIdParamsSchema,
 	reorderProjectsBodySchema,
 	updateProjectBodySchema,
 } from "../validators/index.js";
+
 import { administrationProjectsService } from "../services/index.js";
 
 const list = asyncHandler(async (req, res) => {

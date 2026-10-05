@@ -53,13 +53,6 @@ export const createProjectBodySchema = z
 export const updateProjectBodySchema = z.object(editableProjectFields).strict();
 
 /**
- * Validate a project ID route parameter.
- */
-export const projectIdParamsSchema = z.object({
-	projectId: objectIdSchema,
-});
-
-/**
  * Validate administrative project listing queries.
  */
 export const listProjectsQuerySchema = z.object({

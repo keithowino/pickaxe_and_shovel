@@ -50,6 +50,10 @@ export const findProjectById = async (projectId) => {
 	return Project.findById(projectId).populate(CATEGORY_POPULATE).lean();
 };
 
+export const findProjectBySlug = async (slug) => {
+	return Project.findOne({ slug }).populate(CATEGORY_POPULATE);
+};
+
 /**
  * Find a project using its GitHub repository ID.
  */
@@ -90,6 +94,24 @@ export const findAllProjectIds = async () => {
 	const projects = await Project.find().select("_id").lean();
 
 	return projects.map((project) => project._id.toString());
+};
+
+/**
+ * Find the published projects in the canonical portfolio order.
+ *
+ * This ordering is shared by the portfolio and project-detail navigation.
+ * Only fields needed for navigation and related-project discovery are loaded.
+ */
+export const findPublishedProjectsForNavigation = async () => {
+	return Project.find({ published: true })
+		.populate(CATEGORY_POPULATE)
+		.select("name slug thumbnailUrl category pinned displayOrder createdAt")
+		.sort({
+			pinned: -1,
+			displayOrder: 1,
+			createdAt: -1,
+		})
+		.lean();
 };
 
 /**

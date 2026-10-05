@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:5000/api/v1
-@projectId = 6abb7543c88738df83bdb61b
+@projectId = 6ac23b715417f6ff27f5479f
+@slug = project-api-test
 
 ### 1. Public: List published projects
 
@@ -24,3 +25,7 @@ GET {{baseUrl}}/projects/{{projectId}}
 ### 6. Public: Invalid project ID should fail validation
 
 GET {{baseUrl}}/projects/not-a-valid-id
+
+### 7. Get project by slug
+
+GET {{baseUrl}}/projects/{{slug}}

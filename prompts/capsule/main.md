@@ -109,131 +109,43 @@ Revamp v3 is intentionally being developed in stages.
 
 ### Phase 3 — Project Taxonomy (completed)
 
-- Define the project-category model.
-- Create category CRUD.
+### Phase 4 — Portfolio Experience (completed - SEO remaining)
 
-    Then the Admin can manage:
+#### Project detail page
 
-    ```text
-    Project Categories
+The proposed structure in the roadmap is good, but there is one important architectural distinction.
+The current Project data does not contain fields for:
 
-    01  Web Development
-    02  Frontend
-    03  Backend
-    04  Full Stack
-    05  Mobile
-    06  UI/UX
-    07  Experiments
+- problem
+- approach
+- key features
+- architecture
+- challenges & solutions
+- screenshots/gallery
+- project-specific editorial content
 
-    and also depending with what we decide
+#### SEO
 
-    08  Mechatronics
-    09  IoT
-    10  Robotics
-    11  Agentic Programming
-    ```
+Once the page is route-based, the existing:
 
-- Add category administration.
-- Add category ordering.
-- Add active/inactive state.
-- Update project references to use the managed taxonomy.
-- Update portfolio filtering.
-
-#### Implementation
-
-```text
-
-3.1 Define ProjectCategory model <- DONE
-    └── name
-    └── slug
-    └── description
-    └── displayOrder
-    └── active
-    └── timestamps
-
-3.2 Implement ProjectCategory CRUD <- DONE
-    └── repository
-    └── service
-    └── validators
-    └── presenter
-    └── controller
-    └── routes
-
-3.3 Add category administration <- DONE
-    └── Administration frontend
-        ├── category list
-        ├── create category
-        ├── edit category
-        ├── activate/deactivate
-        └── reorder categories
-
-3.4 Migrate Project.category <- DONE
-    └── String → ObjectId reference
-    └── migrate existing categories
-    └── update validation
-    └── update project CRUD
-
-3.5 Update GitHub/import/refresh behavior <- DONE
-    └── imported projects must receive a managed category
-    └── administrator overrides remain authoritative
-
-3.6 Update public Project presentation <- DONE
-    └── category name
-    └── category slug
-
-3.7 Update portfolio filtering <- DONE
-    └── filter by managed category
-    └── inactive categories excluded from public filtering
-
-3.8 REST testing
-
-3.9 Frontend administration
-
-3.10 Frontend portfolio filtering
+```jsx
+`<MetaDataInsert />`;
 ```
 
-### Phase 4 — Portfolio Experience
+can become project-specific.
 
-- Decide and implement project-detail route.
-- Introduce project slugs.
-- Design the project detail page.
-- Decide whether a lightweight preview modal remains.
-- Add related projects.
-- Add previous/next navigation.
-- Improve project media presentation.
-- Update SEO metadata.
-
-The project page could contain:
+Conceptually:
 
 ```text
-┌──────────────────────────────────────────────┐
-│ Project Hero                                 │
-│                                              │
-│ Pickaxe & Shovel                             │
-│ Portfolio / Full Stack                       │
-│                                              │
-│ [Live Project] [GitHub]                      │
-└──────────────────────────────────────────────┘
+<title>
+Pickaxe and Shovel | Portfolio
+</title>
 
-Overview
+description:
+A creator's development.
 
-The problem
-
-The approach
-
-Key features
-
-Technology stack
-
-Architecture / implementation
-
-Screenshots
-
-Challenges & solutions
-
-Related projects
-
-← Previous project       Next project →
+URL:
+https://pickaxe-and-shovel.vercel.app/portfolio/pickaxe-and-shovel
 ```
 
 ### Phase 5 — Administration Re-imagination
@@ -504,5 +416,11 @@ PATCH  /administration/projects/:projectId
 DELETE /administration/projects/:projectId
 PATCH  /administration/projects/order
 ```
+
+---
+
+The project model should have both description or overview and short description fields. This thought was brought upon the presence of the overview component.
+
+If i was not mistaken, i noticed the pagination taking effect both in the portfolios page and the admin's projects table component. Don't forget to configure the UI to facilitate the rendering of the next page.
 
 ---

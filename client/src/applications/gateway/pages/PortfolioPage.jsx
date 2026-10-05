@@ -10,7 +10,7 @@ import {
 	Text,
 } from "../../../shared/index.js";
 import { fetchProjects } from "../services/index.js";
-import { ProjectCard, ProjectModal } from "../components/index.js";
+import { ProjectCard } from "../components/index.js";
 import { fetchProjectCategories } from "../../administration/index.js";
 
 const ALL_CATEGORY = {
@@ -34,7 +34,6 @@ const PortfolioPage = () => {
 	const [error, setError] = useState(null);
 
 	const [category, setCategory] = useState(ALL_CATEGORY.slug);
-	const [selected, setSelected] = useState(null);
 
 	useEffect(() => {
 		loadProjects();
@@ -200,17 +199,11 @@ const PortfolioPage = () => {
 								key={project.id}
 								project={project}
 								index={index}
-								onClick={() => setSelected(project)}
 							/>
 						))}
 					</FeatureGrid>
 				)}
 			</PageSection>
-
-			<ProjectModal
-				project={selected}
-				onClose={() => setSelected(null)}
-			/>
 		</div>
 	);
 };

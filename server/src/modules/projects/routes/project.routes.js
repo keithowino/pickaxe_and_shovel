@@ -9,6 +9,12 @@ router.get("/", projectController.list);
 router.get("/stats", projectController.getStats);
 
 // Public project details
-router.get("/:projectId", projectController.getById);
+// router.get("/:projectId", projectController.getById);
+
+/**
+ * The ordering here matters because /stats must
+ * be matched before the dynamic /:slug route.
+ */
+router.get("/:slug", projectController.getBySlug);
 
 export default router;

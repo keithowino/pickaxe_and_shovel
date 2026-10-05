@@ -29,6 +29,11 @@ const parseResponse = async (response) => {
 		: response.text();
 };
 
+/**
+ * Wen i get the chance, i will have to look in to this
+ * because in some cases 'API request failed.' which is not
+ * user friendly or does not tell what actually happened.
+ */
 const createApiError = (response, data) => {
 	const error = new Error(
 		typeof data === "object" && data !== null
