@@ -12,18 +12,6 @@ let server;
 /**
  * Start the application.
  */
-// async function start() {
-// 	await database.connectDatabase();
-
-// 	app.listen(env.port, () => {
-// 		console.log(`🚀 Server listening on port ${env.port}`);
-// 	});
-// }
-
-// start().catch((error) => {
-// 	console.error("❌ Server startup failed:", error);
-// 	process.exit(1);
-// });
 async function start() {
 	try {
 		await database.connectDatabase();

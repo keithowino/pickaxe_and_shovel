@@ -6,6 +6,7 @@ import { success } from "../../shared/index.js";
 import {
 	administrationProjectsRoutes,
 	authRoutes,
+	contactRoutes,
 	githubRepositoriesRoutes,
 	githubSettingsRoutes,
 	projectCategoryRoutes,
@@ -42,5 +43,7 @@ router.use("/admin/projects", administrationProjectsRoutes);
 router.use("/projects", projectRoutes);
 
 router.use("/project-categories", projectCategoryRoutes);
+
+router.use("/contact", contactRoutes);
 
 export default router;

@@ -6,3 +6,5 @@ export {
 	fetchProjectsByCategory,
 	getProjectStats,
 } from "./project.services.js";
+
+export { submitMessage } from "./contact.service.js";

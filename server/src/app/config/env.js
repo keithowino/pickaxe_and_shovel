@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import { z } from "zod";
 
+import emailSchema from "../../shared/validation/email.schema.js";
+
 dotenv.config({
 	path: `.env.${process.env.NODE_ENV || "development"}`,
 });
@@ -35,7 +37,8 @@ const envSchema = z.object({
 		.string()
 		.min(32, "JWT_REFRESH_SECRET must be at least 32 characters."),
 
-	JWT_ACCESS_EXPIRES: z.string().default("15m"),
+	// JWT_ACCESS_EXPIRES: z.string().default("15m"),
+	JWT_ACCESS_EXPIRES: z.string().default("1d"),
 
 	JWT_REFRESH_EXPIRES: z.string().default("7d"),
 
@@ -49,6 +52,12 @@ const envSchema = z.object({
 			/^[0-9a-fA-F]{64}$/,
 			"GITHUB_TOKEN_ENCRYPTION_KEY must be a 32-byte hexadecimal key.",
 		),
+
+	RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required."),
+
+	CONTACT_NOTIFICATION_EMAIL: emailSchema,
+
+	RESEND_FROM_EMAIL: z.string().min(1, "RESEND_FROM_EMAIL is required."),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -86,5 +95,11 @@ export const env = {
 
 	github: {
 		tokenEncryptionKey: parsedEnv.data.GITHUB_TOKEN_ENCRYPTION_KEY,
+	},
+
+	email: {
+		resendApiKey: parsedEnv.data.RESEND_API_KEY,
+		contactNotificationEmail: parsedEnv.data.CONTACT_NOTIFICATION_EMAIL,
+		resendFromEmail: parsedEnv.data.RESEND_FROM_EMAIL,
 	},
 };

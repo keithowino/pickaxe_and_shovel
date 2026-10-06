@@ -1,0 +1,13 @@
+@baseUrl = http://localhost:5000/api/v1
+
+### Create contact message
+
+POST {{baseUrl}}/contact
+Content-Type: application/json
+
+{
+    "name": "Keith Owino",
+    "email": "test@example.com",
+    "subject": "Contact API test",
+    "message": "This is a test contact message submitted through the new Express APIs."
+}

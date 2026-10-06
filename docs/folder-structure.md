@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-10-05
+Generated on: 2026-10-06
 
 ```bash
 ├── client/
@@ -54,7 +54,11 @@ Generated on: 2026-10-05
 │   │   │   │   │   ├── GatewayHeader.jsx
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   ├── ProjectCard.jsx
-│   │   │   │   │   ├── ProjectModal.jsx
+│   │   │   │   │   ├── ProjectHero.jsx
+│   │   │   │   │   ├── ProjectNavigation.jsx
+│   │   │   │   │   ├── ProjectOverview.jsx
+│   │   │   │   │   ├── ProjectStats.jsx
+│   │   │   │   │   ├── RelatedProjects.jsx
 │   │   │   │   │   └── Timeline.jsx
 │   │   │   │   ├── layouts/
 │   │   │   │   │   ├── GatewayLayout.jsx
@@ -65,6 +69,7 @@ Generated on: 2026-10-05
 │   │   │   │   │   ├── HomePage.jsx
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   ├── PortfolioPage.jsx
+│   │   │   │   │   ├── ProjectDetailPage.jsx
 │   │   │   │   │   └── ServicePage.jsx
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── gateway.routes.jsx
@@ -106,6 +111,14 @@ Generated on: 2026-10-05
 │   │   │   │   ├── marquee/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── skills.jsx
+│   │   │   │   ├── notFound/
+│   │   │   │   │   ├── BadProjectRequest.jsx
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── templates/
+│   │   │   │   │   ├── email/
+│   │   │   │   │   │   ├── ContactMessage.jsx
+│   │   │   │   │   │   └── index.js
+│   │   │   │   │   └── index.js
 │   │   │   │   ├── index.js
 │   │   │   │   ├── Loader.jsx
 │   │   │   │   ├── LoadFeaturedProjects.jsx
@@ -171,6 +184,9 @@ Generated on: 2026-10-05
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── Text.jsx
 │   │   │   │   └── index.js
+│   │   │   ├── utils/
+│   │   │   │   ├── escapeHTML.js
+│   │   │   │   └── index.js
 │   │   │   └── index.js
 │   │   ├── App.jsx
 │   │   ├── index.css
@@ -228,6 +244,30 @@ Generated on: 2026-10-05
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── projects.validators.js
 │   │   │   │   └── index.js
+│   │   │   ├── contact/
+│   │   │   │   ├── controllers/
+│   │   │   │   │   ├── contact.controller.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── ContactMessage.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── presenters/
+│   │   │   │   │   ├── contact.message.presenter.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── repositories/
+│   │   │   │   │   ├── contact.repository.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── contact.routes.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── contact.notification.service.js
+│   │   │   │   │   ├── contact.service.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── validators/
+│   │   │   │   │   ├── contact.validators.js
+│   │   │   │   │   └── index.js
+│   │   │   │   └── index.js
 │   │   │   ├── identity/
 │   │   │   │   ├── constants/
 │   │   │   │   │   ├── index.js
@@ -281,6 +321,7 @@ Generated on: 2026-10-05
 │   │   │   │   │   └── ProjectCategory.js
 │   │   │   │   ├── presenters/
 │   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── project-navigation.presenter.js
 │   │   │   │   │   ├── project.presenter.js
 │   │   │   │   │   └── projectCategory.presenter.js
 │   │   │   │   ├── repositories/
@@ -306,7 +347,13 @@ Generated on: 2026-10-05
 │   │   │   └── seedUsers.js
 │   │   ├── shared/
 │   │   │   ├── constants/
+│   │   │   │   ├── contactMessageStatus.js
 │   │   │   │   ├── httpStatus.js
+│   │   │   │   └── index.js
+│   │   │   ├── email/
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── email.service.js
+│   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
 │   │   │   ├── errors/
 │   │   │   │   ├── appError.js

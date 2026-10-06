@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Mail, MapPin, Send, Loader2 } from "lucide-react";
-// import { base44 } from "@/api/base44Client";
 import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
-import { MetaDataInsert, supabase } from "../../../lib/index.js";
+import { MetaDataInsert } from "../../../lib/index.js";
 import {
 	Button,
 	FeatureGrid,
@@ -18,6 +17,7 @@ import {
 	platform,
 	SectionHeader,
 } from "../../../shared/index.js";
+import { submitMessage } from "../services/index.js";
 
 const heroTitle = () => {
 	return (
@@ -56,52 +56,11 @@ const ContactPage = () => {
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
-		// setStatus("loading");
-		// try {
-		//   await base44.entities.ContactMessage.create(form);
-		//   setStatus("success");
-		//   setForm({ name: "", email: "", subject: "", message: "" });
-		// } catch {
-		//   setStatus("error");
-		// }
 
 		setStatus("loading");
 
 		try {
-			const { error: dbError } = await supabase
-				.from("contact_messages")
-				.insert([form]);
-
-			if (dbError) throw dbError;
-
-			// 2. Trigger Edge Function (notification)
-			// const res = await fetch(
-			//   "https://amzeqyagftwisswqznze.functions.supabase.co/notify-contact",
-			//   {
-			//     method: "POST",
-			//     headers: {
-			//       "Content-Type": "application/json",
-			//     },
-			//     body: JSON.stringify(form),
-			//   },
-			// );
-
-			const res = await fetch(
-				"https://amzeqyagftwisswqznze.functions.supabase.co/notify-contact",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-						Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-					},
-					body: JSON.stringify(form),
-				},
-			);
-
-			if (!res.ok) {
-				throw new Error("Notification function failed");
-			}
+			await submitMessage(form);
 
 			setStatus("success");
 			setForm({ name: "", email: "", subject: "", message: "" });

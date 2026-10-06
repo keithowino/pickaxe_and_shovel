@@ -424,3 +424,69 @@ The project model should have both description or overview and short description
 If i was not mistaken, i noticed the pagination taking effect both in the portfolios page and the admin's projects table component. Don't forget to configure the UI to facilitate the rendering of the next page.
 
 ---
+
+## Contact
+
+### Target Architecture
+
+The new flow should be:
+
+```text
+ContactPage.jsx
+      │
+      │ POST /api/v1/contact
+      ▼
+Contact Route
+      │
+      ▼
+Contact Controller
+      │
+      ▼
+Contact Service
+      │
+      ├──────────────► Contact Repository
+      │                       │
+      │                       ▼
+      │                   MongoDB
+      │
+      └──────────────► Email Service
+                              │
+                              ▼
+                           Resend
+```
+
+### Implementation Sequence
+
+Step 1 — Backend domain foundation
+
+Step 2 — Email infrastructure
+
+- Create a small backend email service around Resend.
+- Add the required server-side environment configuration.
+- The contact domain should depend on the email abstraction rather than directly scattering fetch("https://api.resend.com/...") throughout controllers.
+
+Step 3 — API endpoint
+
+Step 4 — Server validation
+
+Step 5 — REST testing
+
+Step 6 — Frontend migration
+
+### One Deliberate Scope Boundary
+
+I would not implement these in Phase 7:
+
+```text
+Admin contact inbox
+Contact message search
+Read/unread UI
+Reply workflow
+Archive/delete UI
+Contact analytics
+Blog management
+Administration redesign
+SEO work
+```
+
+---

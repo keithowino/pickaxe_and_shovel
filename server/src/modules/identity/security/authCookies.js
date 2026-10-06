@@ -1,4 +1,5 @@
-import { env } from "../../../app/index.js";
+// import { env } from "../../../app/index.js";
+import { env } from "../../../app/config/env.js";
 
 import { AUTH_COOKIE_NAMES } from "../constants/index.js";
 

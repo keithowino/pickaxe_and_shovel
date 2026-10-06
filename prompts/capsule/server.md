@@ -59,3 +59,7 @@ authService
 | Project persistence       | `projects`       | `projects`       |
 
 ---
+
+If you don't currently own a custom domain, we don't need to stop the migration. We can continue development/testing with onboarding@resend.dev, and configure the authenticated domain later.
+
+---
