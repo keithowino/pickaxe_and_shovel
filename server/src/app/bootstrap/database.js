@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import { env } from "../config/index.js";
 
-// db.products.dropIndex("business_1_name_1");
-// db.products.getIndexes();
-
 /**
+ * db.products.dropIndex("business_1_name_1");
+ * db.products.getIndexes();
+ *
  * #### States
  *
  * 0 = disconnected

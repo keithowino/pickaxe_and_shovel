@@ -8,13 +8,6 @@ import { authService } from "../services/index.js";
 
 import { setAuthCookies, clearAuthCookies } from "../security/index.js";
 
-// We no longer need a refreshRequestSchema because refresh tokens are coming from cookies.
-
-// import {
-// 	loginRequestSchema,
-// 	refreshRequestSchema,
-// } from "../validators/index.js";
-
 import { loginRequestSchema } from "../validators/index.js";
 import { userPresenter } from "../presenters/index.js";
 

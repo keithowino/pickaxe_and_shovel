@@ -322,7 +322,6 @@ export default function ProjectsTable({ onDelete, refreshKey }) {
 											className={SELECT_CLASS}
 										>
 											{categories.map((c) => (
-												// <option key={c.name}>
 												<option
 													key={c.name}
 													value={c.id}

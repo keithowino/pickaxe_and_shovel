@@ -20,15 +20,12 @@ export default function LoadFeaturedProjects() {
 
 	const loadFeaturedProjects = async () => {
 		try {
-			// First try to get featured projects
 			let featured = await fetchFeaturedProjects();
 
-			// If no featured projects, get the 3 most recent projects
 			if (featured.length === 0) {
 				const allProjects = await fetchProjects();
 				featured = allProjects.slice(0, 3);
 			} else {
-				// Limit to 3 featured projects
 				featured = featured.slice(0, 3);
 			}
 

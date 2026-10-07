@@ -32,7 +32,9 @@ app.use("/api/v1", routes);
 
 app.use(notFound);
 
-// app.use(uploadErrorHandler);
+/**
+ * app.use(uploadErrorHandler);
+ */
 
 app.use(errorHandler);
 

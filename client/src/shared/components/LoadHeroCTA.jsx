@@ -12,7 +12,6 @@ const LoadHeroCTA = ({ callToAction }) => {
 				to={intent?.to}
 				onClick={intent?.onClick}
 				className={[intent.className].join(" ")}
-				// size="lg"
 				fullWidthMobile
 			>
 				{intent.redirect === "back" && (

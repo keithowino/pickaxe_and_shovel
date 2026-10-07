@@ -223,7 +223,7 @@ Unread                 3
 - Test all major pages after the layout changes.
 - Remove component-specific CSS workarounds where the shared layout system should solve the problem.
 
-### Phase 7 — Contact Migration
+### Phase 7 — Contact Migration (covered)
 
 - Move contact submission from Supabase Edge Functions to the Express API.
 - Validate contact requests server-side.
@@ -271,18 +271,7 @@ Blog
 
 This makes the Blog a natural extension of the new administration system rather than an isolated feature.
 
-### Phase 9 — Legacy Removal
-
-After all functionality has been migrated and verified:
-
-- Remove Firebase configuration.
-- Remove Firebase project services.
-- Remove Firebase dependencies.
-- Remove Supabase client.
-- Remove Supabase Edge Functions.
-- Remove obsolete environment variables.
-- Remove obsolete test pages and migration code.
-- Verify the application contains no accidental legacy dependencies.
+### Phase 9 — Legacy Removal (completed)
 
 ### Phase 10 — Production Hardening
 
@@ -426,52 +415,6 @@ If i was not mistaken, i noticed the pagination taking effect both in the portfo
 ---
 
 ## Contact
-
-### Target Architecture
-
-The new flow should be:
-
-```text
-ContactPage.jsx
-      │
-      │ POST /api/v1/contact
-      ▼
-Contact Route
-      │
-      ▼
-Contact Controller
-      │
-      ▼
-Contact Service
-      │
-      ├──────────────► Contact Repository
-      │                       │
-      │                       ▼
-      │                   MongoDB
-      │
-      └──────────────► Email Service
-                              │
-                              ▼
-                           Resend
-```
-
-### Implementation Sequence
-
-Step 1 — Backend domain foundation
-
-Step 2 — Email infrastructure
-
-- Create a small backend email service around Resend.
-- Add the required server-side environment configuration.
-- The contact domain should depend on the email abstraction rather than directly scattering fetch("https://api.resend.com/...") throughout controllers.
-
-Step 3 — API endpoint
-
-Step 4 — Server validation
-
-Step 5 — REST testing
-
-Step 6 — Frontend migration
 
 ### One Deliberate Scope Boundary
 

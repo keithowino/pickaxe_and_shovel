@@ -34,7 +34,6 @@ The project is being developed with a focus on maintainability, clear frontend/b
 - [Administration](#administration)
 - [Portfolio and Project Pages](#portfolio-and-project-pages)
 - [Blog](#blog)
-- [Migration from Firebase and Supabase](#migration-from-firebase-and-supabase)
 - [Testing](#testing)
 - [Linting and Code Quality](#linting-and-code-quality)
 - [Git Workflow](#git-workflow)
@@ -120,14 +119,10 @@ During the migration, the application may temporarily contain both legacy server
 
 The following features are part of the Revamp v3 direction and may be implemented incrementally:
 
-- Dedicated project detail pages
-- Project slugs and shareable URLs
 - Project pagination
 - Project filtering and search
 - Explicit project ordering/positioning
 - Featured and pinned projects
-- Editable project categories
-- Category administration
 - Expanded administration dashboard
 - Site/content settings
 - Media management
@@ -139,10 +134,6 @@ The following features are part of the Revamp v3 direction and may be implemente
 - Project analytics/statistics
 - Audit logging
 - Improved authentication and authorization
-- Server-side contact email delivery
-- Removal of Firebase
-- Removal of Supabase Edge Functions
-- Production deployment of the Node.js API and MongoDB-backed application
 
 ---
 
@@ -172,6 +163,7 @@ The following features are part of the Revamp v3 direction and may be implemente
 - Multer
 - Cloudinary
 - ua-parser-js
+- Resend
 
 ### Development
 
@@ -179,53 +171,6 @@ The following features are part of the Revamp v3 direction and may be implemente
 - GitHub
 - VS Code
 - Nodemon
-
-### Legacy / Migration Components
-
-The current codebase still contains legacy integrations that are being migrated:
-
-- Firebase Authentication
-- Firebase Firestore
-- Supabase
-- Supabase Edge Functions
-- Resend integration through the Supabase contact function
-
-These should not be treated as the target architecture for v3.
-
----
-
-## Architecture
-
-The target architecture is a client/server application:
-
-```text
-┌─────────────────────────────┐
-│           Client            │
-│      React + Vite           │
-│                             │
-│ Pages / Components / UI     │
-└──────────────┬──────────────┘
-               │ HTTP / JSON
-               ▼
-┌─────────────────────────────┐
-│           Server            │
-│      Node.js + Express      │
-│                             │
-│ Routes                      │
-│ Controllers                 │
-│ Services                    │
-│ Repositories                │
-│ Validators                  │
-│ Models                      │
-└──────────────┬──────────────┘
-               │
-        ┌──────┴───────┐
-        ▼              ▼
-   MongoDB          Cloudinary
-   Database         Media Storage
-```
-
-The backend should become the authoritative application boundary. The React client should communicate with application data through the API rather than directly accessing MongoDB, Firebase, Supabase, or privileged third-party services.
 
 ---
 
@@ -438,7 +383,12 @@ Expected response:
 ```json
 {
 	"success": true,
-	"message": "API is healthy"
+	"message": "API is healthy.",
+	"data": {
+		"status": "healthy",
+		"api": "up",
+		"database": "connected"
+	}
 }
 ```
 
@@ -538,27 +488,24 @@ Database credentials should never be placed in frontend environment variables.
 The repository is organized into separate frontend and backend applications.
 
 ```text
-pickaxe_and_shovel/
-│
 ├── client/
 │   ├── src/
 │   │   ├── app/
+│   │   │   ├── config/
+│   │   │   ├── providers/
+│   │   │   ├── router/
 │   │   ├── applications/
 │   │   │   ├── administration/
 │   │   │   ├── gateway/
-│   │   │   └── platform/
+│   │   │   ├── platform/
 │   │   ├── lib/
-│   │   ├── platform/
-│   │   ├── services/
+│   │   │   ├── context/
+│   │   │   ├── apiClient.js
+│   │   │   ├── index.js
+│   │   │   └── MetaDataInsert.jsx
 │   │   ├── shared/
-│   │   ├── App.jsx
-│   │   ├── index.css
-│   │   └── main.jsx
-│   ├── .env.development
-│   ├── .env.production
-│   ├── package.json
-│   └── vite.config.js
-│
+│   │   └── ...
+│   └── ...
 ├── server/
 │   ├── src/
 │   │   ├── app/
@@ -566,20 +513,18 @@ pickaxe_and_shovel/
 │   │   │   ├── config/
 │   │   │   ├── routes/
 │   │   │   ├── app.js
+│   │   │   ├── index.js
 │   │   │   └── server.js
+│   │   ├── modules/
+│   │   │   ├── administration/
+│   │   │   ├── contact/
+│   │   │   ├── identity/
+│   │   │   ├── projects/
+│   │   │   └── index.js
 │   │   ├── shared/
 │   │   └── index.js
-│   ├── .env.development
-│   ├── .env.production
-│   └── package.json
-│
-├── supabase/
-│   └── functions/
-│       └── notify-contact/
-│
-├── .gitignore
-├── package.json
-└── README.md
+│   └── ...
+└── ...
 ```
 
 ### Domain-Oriented Structure
@@ -652,7 +597,7 @@ Exact endpoints should be defined when each domain is implemented.
 
 ## Data and Content Model
 
-The application is moving toward explicit content models rather than treating Firestore documents as the implicit schema.
+The application is moving toward explicit content models.
 
 ### Projects
 
@@ -661,7 +606,8 @@ A project should eventually support concepts such as:
 ```text
 title
 slug
-description
+description/ overview
+short description
 content
 category
 technologies
@@ -733,23 +679,18 @@ The planned direction is:
 /portfolio/<project-slug>
 ```
 
-A project detail page can provide:
+A project detail page would come to provide:
 
 - Project overview
 - Problem/context
 - Solution
-- Technologies used
 - Screenshots/media
 - Key features
 - Architecture or implementation notes where appropriate
 - GitHub repository
 - Live application
 - Related projects
-- Project category
 - Project metadata
-- Navigation to previous/next projects
-
-The existing modal may remain useful as a lightweight preview, but the detailed project experience should not be constrained by a modal.
 
 ---
 
@@ -773,48 +714,6 @@ A future blog system may support:
 - Related posts
 
 The blog should be introduced only after the content-management foundations are sufficiently stable.
-
----
-
-## Migration from Firebase and Supabase
-
-The migration is intended to replace direct client-side/serverless data handling with the dedicated backend.
-
-### Legacy
-
-```text
-React
- │
- ├── Firebase Auth
- ├── Firebase Firestore
- └── Supabase Edge Function
-```
-
-### Target
-
-```text
-React
- │
- ▼
-Express API
- │
- ├── Authentication
- ├── Authorization
- ├── Project services
- ├── Content services
- ├── Contact services
- └── Other application domains
- │
- ├── MongoDB
- ├── Cloudinary
- └── Email provider
-```
-
-Migration should happen feature-by-feature.
-
-Do not remove Firebase or Supabase merely because MongoDB has been introduced. Remove each legacy integration only after its responsibilities have been migrated and tested.
-
----
 
 ## Testing
 

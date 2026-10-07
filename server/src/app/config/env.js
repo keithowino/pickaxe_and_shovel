@@ -12,7 +12,9 @@ const envSchema = z.object({
 		.enum(["development", "production", "test"])
 		.default("development"),
 
-	// Environment variables arrive as strings hence the `z.coerce.number()`.
+	/**
+	 * Environment variables arrive as strings hence the `z.coerce.number()`.
+	 */
 	PORT: z.coerce.number().int().positive().default(5000),
 
 	MONGODB_URI: z.string().min(1, "MONGODB_URI is required."),

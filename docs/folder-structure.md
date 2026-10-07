@@ -1,6 +1,6 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-10-06
+Generated on: 2026-10-07
 
 ```bash
 ├── client/
@@ -75,6 +75,7 @@ Generated on: 2026-10-06
 │   │   │   │   │   ├── gateway.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
+│   │   │   │   │   ├── contact.service.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.services.js
 │   │   │   │   └── index.js
@@ -94,8 +95,7 @@ Generated on: 2026-10-06
 │   │   │   │   └── ThemeContext.jsx
 │   │   │   ├── apiClient.js
 │   │   │   ├── index.js
-│   │   │   ├── MetaDataInsert.jsx
-│   │   │   └── supabase.js
+│   │   │   └── MetaDataInsert.jsx
 │   │   ├── platform/
 │   │   │   ├── routing/
 │   │   │   │   ├── components/
@@ -384,24 +384,6 @@ Generated on: 2026-10-06
 │   ├── .env.production
 │   ├── .gitignore
 │   └── package.json
-├── supabase/
-│   ├── .temp/
-│   │   ├── cli-latest
-│   │   ├── gotrue-version
-│   │   ├── linked-project.json
-│   │   ├── pooler-url
-│   │   ├── postgres-version
-│   │   ├── project-ref
-│   │   ├── rest-version
-│   │   ├── storage-migration
-│   │   └── storage-version
-│   ├── functions/
-│   │   └── notify-contact/
-│   │       ├── .npmrc
-│   │       ├── deno.json
-│   │       └── index.ts
-│   ├── .gitignore
-│   └── config.toml
 ├── .gitignore
 ├── package.json
 └── README.md

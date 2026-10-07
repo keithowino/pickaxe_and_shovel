@@ -68,7 +68,6 @@ const PortfolioPage = () => {
 		);
 	}, [projects, category]);
 
-	// Retry button handler
 	const handleRetry = () => {
 		loadProjects();
 	};

@@ -32,7 +32,11 @@ function GatewayActions() {
 
 export default function GatewayHeader() {
 	const { user } = useAuth();
-	// let user = true; // Placeholder for user authentication state
+	/**
+	 * #### Placeholder
+	 *
+	 * let user = true;
+	 */
 
 	const refs = user
 		? [...BASE_LINKS, { to: "/admin", label: "Admin" }]

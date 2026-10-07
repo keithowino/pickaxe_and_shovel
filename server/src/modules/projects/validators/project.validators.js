@@ -1,5 +1,4 @@
 import { z } from "zod";
-// import { objectIdSchema } from "../../../shared/index.js";
 import objectIdSchema from "../../../shared/validation/objectId.schema.js";
 
 export const listProjectsQuerySchema = z.object({

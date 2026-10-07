@@ -184,15 +184,6 @@ const AdminGateway = () => {
 				}}
 			/>
 
-			{/* <div className="flex justify-end">
-				<Link
-					to="/admin/categories"
-					className="inline-flex items-center gap-2 border border-border px-4 py-2.5 text-sm font-medium hover:border-primary transition-colors"
-				>
-					Manage Project Categories →
-				</Link>
-			</div> */}
-
 			<PageSection className="!pt-0 space-y-4 sm:space-y-6">
 				<GitHubConnect />
 				<RepoList

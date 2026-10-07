@@ -1,13 +1,11 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../../lib/index.js";
-import { Loader2 } from "lucide-react";
-
-// import useAuthenticatedRoute from "../hooks/useAuthenticatedRoute";
+import { Loader } from "../../../shared/index.js";
 
 const DefaultFallback = () => (
-	<div className="fixed inset-0 flex items-center justify-center bg-background">
-		<Loader2 className="h-8 w-8 animate-spin text-primary" />
-	</div>
+	<>
+		<Loader type="page" />
+	</>
 );
 
 const UnauthorizedAccess = () => (
@@ -48,9 +46,13 @@ export default function AuthenticatedRoute({
 		user,
 	} = useAuth();
 
-	// const isLoadingAuth = false; // placeholder
-	// const authError = true; // placeholder
-	// const isAuthenticated = false; // placeholder
+	/**
+	 * #### Placeholder
+	 *
+	 * const isLoadingAuth = false;
+	 * const authError = true;
+	 * const isAuthenticated = false;
+	 */
 
 	const location = useLocation();
 
@@ -62,7 +64,6 @@ export default function AuthenticatedRoute({
 		return <UnauthorizedAccess />;
 	}
 
-	// 👇 NEW: If not authenticated and we want to show login screen
 	if (!isAuthenticated && showLoginScreen) {
 		return <Outlet context={{ showLogin: true }} />;
 	}

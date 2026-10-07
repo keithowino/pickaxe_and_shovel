@@ -32,8 +32,10 @@ const Hero = ({ metadata }) => {
 	const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 90]);
 	const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -90]);
 
-	// Full-bleed hero only for the flagship (homepage-style) variant;
-	// sub-page "spec sheet" heroes take only as much room as their content needs.
+	/**
+	 * Full-bleed hero only for the flagship (homepage-style) variant;
+	 * sub-page "spec sheet" heroes take only as much room as their content needs.
+	 */
 	const heightClass = floatingTools
 		? "min-h-[100svh]"
 		: "min-h-[55svh] sm:min-h-[60svh] lg:min-h-[65svh]";

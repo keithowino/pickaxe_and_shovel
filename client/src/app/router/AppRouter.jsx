@@ -17,7 +17,6 @@ export function AppRouter() {
 				pauseOnFocusLoss
 				draggable
 				pauseOnHover
-				// className="bg-red-700"
 				theme="colored"
 			/>
 		</BrowserRouter>
