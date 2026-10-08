@@ -1,8 +1,6 @@
 # Pickaxe & Shovel
 
-> **Pickaxe & Shovel Revamp v3** — the ongoing evolution of the Pickaxe & Shovel portfolio and professional web platform.
-
-Pickaxe & Shovel is a professional portfolio and digital presence platform for showcasing projects, services, technical work, and selected content. Revamp v3 is transitioning the application from a predominantly serverless Firebase/Supabase implementation to a dedicated Express/Node.js backend backed by MongoDB.
+Pickaxe & Shovel is a professional portfolio and digital presence platform for showcasing projects, services, technical work, selected content and educate it's visitors on my personal development and interactions with my environment as a living creature and a software/ mechatronics engineer `wannabe`.
 
 The project is being developed with a focus on maintainability, clear frontend/backend boundaries, administrator control, scalable content management, and a stronger foundation for future features such as blogging and richer project pages.
 

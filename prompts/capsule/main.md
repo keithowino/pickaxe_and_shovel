@@ -433,3 +433,26 @@ SEO work
 ```
 
 ---
+
+# The Blog Page
+
+### What is a Blog Page?
+
+A blog page is a part of a website where articles, stories, tutorials, or updates are published frequently. Posts are usually displayed with the newest content first, making it easy for readers to access the latest information. Blogs serve multiple purposes, including self-expression, building community, improving writing skills, promoting businesses, and even generating revenue through ads or affiliate marketing
+
+The lates blog could be introduced at the homepage as well.
+
+### Why it matters for your specific site
+
+Your stated intent is "showcase, advertise, and/or educate visitors on my personal development and interactions with my environment as a living creature and a software/mechatronics engineer wannabe."
+
+That sentence is already a blog thesis. A portfolio shows finished artifacts. A blog shows the thinking, the journey, the why behind the artifact. For a mechatronics/software engineer in training, the blog is where you demonstrate:
+
+- Judgment and reasoning — why you chose X over Y.
+- Depth beyond the resume — a project card says "built a thing"; a post says "here's what I learned building it, here's what I'd do differently."
+- Continuity — showing growth over months/years, which is precisely what "wannabe → engineer" narratives need.
+- SEO surface area — long-form text is what search engines index; a portfolio of images and cards is not. A blog is how a stranger on Google finds you.
+
+For your future categories (Mechatronics, Agentic Programming, MCP integration), a blog is also the natural place to publish learn-in-public notes — the kind of content that ages well and demonstrates competence before you have a finished project to show.
+
+---
