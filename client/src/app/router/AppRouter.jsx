@@ -1,13 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
 import RouterConfiguration from "./RouteConfiguration";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ScrollToTop } from "../../shared/index.js";
 
 export function AppRouter() {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<RouterConfiguration />
-			<ToastContainer
+			{/* <ToastContainer
 				position="top-right"
 				autoClose={5000}
 				hideProgressBar={false}
@@ -18,7 +20,7 @@ export function AppRouter() {
 				draggable
 				pauseOnHover
 				theme="colored"
-			/>
+			/> */}
 		</BrowserRouter>
 	);
 }

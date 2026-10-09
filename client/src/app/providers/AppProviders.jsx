@@ -7,13 +7,20 @@
  * - Localization
  */
 import { HelmetProvider } from "react-helmet-async";
-import { AuthProvider, ThemeProvider } from "../../lib/index.js";
+import {
+	AuthProvider,
+	ThemeProvider,
+	queryClientInstance,
+} from "../../lib/index.js";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 export function AppProviders({ children }) {
 	return (
 		<AuthProvider>
 			<HelmetProvider>
-				<ThemeProvider>{children}</ThemeProvider>
+				<QueryClientProvider client={queryClientInstance}>
+					<ThemeProvider>{children}</ThemeProvider>
+				</QueryClientProvider>
 			</HelmetProvider>
 		</AuthProvider>
 	);

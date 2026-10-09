@@ -6,6 +6,7 @@ import { success } from "../../shared/index.js";
 import {
 	administrationProjectsRoutes,
 	authRoutes,
+	blogPostsRoutes,
 	contactRoutes,
 	githubRepositoriesRoutes,
 	githubSettingsRoutes,
@@ -39,6 +40,7 @@ router.use("/auth", authRoutes);
 router.use("/admin/github", githubSettingsRoutes);
 router.use("/admin/github/repositories", githubRepositoriesRoutes);
 router.use("/admin/projects", administrationProjectsRoutes);
+router.use("/admin/blog-posts", blogPostsRoutes);
 
 router.use("/projects", projectRoutes);
 

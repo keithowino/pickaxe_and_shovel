@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:5000/api/v1
+# @adminCookie = YOUR_ADMIN_AUTH_COOKIE
+@adminCookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWJhYTQ0NWZiOWQ3Y2IyY2JkYjc5YWQiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uczE2MjlAZ21haWwuY29tIiwic2lkIjoiNmFjODg4Yjk4MmRiNDdjZDY2NGRmMTI2IiwiaWF0IjoxNzkxNTI3MDk3LCJleHAiOjE3OTE2MTM0OTcsImF1ZCI6InBpY2theGUtYW5kLXNob3ZlbC1jbGllbnQiLCJpc3MiOiJwaWNrYXhlLWFuZC1zaG92ZWwifQ.4PH-YuHXQUhs9Dzslk6DVHCF0bnsRs-fihTHM6dA8UQ
+
+@categoryId = 6ac12d93cc829113f2b9cf69
+
+### create post
+
+POST {{baseUrl}}/admin/blog-posts/create
+Content-Type: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+    "title": "Post API Test", 
+    "slug": "post-api-test",
+    "excerpt": "e",
+    "content": "Open-loop commutation gets a motor spinning, but it teaches you nothing about what the motor is *actually* doing. The moment you ask it to hold a position under load, the illusion breaks.", 
+    "coverImageUrl": "https://tse2.mm.bing.net/th/id/OIP.7cRYFyLoDEDh4sRtM73vvwHaDg?r=0&rs=1&pid=ImgDetMain&o=7&rm=3", 
+    "category": "{{categoryId}}"
+}
+

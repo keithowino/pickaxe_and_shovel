@@ -1,3 +1,5 @@
+export { fetchAdminBlogPosts } from "./blog.crud.service.js";
+
 export {
 	disconnectGitHub,
 	getGitHubRepositories,
