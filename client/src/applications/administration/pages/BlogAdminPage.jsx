@@ -1,4 +1,5 @@
 import { Hero, LoadHeroTitle, PageSection } from "../../../shared/index.js";
+import { PostsTable } from "../components/index.js";
 
 const BlogAdminPage = () => {
 	return (
@@ -22,7 +23,9 @@ const BlogAdminPage = () => {
 				}}
 			/>
 
-			<PageSection>{/* <PostsTable /> */}</PageSection>
+			<PageSection>
+				<PostsTable />
+			</PageSection>
 		</>
 	);
 };

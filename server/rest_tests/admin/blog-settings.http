@@ -6,7 +6,7 @@
 
 ### create post
 
-POST {{baseUrl}}/admin/blog-posts/create
+POST {{baseUrl}}/admin/blog/create
 Content-Type: application/json
 Cookie: accessToken={{adminCookie}}
 

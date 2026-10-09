@@ -16,7 +16,6 @@ const create = asyncHandler(async (req, res) => {
 	);
 
 	const result = await blogPostService.create(body);
-	// const result = await blogPostService.create(req.body);
 
 	return success(
 		res,

@@ -1,12 +1,9 @@
 import { apiRequest } from "../../../lib/index.js";
 
- */
 export const createBlogPost = async (payload) => {
-	const response = await apiRequest("/admin/blog", {
+	const response = await apiRequest("/admin/blog/create", {
 		method: "POST",
-		body: {
-			payload,
-		},
+		body: payload,
 	});
 
 	return response.data;
@@ -23,9 +20,7 @@ export const fetchAdminBlogPosts = async (params = {}) => {
 
 	const query = searchParams.toString();
 
-	const response = await apiRequest(
-		`/admin/blog-posts${query ? `?${query}` : ""}`,
-	);
+	const response = await apiRequest(`/admin/blog${query ? `?${query}` : ""}`);
 
 	return response.data;
 };

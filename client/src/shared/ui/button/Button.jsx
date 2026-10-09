@@ -1,5 +1,6 @@
-import clsx from "clsx";
-import { buttonVariants, buttonSizes, buttonLayouts } from "./button.styles.js";
+import { buttonLayouts, buttonVariants, buttonSize } from "./button.styles.js";
+import { cn } from "../../../lib/index.js";
+// import { cva } from "class-variance-authority";
 
 export default function Button({
 	as: Component = "button",
@@ -12,12 +13,12 @@ export default function Button({
 }) {
 	return (
 		<Component
-			className={clsx(
+			className={cn(
 				"inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.98]",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 				"disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100",
 				buttonVariants[variant],
-				buttonSizes[size],
+				buttonSize[size],
 				fullWidthMobile && buttonLayouts.responsive,
 				className,
 			)}

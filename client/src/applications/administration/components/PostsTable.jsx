@@ -1,33 +1,34 @@
 import { useEffect, useState } from "react";
 // import { base44 } from "@/api/base44Client";
 import { Loader2, Pencil, Trash2, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
-import { Image } from "@/components/ui/image";
-import PostEditor from "./PostEditor";
-import { formatDate, isScheduled } from "@/lib/blogUtils";
+import { Button, toast } from "../../../shared/index.js";
+import PostEditor from "./PostEditor.jsx";
+import { createBlogPost } from "../services/index.js";
+// import { toast } from "@/components/ui/use-toast";
+// import { Image } from "@/components/ui/image";
+// import { formatDate, isScheduled } from "@/lib/blogUtils";
 
-function renderStatus(post) {
-	if (isScheduled(post)) {
-		return (
-			<span className="serial-number border border-primary/40 text-primary px-2 py-1">
-				SCHEDULED
-			</span>
-		);
-	}
-	if (post.status === "published") {
-		return (
-			<span className="serial-number border border-secondary/40 text-secondary px-2 py-1">
-				PUBLISHED
-			</span>
-		);
-	}
-	return (
-		<span className="serial-number border border-border text-muted-foreground px-2 py-1">
-			DRAFT
-		</span>
-	);
-}
+// function renderStatus(post) {
+// 	if (isScheduled(post)) {
+// 		return (
+// 			<span className="serial-number border border-primary/40 text-primary px-2 py-1">
+// 				SCHEDULED
+// 			</span>
+// 		);
+// 	}
+// 	if (post.status === "published") {
+// 		return (
+// 			<span className="serial-number border border-secondary/40 text-secondary px-2 py-1">
+// 				PUBLISHED
+// 			</span>
+// 		);
+// 	}
+// 	return (
+// 		<span className="serial-number border border-border text-muted-foreground px-2 py-1">
+// 			DRAFT
+// 		</span>
+// 	);
+// }
 
 export default function PostsTable() {
 	const [posts, setPosts] = useState(null);
@@ -69,26 +70,26 @@ export default function PostsTable() {
 		await load();
 	};
 
-	// const handleDelete = async (post) => {
-	// 	try {
-	// 		await base44.entities.Post.delete(post.id);
-	// 		setConfirmId(null);
-	// 		toast({ title: "Post deleted" });
-	// 		await load();
-	// 	} catch (e) {
-	// 		toast({
-	// 			title: "Delete failed",
-	// 			description: e?.message,
-	// 			variant: "destructive",
-	// 		});
-	// 	}
-	// };
+	const handleDelete = async (post) => {
+		// try {
+		// 	await base44.entities.Post.delete(post.id);
+		// 	setConfirmId(null);
+		// 	toast({ title: "Post deleted" });
+		// 	await load();
+		// } catch (e) {
+		// 	toast({
+		// 		title: "Delete failed",
+		// 		description: e?.message,
+		// 		variant: "destructive",
+		// 	});
+		// }
+	};
 
-	const filtered = (posts || []).filter((p) => {
-		if (!statusFilter) return true;
-		if (statusFilter === "scheduled") return isScheduled(p);
-		return p.status === statusFilter;
-	});
+	// const filtered = (posts || []).filter((p) => {
+	// 	if (!statusFilter) return true;
+	// 	if (statusFilter === "scheduled") return isScheduled(p);
+	// 	return p.status === statusFilter;
+	// });
 
 	return (
 		<div className="space-y-6">
@@ -130,7 +131,7 @@ export default function PostsTable() {
 				/>
 			)}
 
-			{posts === null ? (
+			{/* {posts === null ? (
 				<div className="flex justify-center py-20">
 					<Loader2 className="h-8 w-8 animate-spin text-primary" />
 				</div>
@@ -209,7 +210,7 @@ export default function PostsTable() {
 						</div>
 					))}
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 }

@@ -40,7 +40,7 @@ router.use("/auth", authRoutes);
 router.use("/admin/github", githubSettingsRoutes);
 router.use("/admin/github/repositories", githubRepositoriesRoutes);
 router.use("/admin/projects", administrationProjectsRoutes);
-router.use("/admin/blog-posts", blogPostsRoutes);
+router.use("/admin/blog", blogPostsRoutes);
 
 router.use("/projects", projectRoutes);
 

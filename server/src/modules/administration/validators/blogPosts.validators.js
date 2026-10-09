@@ -14,16 +14,12 @@ export const createBlogPostBodySchema = z.object({
 		.max(120)
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
 	excerpt: z.string().trim().min(1).max(200).optional(),
-	content: z.string().trim(),
-	coverImageUrl: z.union([z.url(), z.literal("")]).optional(),
-
-	category: objectIdSchema.optional(),
-
-	tags: z.array(z.string().trim()).optional(),
+	content: z.string().trim().min(1),
+	coverImageUrl: z.union([z.url(), z.literal("")]),
+	category: objectIdSchema,
+	tags: z.array(z.string().trim().toUpperCase()).optional(),
 	type: z.enum(BLOG_TYPE_VALUES).optional(),
 	status: z.enum(BLOG_STATUS_VALUES).optional(),
-
-	// publishedAt: z.coerce.date().optional(),
-	publishedAt: z.boolean().optional(),
-	readingTimeMinutes: z.number().optional(),
+	publishedAt: z.coerce.date().nullable().optional(),
+	readingTimeMinutes: z.number().int().nonnegative().optional(),
 });
