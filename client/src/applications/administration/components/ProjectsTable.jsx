@@ -20,9 +20,7 @@ import {
 	updateAdminProject,
 } from "../services/index.js";
 
-const MODULE_BOX = "border border-border bg-card/50 p-5 sm:p-6 md:p-8";
-const SELECT_CLASS =
-	"w-full bg-background border border-border px-4 py-3 text-sm focus:border-primary focus-visible:outline-none transition-colors disabled:opacity-50";
+import { MODULE_BOX, SELECT_CLASS } from "../../../lib/index.js";
 
 export default function ProjectsTable({ onDelete, refreshKey }) {
 	const [projects, setProjects] = useState([]);
@@ -152,9 +150,9 @@ export default function ProjectsTable({ onDelete, refreshKey }) {
 					align="left"
 					spacing="mb-0"
 				/>
-				<span className="serial-number text-muted-foreground">
-					{projects.length} IN DATABASE
-				</span>
+				<Text className="!text-xs">
+					{projects?.length ?? 0} IN DATABASE
+				</Text>
 			</div>
 
 			{loading ? (

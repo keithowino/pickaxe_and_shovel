@@ -29,7 +29,7 @@ export function formatDate(value) {
 
 export function isScheduled(post) {
 	return (
-		post?.status === "published" &&
+		post?.status === "PUBLISHED" &&
 		!!post?.publishedAt &&
 		new Date(post.publishedAt) > new Date()
 	);

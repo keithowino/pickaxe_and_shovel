@@ -1,34 +1,53 @@
 import { useEffect, useState } from "react";
 // import { base44 } from "@/api/base44Client";
-import { Loader2, Pencil, Trash2, Plus } from "lucide-react";
-import { Button, toast } from "../../../shared/index.js";
+import { Pencil, Trash2, Plus } from "lucide-react";
+import {
+	Button,
+	Heading,
+	Loader,
+	SectionHeader,
+	Text,
+	toast,
+} from "../../../shared/index.js";
 import PostEditor from "./PostEditor.jsx";
-import { createBlogPost } from "../services/index.js";
-// import { toast } from "@/components/ui/use-toast";
-// import { Image } from "@/components/ui/image";
-// import { formatDate, isScheduled } from "@/lib/blogUtils";
+import {
+	createBlogPost,
+	deleteBlogPost,
+	fetchAdminBlogPosts,
+	updateBlogPost,
+} from "../services/index.js";
+import {
+	EmptyResponse,
+	formatDate,
+	Image,
+	isScheduled,
+	MODULE_BOX,
+	SELECT_CLASS,
+} from "../../../lib/index.js";
 
-// function renderStatus(post) {
-// 	if (isScheduled(post)) {
-// 		return (
-// 			<span className="serial-number border border-primary/40 text-primary px-2 py-1">
-// 				SCHEDULED
-// 			</span>
-// 		);
-// 	}
-// 	if (post.status === "published") {
-// 		return (
-// 			<span className="serial-number border border-secondary/40 text-secondary px-2 py-1">
-// 				PUBLISHED
-// 			</span>
-// 		);
-// 	}
-// 	return (
-// 		<span className="serial-number border border-border text-muted-foreground px-2 py-1">
-// 			DRAFT
-// 		</span>
-// 	);
-// }
+// Remember to add reading time crud ui
+
+function renderStatus(post) {
+	if (isScheduled(post)) {
+		return (
+			<span className="text-xs px-2 py-0.5 border border-primary/40 text-primary">
+				SCHEDULED
+			</span>
+		);
+	}
+	if (post.status === "PUBLISHED") {
+		return (
+			<span className="text-xs px-2 py-0.5 border border-secondary/40 text-secondary">
+				PUBLISHED
+			</span>
+		);
+	}
+	return (
+		<span className="text-xs px-2 py-0.5 border border-border text-muted-foreground">
+			DRAFT
+		</span>
+	);
+}
 
 export default function PostsTable() {
 	const [posts, setPosts] = useState(null);
@@ -58,65 +77,76 @@ export default function PostsTable() {
 	const existingSlugs = (posts || []).map((p) => p.slug).filter(Boolean);
 
 	const handleSave = async (payload) => {
-		if (editing && editing !== "new" && editing.id) {
-			await base44.entities.Post.update(editing.id, payload);
-			toast({ title: "Post updated" });
-		} else {
-			// await base44.entities.Post.create(payload);
-			await createBlogPost(payload);
-			toast({ title: "Post created" });
+		try {
+			if (editing && editing !== "new" && editing.id) {
+				await updateBlogPost(editing.id, payload);
+				toast({ title: "Post updated" });
+			} else {
+				await createBlogPost(payload);
+				toast({ title: "Post created" });
+			}
+			setEditing(null);
+			await load();
+		} catch (e) {
+			toast({
+				title: "Save failed",
+				description: e?.message || "Please try again.",
+				variant: "destructive",
+			});
 		}
-		setEditing(null);
-		await load();
 	};
 
 	const handleDelete = async (post) => {
-		// try {
-		// 	await base44.entities.Post.delete(post.id);
-		// 	setConfirmId(null);
-		// 	toast({ title: "Post deleted" });
-		// 	await load();
-		// } catch (e) {
-		// 	toast({
-		// 		title: "Delete failed",
-		// 		description: e?.message,
-		// 		variant: "destructive",
-		// 	});
-		// }
+		try {
+			await deleteBlogPost(post.id);
+			setConfirmId(null);
+			toast({ title: "Post deleted" });
+			await load();
+		} catch (e) {
+			toast({
+				title: "Delete failed",
+				description: e?.message || "Please try again.",
+				variant: "destructive",
+			});
+		}
 	};
 
-	// const filtered = (posts || []).filter((p) => {
-	// 	if (!statusFilter) return true;
-	// 	if (statusFilter === "scheduled") return isScheduled(p);
-	// 	return p.status === statusFilter;
-	// });
+	const filtered = (posts || []).filter((p) => {
+		if (!statusFilter) return true;
+		if (statusFilter === "SCHEDULED") return isScheduled(p);
+		return p.status === statusFilter;
+	});
 
 	return (
-		<div className="space-y-6">
-			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+		<div className={MODULE_BOX}>
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
 				<div>
-					<div className="flex items-center gap-3 mb-1">
-						<div className="h-px w-12 bg-primary" />
-						<span className="serial-number text-primary">
-							// BLOG POSTS
-						</span>
-					</div>
-					<p className="serial-number text-muted-foreground">
+					<SectionHeader
+						serial="// BLOG POSTS"
+						header={3}
+						align="left"
+						spacing="mb-0"
+					/>
+					<Text className="!text-xs">
 						{posts?.length ?? 0} IN DATABASE
-					</p>
+					</Text>
 				</div>
-				<div className="flex items-center gap-3">
+				<div className="flex flex-col sm:flex-row items-center gap-3">
 					<select
 						value={statusFilter}
 						onChange={(e) => setStatusFilter(e.target.value)}
-						className="serial-number h-11 px-3 border border-border bg-card hover:border-primary transition-colors min-h-[44px]"
+						className={SELECT_CLASS}
 					>
 						<option value="">All statuses</option>
-						<option value="draft">Draft</option>
-						<option value="published">Published</option>
-						<option value="scheduled">Scheduled</option>
+						<option value="DRAFT">Draft</option>
+						<option value="PUBLISHED">Published</option>
+						<option value="SCHEDULED">Scheduled</option>
 					</select>
-					<Button onClick={() => setEditing("new")}>
+					<Button
+						onClick={() => setEditing("new")}
+						size="sm"
+						fullWidthMobile
+					>
 						<Plus className="h-4 w-4" /> New Post
 					</Button>
 				</div>
@@ -131,16 +161,10 @@ export default function PostsTable() {
 				/>
 			)}
 
-			{/* {posts === null ? (
-				<div className="flex justify-center py-20">
-					<Loader2 className="h-8 w-8 animate-spin text-primary" />
-				</div>
+			{posts === null ? (
+				<Loader />
 			) : filtered.length === 0 ? (
-				<div className="border border-dashed border-border py-16 text-center">
-					<p className="serial-number text-muted-foreground">
-						No posts match this filter.
-					</p>
-				</div>
+				<EmptyResponse load={{ desc: "No posts match this filter." }} />
 			) : (
 				<div className="border border-border divide-y divide-border">
 					{filtered.map((post) => (
@@ -152,65 +176,77 @@ export default function PostsTable() {
 								<Image
 									src={post.coverImageUrl}
 									alt={post.title}
-									fittingType="fill"
-									className="w-full h-full object-cover"
+									fittingType="cover"
+									className="w-full h-full"
 								/>
 							</div>
 							<div className="flex-1 min-w-0">
-								<h3 className="font-heading font-semibold truncate">
+								<Heading className="truncate" level={5}>
 									{post.title}
-								</h3>
-								<div className="flex items-center gap-2 flex-wrap mt-1.5">
-									<span className="serial-number text-primary bg-primary/5 px-2 py-0.5">
-										{post.category}
+								</Heading>
+								<div className="flex items-center gap-2 flex-wrap">
+									<span className="text-xs px-2 py-0.5 border border-border">
+										{post.category?.name || "—"}
 									</span>
-									{post.type === "note" && (
-										<span className="serial-number text-secondary border border-secondary/30 px-2 py-0.5">
+									{post.type === "NOTE" && (
+										<span className="text-xs px-2 py-0.5 border border-border">
 											NOTE
 										</span>
 									)}
+
 									{renderStatus(post)}
-									<span className="serial-number text-muted-foreground">
+									<Text className="!text-sm">
 										{formatDate(post.publishedAt) || "—"}
-									</span>
+									</Text>
 								</div>
 								{post.tags?.length > 0 && (
-									<div className="serial-number text-muted-foreground mt-1 truncate">
-										{post.tags
-											.map((t) => `#${t}`)
-											.join(" ")}
+									<div className="flex flex-wrap mt-1 gap-1.5 mb-4">
+										{post.tags.map((t) => (
+											<span
+												key={t}
+												className="text-xs px-2 py-0.5 border border-border bg-background/60"
+											>
+												{t}
+											</span>
+										))}
 									</div>
 								)}
 							</div>
 							<div className="flex items-center gap-2 shrink-0">
-								<button
+								<Button
 									onClick={() => setEditing(post)}
-									className="p-2 border border-border hover:border-primary transition-colors"
+									size="sm"
+									variant="outline"
+									fullWidthMobile
 									aria-label="Edit post"
 								>
 									<Pencil className="h-4 w-4" />
-								</button>
+								</Button>
 								{confirmId === post.id ? (
-									<button
+									<Button
 										onClick={() => handleDelete(post)}
-										className="serial-number px-3 py-2 bg-destructive text-destructive-foreground hover:opacity-90"
+										size="sm"
+										variant="destructive"
+										fullWidthMobile
 									>
 										DELETE?
-									</button>
+									</Button>
 								) : (
-									<button
+									<Button
 										onClick={() => setConfirmId(post.id)}
-										className="p-2 border border-border hover:border-destructive transition-colors"
+										size="sm"
+										variant="secondary"
+										fullWidthMobile
 										aria-label="Delete post"
 									>
 										<Trash2 className="h-4 w-4" />
-									</button>
+									</Button>
 								)}
 							</div>
 						</div>
 					))}
 				</div>
-			)} */}
+			)}
 		</div>
 	);
 }

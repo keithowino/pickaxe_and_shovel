@@ -42,7 +42,7 @@ export const Loader = ({ className, msg, type }) => {
 		case "page":
 			loadTypeStyles =
 				"border border-border animate-pulse bg-muted min-h-[100svh]";
-			// blockType = true;
+			blockType = true;
 			break;
 
 		default:

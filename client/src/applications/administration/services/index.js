@@ -1,4 +1,9 @@
-export { createBlogPost, fetchAdminBlogPosts } from "./blog.crud.service.js";
+export {
+	createBlogPost,
+	deleteBlogPost,
+	fetchAdminBlogPosts,
+	updateBlogPost,
+} from "./blog.crud.service.js";
 
 export {
 	disconnectGitHub,

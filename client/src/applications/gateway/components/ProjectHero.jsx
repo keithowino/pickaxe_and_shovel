@@ -2,12 +2,15 @@ import { ExternalLink } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
 
 import { Button, Heading, Text } from "../../../shared/index.js";
+import { DisplayComingSoon } from "./DisplayComingSoon.jsx";
 
 export default function ProjectHero({ project }) {
 	return (
 		<section className="relative border-b border-border">
 			<div className="relative aspect-square sm:aspect-[16/7] min-h-[320px] overflow-hidden bg-muted">
-				{project.thumbnailUrl ? (
+				{project.category.name.toLowerCase() === "coming soon" ? (
+					<DisplayComingSoon name={project.name} />
+				) : project.thumbnailUrl ? (
 					<>
 						<img
 							src={project.thumbnailUrl}

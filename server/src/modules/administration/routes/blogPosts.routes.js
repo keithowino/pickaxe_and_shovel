@@ -7,6 +7,9 @@ const router = Router();
 
 router.use(authenticate, requireAdmin);
 
+router.get("/", blogPostController.list);
 router.post("/create", blogPostController.create);
+router.patch("/:id", blogPostController.update);
+router.delete("/:id", blogPostController.remove);
 
 export default router;

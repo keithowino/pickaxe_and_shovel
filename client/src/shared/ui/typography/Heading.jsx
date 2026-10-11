@@ -3,6 +3,7 @@ const levels = {
 	2: "text-2xl sm:text-3xl font-bold",
 	3: "text-xl sm:text-2xl font-semibold",
 	4: "text-lg sm:text-xl font-semibold",
+	5: "text-sm sm:text-lg font-semibold",
 };
 
 export default function Heading({ level = 2, className = "", children }) {

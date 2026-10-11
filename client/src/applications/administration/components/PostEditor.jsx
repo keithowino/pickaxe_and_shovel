@@ -32,7 +32,6 @@ export default function PostEditor({
 		title: initial?.title || "",
 		slug: initial?.slug || "",
 		excerpt: initial?.excerpt || "",
-		// category: initial?.category || CATEGORIES[0],
 		category: initial?.category || categories[0],
 		tags: (initial?.tags || []).join(", "),
 		type: initial?.type || "ARTICLE",
@@ -109,7 +108,7 @@ export default function PostEditor({
 		let publishedAt = form.publishedAt
 			? new Date(form.publishedAt).toISOString()
 			: undefined;
-		if (form.status === "published" && !publishedAt)
+		if (form.status === "PUBLISHED" && !publishedAt)
 			publishedAt = new Date().toISOString();
 
 		const payload = {

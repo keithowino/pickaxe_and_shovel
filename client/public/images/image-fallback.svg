@@ -1,0 +1,6 @@
+<!-- client/public/images/image-fallback.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" fill="currentColor" fill-opacity="0.05"/>
+  <path d="M160 180l40-50 30 38 20-25 30 37H160z" fill="currentColor" fill-opacity="0.2"/>
+  <circle cx="140" cy="120" r="18" fill="currentColor" fill-opacity="0.2"/>
+</svg>

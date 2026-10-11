@@ -3,6 +3,7 @@ import { Star, GitFork, ExternalLink } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
 import { Heading, Text } from "../../../shared/index.js";
 import { Link } from "react-router-dom";
+import { DisplayComingSoon } from "./DisplayComingSoon.jsx";
 
 export default function ProjectCard({ project, index }) {
 	/**
@@ -38,7 +39,9 @@ export default function ProjectCard({ project, index }) {
 
 				{/* Thumbnail */}
 				<div className="aspect-video bg-muted relative overflow-hidden border-b border-border">
-					{project.thumbnailUrl ? (
+					{project.category.name.toLowerCase() === "coming soon" ? (
+						<DisplayComingSoon name={project.name} />
+					) : project.thumbnailUrl ? (
 						<img
 							src={project.thumbnailUrl}
 							alt={project.name}

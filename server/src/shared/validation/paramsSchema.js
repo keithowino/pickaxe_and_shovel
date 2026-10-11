@@ -5,6 +5,10 @@ export const projectIdParamsSchema = z.object({
 	projectId: objectIdSchema,
 });
 
+export const blogPostIdParamSchema = z.object({
+	id: objectIdSchema,
+});
+
 export const projectSlugParamsSchema = z.object({
 	slug: z
 		.string()

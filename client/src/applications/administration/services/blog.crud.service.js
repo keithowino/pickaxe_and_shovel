@@ -24,3 +24,20 @@ export const fetchAdminBlogPosts = async (params = {}) => {
 
 	return response.data;
 };
+
+export const updateBlogPost = async (id, payload) => {
+	const response = await apiRequest(`/admin/blog/${id}`, {
+		method: "PATCH",
+		body: payload,
+	});
+
+	return response.data;
+};
+
+export const deleteBlogPost = async (id) => {
+	const response = await apiRequest(`/admin/blog/${id}`, {
+		method: "DELETE",
+	});
+
+	return response.data;
+};

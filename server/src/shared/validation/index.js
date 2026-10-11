@@ -1,5 +1,6 @@
 export { default as emailSchema } from "./email.schema.js";
 export {
+	blogPostIdParamSchema,
 	projectIdParamsSchema,
 	projectSlugParamsSchema,
 } from "./paramsSchema.js";

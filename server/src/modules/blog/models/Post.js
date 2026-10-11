@@ -59,7 +59,9 @@ const postSchema = mongoose.Schema(
 		},
 
 		publishedAt: {
-			type: String,
+			type: Date,
+			default: null,
+			index: true,
 		},
 		readingTimeMinutes: {
 			type: Number,

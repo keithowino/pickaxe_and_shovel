@@ -25,9 +25,9 @@ class BlogPostPresenter {
 				: null,
 			tags: post.tags ?? [],
 			type: post.type ?? "",
-			type: post.status ?? "",
-			type: post.publishedAt ?? null,
-			type: post.readingTimeMinutes ?? null,
+			status: post.status ?? "",
+			publishedAt: post.publishedAt ?? null,
+			readingTimeMinutes: post.readingTimeMinutes ?? null,
 			createdAt: post.createdAt,
 			updatedAt: post.updatedAt,
 		};
