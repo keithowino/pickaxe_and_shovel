@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heading, platform, Text } from "../../../shared/index.js";
+import { Heading, Text, platform } from "../../../shared/index.js";
 
 const Timeline = () => {
 	const { milestones } = platform;

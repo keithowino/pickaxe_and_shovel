@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { Section, Container } from "../../ui/index.js";
+import { Container, Section } from "../../ui/index.js";
 
 const PageSection = forwardRef(function PageSection(
 	{ children, className = "", containerClassName = "" },

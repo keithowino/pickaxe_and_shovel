@@ -1,3 +1,8 @@
+export { default as BlogCard } from "./BlogCard.jsx";
+export { default as BlogFilters } from "./BlogFilters.jsx";
+export { default as BlogPagination } from "./BlogPagination.jsx";
+export { default as BlogPostBody } from "./BlogPostBody.jsx";
+export { default as BlogPostHeader } from "./BlogPostHeader.jsx";
 export { DisplayComingSoon } from "./DisplayComingSoon.jsx";
 export { default as GatewayFooter } from "./GatewayFooter.jsx";
 export { default as GatewayHeader } from "./GatewayHeader.jsx";
@@ -6,6 +11,7 @@ export { default as ProjectNavigation } from "./ProjectNavigation.jsx";
 export { default as ProjectOverview } from "./ProjectOverview.jsx";
 export { default as ProjectStats } from "./ProjectStats.jsx";
 export { default as ProjectTechnology } from "./ProjectTechnology.jsx";
+export { default as RelatedPosts } from "./RelatedPosts.jsx";
 export { default as RelatedProjects } from "./RelatedProjects.jsx";
 export { default as ProjectCard } from "./ProjectCard.jsx";
 export { default as Timeline } from "./Timeline.jsx";

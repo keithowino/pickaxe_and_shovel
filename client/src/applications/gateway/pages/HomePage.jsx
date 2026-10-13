@@ -2,11 +2,11 @@ import { Hero, LoadHeroTitle } from "../../../shared/index.js";
 import {
 	LoadFeaturedProjects,
 	LoadStats,
-	platform,
 	Skills,
+	platform,
 } from "../../../shared/index.js";
-import { MetaDataInsert } from "../../../lib/index.js";
-import { Terminal, Cpu } from "lucide-react";
+import { LoadFeaturedBlogPosts, MetaDataInsert } from "../../../lib/index.js";
+import { Cpu, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const heroTitle = () => {
@@ -62,6 +62,7 @@ const HomePage = () => {
 			<Skills />
 			<LoadStats />
 			<LoadFeaturedProjects />
+			<LoadFeaturedBlogPosts />
 		</>
 	);
 };

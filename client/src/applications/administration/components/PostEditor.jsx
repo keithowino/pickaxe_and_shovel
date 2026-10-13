@@ -9,7 +9,7 @@ import {
 	toast,
 } from "../../../shared/index.js";
 import { X } from "lucide-react";
-import { slugify, computeReadingTime } from "../../../lib/index.js";
+import { computeReadingTime, slugify } from "../../../lib/index.js";
 import { useEffect } from "react";
 import { fetchProjectCategories } from "../services/index.js";
 

@@ -4,7 +4,8 @@ import { database } from "../bootstrap/index.js";
 import { success } from "../../shared/index.js";
 
 import {
-	administrationProjectsRoutes,
+	adminBlogPostsRoutes,
+	adminProjectsRoutes,
 	authRoutes,
 	blogPostsRoutes,
 	contactRoutes,
@@ -39,12 +40,14 @@ router.use("/auth", authRoutes);
 
 router.use("/admin/github", githubSettingsRoutes);
 router.use("/admin/github/repositories", githubRepositoriesRoutes);
-router.use("/admin/projects", administrationProjectsRoutes);
-router.use("/admin/blog", blogPostsRoutes);
+router.use("/admin/projects", adminProjectsRoutes);
+router.use("/admin/blog", adminBlogPostsRoutes);
 
 router.use("/projects", projectRoutes);
 
 router.use("/project-categories", projectCategoryRoutes);
+
+router.use("/blog", blogPostsRoutes);
 
 router.use("/contact", contactRoutes);
 

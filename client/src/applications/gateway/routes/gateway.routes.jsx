@@ -1,6 +1,8 @@
 import { GatewayLayout } from "../layouts/index.js";
 import {
 	AboutPage,
+	BlogPage,
+	BlogPostPage,
 	ContactPage,
 	HomePage,
 	PortfolioPage,
@@ -19,6 +21,14 @@ const gatewayRoutes = [
 			{
 				path: "/about",
 				element: <AboutPage />,
+			},
+			{
+				path: "/blog",
+				element: <BlogPage />,
+			},
+			{
+				path: "/blog/:slug",
+				element: <BlogPostPage />,
 			},
 			{
 				path: "/services",

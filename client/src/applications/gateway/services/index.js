@@ -1,4 +1,10 @@
 export {
+	fetchLatestPosts,
+	fetchPost,
+	fetchPosts,
+} from "./blogPosts.service.js";
+
+export {
 	fetchFeaturedProjects,
 	fetchProjectBySlug,
 	// fetchProjectById,

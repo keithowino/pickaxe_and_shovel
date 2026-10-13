@@ -10,12 +10,12 @@ import {
 } from "../../../shared/index.js";
 import { Link } from "react-router-dom";
 import {
+	ArrowUpRight,
+	Bot,
 	Code2,
 	Cpu,
-	Wifi,
-	Bot,
 	GraduationCap,
-	ArrowUpRight,
+	Wifi,
 } from "lucide-react";
 
 const SERVICES = [
@@ -71,7 +71,7 @@ const ServicePage = () => {
 			<Hero
 				metadata={{
 					floatingTools: false,
-					serial: "// SPEC SHEET · 02",
+					serial: "// SPEC SHEET · 03",
 					title: (
 						<LoadHeroTitle
 							metadata={{

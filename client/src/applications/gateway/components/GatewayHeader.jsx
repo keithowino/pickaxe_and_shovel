@@ -5,6 +5,7 @@ import { useAuth } from "../../../lib/index.js";
 const BASE_LINKS = [
 	{ to: "/", label: "Home", end: true },
 	{ to: "/about", label: "About" },
+	{ to: "/blog", label: "Blog" },
 	{ to: "/services", label: "Services" },
 	{ to: "/portfolio", label: "Portfolio" },
 	{ to: "/contact", label: "Contact" },

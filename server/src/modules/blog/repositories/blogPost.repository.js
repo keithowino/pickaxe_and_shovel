@@ -25,6 +25,12 @@ const findPostById = async (id) => {
 	return Post.findById(id).populate(CATEGORY_POPULATE).lean();
 };
 
+const findPostBySlug = async (slug, extraFilter = {}) => {
+	return Post.findOne({ slug, ...extraFilter })
+		.populate(CATEGORY_POPULATE)
+		.lean();
+};
+
 const updateBlogPost = async (id, updates) => {
 	return Post.findByIdAndUpdate(id, updates, {
 		returnDocument: "after", // return the updated document
@@ -42,6 +48,7 @@ export default {
 	createBlogPost,
 	findPosts,
 	findPostById,
+	findPostBySlug,
 	updateBlogPost,
 	deleteBlogPost,
 };

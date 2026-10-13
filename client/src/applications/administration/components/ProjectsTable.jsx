@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RefreshCw, Trash2, Edit3, Save, X } from "lucide-react";
+import { Edit3, RefreshCw, Save, Trash2, X } from "lucide-react";
 import {
 	Button,
 	FormField,
@@ -7,8 +7,8 @@ import {
 	FormLabel,
 	Loader,
 	SectionHeader,
-	showToastMessage,
 	Text,
+	showToastMessage,
 } from "../../../shared/index.js";
 import { BiImport } from "react-icons/bi";
 

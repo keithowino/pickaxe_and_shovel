@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Mail, MapPin, Send, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Loader2, Mail, MapPin, Send } from "lucide-react";
 import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
 import { MetaDataInsert } from "../../../lib/index.js";
 import {
@@ -14,8 +14,8 @@ import {
 	LoadHeroTitle,
 	PageSection,
 	Paper,
-	platform,
 	SectionHeader,
+	platform,
 } from "../../../shared/index.js";
 import { submitMessage } from "../services/index.js";
 
@@ -94,7 +94,7 @@ const ContactPage = () => {
 			<Hero
 				metadata={{
 					floatingTools: false,
-					serial: "// SPEC SHEET · 04",
+					serial: "// SPEC SHEET · 05",
 					title: (
 						<LoadHeroTitle
 							metadata={{

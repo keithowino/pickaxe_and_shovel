@@ -1,6 +1,6 @@
 import { useTheme } from "../../../lib/index.js";
 import { motion } from "framer-motion";
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 
 const ThemeToggle = () => {
 	const { theme, toggleTheme } = useTheme();

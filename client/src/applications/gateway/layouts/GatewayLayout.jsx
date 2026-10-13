@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { AppShell } from "../../../shared/index.js";
 import { GatewayFooter, GatewayHeader } from "../components/index.js";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function GatewayLayout() {
 	const location = useLocation();

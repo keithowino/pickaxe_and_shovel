@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Star, GitFork, ExternalLink } from "lucide-react";
+import { ExternalLink, GitFork, Star } from "lucide-react";
 import { IoLogoGithub } from "react-icons/io5";
 import { Heading, Text } from "../../../shared/index.js";
 import { Link } from "react-router-dom";

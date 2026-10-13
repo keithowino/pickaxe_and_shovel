@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { AppShell } from "../../../shared/index.js";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { AdministrationHeader } from "../components/index.js";
 
 export default function AdministrationLayout() {

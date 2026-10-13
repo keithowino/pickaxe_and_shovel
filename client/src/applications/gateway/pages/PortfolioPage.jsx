@@ -79,7 +79,7 @@ const PortfolioPage = () => {
 			<Hero
 				metadata={{
 					floatingTools: false,
-					serial: "// SPEC SHEET · 03",
+					serial: "// SPEC SHEET · 04",
 					title: (
 						<LoadHeroTitle
 							metadata={{
