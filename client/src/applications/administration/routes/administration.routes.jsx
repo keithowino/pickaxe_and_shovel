@@ -1,10 +1,11 @@
 import {
 	AdminGateway,
 	BlogAdminPage,
+	BlogPostsCategoryPage,
 	ProjectCategoriesPage,
 } from "../pages/index.js";
 import { AuthenticatedRoute } from "../../../platform/index.js";
-import { AdministrationLayout } from "../layouts/index.js";
+import { AdministrationLayout, CategoriesLayout } from "../layouts/index.js";
 
 const administrationRoutes = [
 	{
@@ -20,9 +21,23 @@ const administrationRoutes = [
 						index: true,
 						element: <AdminGateway />,
 					},
+					// {
+					// 	path: "categories",
+					// 	element: <ProjectCategoriesPage />,
+					// },
 					{
 						path: "categories",
-						element: <ProjectCategoriesPage />,
+						element: <CategoriesLayout />,
+						children: [
+							{
+								index: true,
+								element: <ProjectCategoriesPage />,
+							},
+							{
+								path: "blog",
+								element: <BlogPostsCategoryPage />,
+							},
+						],
 					},
 					{
 						path: "blog",

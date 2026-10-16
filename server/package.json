@@ -6,6 +6,8 @@
 	"scripts": {
 		"traceWarnings": "nodemon --exec \"node --trace-warnings\" src/app/server.js",
 		"seedUsers": "node src/scripts/seedUsers.js",
+		"seedBlogs": "node src/scripts/seedBlogs.js",
+		"seedBlogCategories": "node src/scripts/seedBlogCategories.js",
 		"start": "node src/app/server.js",
 		"dev": "nodemon src/app/server.js",
 		"build": "echo 'No build step needed for server'",

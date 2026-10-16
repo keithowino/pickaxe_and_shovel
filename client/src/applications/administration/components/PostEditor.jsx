@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -10,8 +9,8 @@ import {
 } from "../../../shared/index.js";
 import { X } from "lucide-react";
 import { computeReadingTime, slugify } from "../../../lib/index.js";
-import { useEffect } from "react";
-import { fetchProjectCategories } from "../services/index.js";
+import { fetchBlogPostCategories } from "../services/index.js";
+import { useEffect, useState } from "react";
 
 function toLocalInput(iso) {
 	if (!iso) return "";
@@ -49,9 +48,9 @@ export default function PostEditor({
 		setLoading(true);
 
 		try {
-			const projectCategories = await fetchProjectCategories();
+			const blogCategories = await fetchBlogPostCategories();
 
-			setCategories(projectCategories);
+			setCategories(blogCategories);
 		} catch (error) {
 			console.error("Failed to load categories:", error);
 		} finally {
@@ -128,7 +127,6 @@ export default function PostEditor({
 			],
 			type: form.type,
 			status: form.status,
-			// publishedAt,
 			...(publishedAt ? { publishedAt } : {}),
 			readingTimeMinutes: computeReadingTime(form.content),
 		};
@@ -149,23 +147,22 @@ export default function PostEditor({
 
 	useEffect(() => {
 		if (!form.category && categories.length > 0) {
-			update("category", categories[0]._id);
+			update("category", categories[0].id);
 		}
 	}, [categories]);
 
-	// const categoryOptions = [
-	// 	...new Set([initial?.category, ...categories].filter(Boolean)),
-	// ];
-	// Normalize: accept either populated objects or raw ID strings
+	/**
+	 * Normalize: accept either populated objects or raw ID strings
+	 */
 	const categoryOptions = (() => {
 		const seen = new Set();
 		const out = [];
 
 		const push = (raw) => {
 			if (!raw) return;
-			const id = typeof raw === "string" ? raw : raw._id || raw.id;
+			const id = typeof raw === "string" ? raw : raw.id;
 			const name =
-				typeof raw === "string" ? raw : raw.name || raw.slug || raw._id;
+				typeof raw === "string" ? raw : raw.name || raw.slug || raw.id;
 			if (!id || seen.has(id)) return;
 			seen.add(id);
 			out.push({ id, name });
@@ -221,33 +218,11 @@ export default function PostEditor({
 					<FormLabel required={{ isRequired: true }}>
 						CATEGORY
 					</FormLabel>
-					{/* <select
-						value={form.category}
-						onChange={(e) => update("category", e.target.value)}
-						className={selectClass}
-					>
-						{categoryOptions.map((c) => (
-							<option key={c} value={c}>
-								{c}
-							</option>
-						))}
-					</select> */}
-					{/* <select
-						value={form.category}
-						onChange={(e) => update("category", e.target.value)}
-						className={selectClass}
-					>
-						{categoryOptions.map((c) => (
-							<option key={c} value={c.id}>
-								{c.name}
-							</option>
-						))}
-					</select> */}
 					<select
 						value={
 							typeof form.category === "string"
 								? form.category
-								: form.category?._id || ""
+								: form.category?.id || ""
 						}
 						onChange={(e) => update("category", e.target.value)}
 						className={selectClass}

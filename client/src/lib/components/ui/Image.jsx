@@ -1,4 +1,3 @@
-// client/src/shared/ui/image/Image.jsx
 import * as React from "react";
 import { ResponsiveImage } from "./responsiveImage.jsx";
 
@@ -18,8 +17,10 @@ export const Image = React.forwardRef(
 	) => {
 		const [failed, setFailed] = React.useState(false);
 
-		// Reset failure state when src changes — otherwise an image that failed
-		// once would stay on the fallback forever.
+		/**
+		 * Reset failure state when src changes — otherwise an
+		 * image that failed once would stay on the fallback forever.
+		 */
 		React.useEffect(() => setFailed(false), [src]);
 
 		const handleError = (event) => {
@@ -27,7 +28,9 @@ export const Image = React.forwardRef(
 			onError?.(event);
 		};
 
-		// No src, or a previous load failed → render the fallback image directly.
+		/**
+		 * No src, or a previous load failed → render the fallback image directly.
+		 */
 		if (!src || failed) {
 			return (
 				<img

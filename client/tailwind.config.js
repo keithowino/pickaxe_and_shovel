@@ -93,7 +93,9 @@ export default {
 				"accordion-up": "accordion-up 0.2s ease-out",
 				marquee: "marquee 30s linear infinite",
 			},
-			// Note: xs: isn't a default Tailwind breakpoint
+			/**
+			 * Note: xs: isn't a default Tailwind breakpoint
+			 */
 			screens: { xs: "420px" },
 		},
 	},

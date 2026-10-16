@@ -7,7 +7,9 @@ export function useResponsiveImage({ src, onLoad }, forwardedRef) {
 
 	React.useImperativeHandle(forwardedRef, () => imgRef.current);
 
-	// Reset the loaded state when the source changes
+	/**
+	 * Reset the loaded state when the source changes
+	 */
 	React.useEffect(() => setLoaded(false), [src]);
 
 	return {

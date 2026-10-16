@@ -55,10 +55,6 @@ test("Session Service", async (t) => {
 
 			assert.equal(typeof result.refreshToken, "string");
 
-			// const storedSession = await Session.findOne({
-			// 	user: testUser._id,
-			// });
-
 			const storedSession = await Session.findOne({
 				refreshTokenHash: hashToken(result.refreshToken),
 			});

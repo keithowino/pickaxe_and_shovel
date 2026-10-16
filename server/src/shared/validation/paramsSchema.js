@@ -16,3 +16,9 @@ export const projectSlugParamsSchema = z.object({
 		.min(1)
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid project slug."),
 });
+
+export const blogCategoryIdParamsSchema = z
+	.object({
+		id: objectIdSchema,
+	})
+	.strict();

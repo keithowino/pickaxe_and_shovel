@@ -15,7 +15,7 @@ import {
 	Loader,
 	SectionHeader,
 	Text,
-	showToastMessage,
+	toast,
 } from "../../../shared/index.js";
 
 import { BiGitRepoForked } from "react-icons/bi";
@@ -166,9 +166,10 @@ export default function RepoList({ onImported, refreshKey }) {
 				return next;
 			});
 
-			showToastMessage({
-				msg: `${selectedIds.length > 1 ? "Repositories" : "Repository"} imported successfully.`,
-				type: "success",
+			toast({
+				title: "Stage Project",
+				description: `${selectedIds.length > 1 ? "Repositories" : "Repository"} imported successfully.`,
+				variant: "success",
 			});
 
 			setSelected({});

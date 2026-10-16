@@ -13,7 +13,7 @@ export const createBlogPostBodySchema = z.object({
 		.min(1)
 		.max(120)
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-	excerpt: z.string().trim().min(1).max(200).optional(),
+	excerpt: z.string().trim().min(1).max(200),
 	content: z.string().trim().min(1),
 	coverImageUrl: z.union([z.url(), z.literal("")]),
 	category: objectIdSchema,

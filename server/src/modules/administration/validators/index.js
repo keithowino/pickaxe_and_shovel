@@ -1,4 +1,12 @@
 export {
+	blogCategoryIdParamsSchema,
+	createBlogCategoryBodySchema,
+	listBlogCategoriesQuerySchema,
+	setBlogCategoryActiveBodySchema,
+	updateBlogCategoryBodySchema,
+} from "./blogCategories.validators.js";
+
+export {
 	createBlogPostBodySchema,
 	updateBlogPostBodySchema,
 } from "./blogPosts.validators.js";

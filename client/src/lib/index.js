@@ -5,8 +5,6 @@ export { default as apiRequest } from "./apiClient.js";
 
 export {
 	computeReadingTime,
-	dummyCategories,
-	dummyPostsArr,
 	formatDate,
 	isLive,
 	isScheduled,

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-// import { base44 } from "@/api/base44Client";
-import { EmptyResponse, MetaDataInsert, isLive } from "../../../lib/index.js";
+import { EmptyResponse, MetaDataInsert } from "../../../lib/index.js";
 import {
 	FeatureGrid,
 	Hero,
@@ -41,7 +40,6 @@ export default function BlogPage() {
 		(async () => {
 			setLoading(true);
 			try {
-				// Server filters published + live; client just paginates.
 				const res = await fetchPosts({ limit: 200 });
 				if (!cancelled) setAll(res || []);
 			} catch (err) {
@@ -123,7 +121,6 @@ export default function BlogPage() {
 					onTagChange={setTag}
 				/>
 
-				{/* {all === null ? ( */}
 				{loading ? (
 					<Loader />
 				) : pageItems.length === 0 ? (

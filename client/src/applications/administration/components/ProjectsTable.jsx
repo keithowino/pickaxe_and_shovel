@@ -8,7 +8,7 @@ import {
 	Loader,
 	SectionHeader,
 	Text,
-	showToastMessage,
+	toast,
 } from "../../../shared/index.js";
 import { BiImport } from "react-icons/bi";
 
@@ -61,9 +61,10 @@ export default function ProjectsTable({ onDelete, refreshKey }) {
 			await refreshAdminProject(project.id);
 			await loadProjects();
 
-			showToastMessage({
-				msg: `${project.name} GitHub'S information synced.`,
-				type: "success",
+			toast({
+				title: "Update",
+				description: `${project.name} GitHub'S information synced.`,
+				variant: "success",
 			});
 		} catch (error) {
 			alert("Refresh failed: " + error.message);
@@ -81,9 +82,10 @@ export default function ProjectsTable({ onDelete, refreshKey }) {
 
 			onDelete?.();
 
-			showToastMessage({
-				msg: "Project deleted successfully.",
-				type: "success",
+			toast({
+				title: "Project Deletion",
+				description: "Project deleted successfully.",
+				variant: "success",
 			});
 		} catch (error) {
 			alert("Delete failed: " + error.message);

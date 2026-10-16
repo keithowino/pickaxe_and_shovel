@@ -63,3 +63,16 @@ authService
 If you don't currently own a custom domain, we don't need to stop the migration. We can continue development/testing with onboarding@resend.dev, and configure the authenticated domain later.
 
 ---
+
+## Step 2 — Implement in controlled increments
+
+We'll work through the following implementation sequence, validating each layer before moving to the next.
+
+1. Blog taxonomy: add the BlogCategory model, repository/service/API integration as appropriate, and migrate existing category assignments.
+2. Administration validation: restore query validation, establish bounded pagination and safe search behavior, and align request schemas with Mongoose requirements.
+3. Publication lifecycle: centralize draft, publish, and unpublish transitions, including consistent handling of publishedAt.
+4. Immutable slugs: generate slugs during creation and reject slug changes in update requests. Handle duplicate slugs as conflicts.
+5. Paginated results: return items and pagination metadata, including a total count, from the administration listing endpoint.
+6. REST verification: test successful operations, invalid input, authorization, category relationships, lifecycle transitions, pagination boundaries, and slug immutability using VS Code REST Client.
+
+---

@@ -8,3 +8,8 @@ GET {{baseUrl}}/blog
 ###
 
 GET {{baseUrl}}/blog/{{slug}}
+
+### List active blog categories
+
+GET {{baseUrl}}/blog/categories
+Accept: application/json

@@ -13,5 +13,7 @@ export default function slugify(value) {
 		.toLowerCase()
 		.trim()
 		.replace(/[^a-z0-9]+/g, "-")
-		.replace(/^-+|-+$/g, "");
+		.replace(/^-+|-+$/g, "")
+		.slice(0, 120)
+		.replace(/-+$/g, "");
 }

@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-// import { base44 } from "@/api/base44Client";
 import { ArrowLeft } from "lucide-react";
 import {
 	BlogPostBody,
 	BlogPostHeader,
 	RelatedPosts,
 } from "../components/index.js";
-import { isLive } from "../../../lib/blogUtils.js";
 import { fetchPost, fetchPosts } from "../services/index.js";
 import { Loader } from "../../../shared/index.js";
 import { EmptyResponse, MetaDataInsert } from "../../../lib/index.js";
@@ -39,7 +37,9 @@ export default function BlogPostPage() {
 
 				setPost(found);
 
-				// Fetch related posts (same category), unless the post has no category.
+				/**
+				 * Fetch related posts (same category), unless the post has no category.
+				 */
 				if (found.category?.id) {
 					const rel = await fetchPosts({
 						category: found.category.id,
@@ -47,7 +47,9 @@ export default function BlogPostPage() {
 					});
 					if (cancelled) return;
 
-					// Server may include the current post; filter it out and cap at 3.
+					/**
+					 * Server may include the current post; filter it out and cap at 3.
+					 */
 					setRelated(
 						(rel || [])
 							.filter((p) => p.slug !== found.slug)
@@ -82,7 +84,15 @@ export default function BlogPostPage() {
 					load={{
 						code: "// 404 — NOT FOUND",
 						desc: "This field note doesn't exist.",
-						ref: { to: "/blog", label: "← BACK TO ARCHIVE" },
+						actions: [
+							{
+								as: Link,
+								to: "/blog",
+								icon: <ArrowLeft className="h-4 w-4" />,
+								label: "Back to archive",
+								variant: "link",
+							},
+						],
 					}}
 				/>
 			</>

@@ -10,6 +10,7 @@ import {
 	SectionHeader,
 	Text,
 } from "../../shared/index.js";
+import { EmptyResponse } from "./EmptyResponse.jsx";
 
 const MAX_POSTS = 3;
 
@@ -72,9 +73,9 @@ export default function LoadFeaturedBlogPosts() {
 						<Loader type="inline" />
 					</div>
 				) : posts.length === 0 ? (
-					<p className="serial-number text-muted-foreground">
-						No posts yet. Check back soon.
-					</p>
+					<EmptyResponse
+						load={{ desc: "No posts yet. Check back soon." }}
+					/>
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 						{posts.slice(0, MAX_POSTS).map((post) => (

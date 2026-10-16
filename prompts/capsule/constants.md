@@ -18,11 +18,23 @@ Phase 0 — Baseline and Documentation (complete)
 
 Phase 1 — Backend Foundation (complete)
 
-Phase 2 — Project Domain Migration (Firebase removed)
+Phase 2 — Project Domain Migration (migration completed)
 
 Phase 3 — Project Taxonomy (completed)
 
-Phase 4 — Portfolio Experience <- NOW
+Phase 4 — Portfolio Experience (v1 completed)
+
+Phase 5 — Administration Re-imagination (was set aside pending Phases 6, 7 and 8 completion)
+
+Phase 6 — PageSection and Design System (pending)
+
+Phase 7 — Contact Migration (completed)
+
+Phase 8 — Blog Foundation (v1 completed)
+
+Phase 9 — Legacy Removal (completed)
+
+Phase 10 — Production Hardening (pending)
 
 ## Categories
 

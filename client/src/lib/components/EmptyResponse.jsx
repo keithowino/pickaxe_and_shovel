@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
-import { Button, Heading, PageSection, Text } from "../../shared/index.js";
+import {
+	Button,
+	FeatureGrid,
+	Heading,
+	PageSection,
+	Text,
+} from "../../shared/index.js";
+import { slugify } from "../blogUtils.js";
 
 export const EmptyResponse = ({ load }) => {
-	const { code, desc, ref, title } = load;
+	const { actions, code, desc, title } = load;
 
 	return (
 		<PageSection>
@@ -15,10 +22,24 @@ export const EmptyResponse = ({ load }) => {
 
 				<Text className="mb-6">{desc}</Text>
 
-				{ref && (
-					<Button as={Link} to={ref.to} variant="link">
-						{ref.label}
-					</Button>
+				{actions && (
+					<FeatureGrid>
+						{actions.map((item, i) => {
+							return (
+								<Button
+									key={slugify(`${item.label} ${String(i)}`)}
+									as={item?.as}
+									to={item?.to}
+									onClick={item.click}
+									size="sm"
+									variant={item?.variant}
+									fullWidthMobile
+								>
+									{item?.icon} {item.label}
+								</Button>
+							);
+						})}
+					</FeatureGrid>
 				)}
 			</div>
 		</PageSection>

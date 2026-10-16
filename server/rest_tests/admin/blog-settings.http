@@ -1,8 +1,7 @@
 @baseUrl = http://localhost:5000/api/v1
-# @adminCookie = YOUR_ADMIN_AUTH_COOKIE
-@adminCookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2YWJhYTQ0NWZiOWQ3Y2IyY2JkYjc5YWQiLCJlbWFpbCI6ImRlc2lnbnNvbHV0aW9uczE2MjlAZ21haWwuY29tIiwic2lkIjoiNmFjODg4Yjk4MmRiNDdjZDY2NGRmMTI2IiwiaWF0IjoxNzkxNTI3MDk3LCJleHAiOjE3OTE2MTM0OTcsImF1ZCI6InBpY2theGUtYW5kLXNob3ZlbC1jbGllbnQiLCJpc3MiOiJwaWNrYXhlLWFuZC1zaG92ZWwifQ.4PH-YuHXQUhs9Dzslk6DVHCF0bnsRs-fihTHM6dA8UQ
+@adminCookie = YOUR_ADMIN_AUTH_COOKIE
 
-@categoryId = 6ac12d93cc829113f2b9cf69
+@categoryId = CATEGORY_ID
 
 ### create post
 
@@ -19,3 +18,73 @@ Cookie: accessToken={{adminCookie}}
     "category": "{{categoryId}}"
 }
 
+### Create a blog category
+
+POST {{baseUrl}}/admin/blog/categories
+Content-Type: application/json
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+  "name": "REST Testing",
+  "description": "A temporary category used to verify the blog category API.",
+  "displayOrder": 99,
+  "active": true
+}
+
+### List blog categories
+
+GET {{baseUrl}}/admin/blog/categories
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+### Include inactive blog categories
+
+GET {{baseUrl}}/admin/blog/categories?includeInactive=true
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+### Retrieve a blog category
+
+GET {{baseUrl}}/admin/blog/categories/{{categoryId}}
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+### 8. Update a blog category
+
+PATCH {{baseUrl}}/admin/blog/categories/{{categoryId}}
+Content-Type: application/json
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+  "description": "Updated description from the REST Client test.",
+  "displayOrder": 100
+}
+
+### Reject an attempt to change the category slug
+
+PATCH {{baseUrl}}/admin/blog/categories/{{categoryId}}
+Content-Type: application/json
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+  "slug": "changed-slug"
+}
+
+### Deactivate a blog category
+
+PATCH {{baseUrl}}/admin/blog/categories/{{categoryId}}/active
+Content-Type: application/json
+Accept: application/json
+Cookie: accessToken={{adminCookie}}
+
+{
+  "active": false
+}
+
+### Delete category
+
+DELETE {{baseUrl}}/admin/blog/categories/{{categoryId}}
+Cookie: accessToken={{adminCookie}}

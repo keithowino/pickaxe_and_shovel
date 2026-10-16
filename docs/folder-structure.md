@@ -1,10 +1,12 @@
 # Pickaxe & Shovel Folder Structure
 
-Generated on: 2026-10-08
+Generated on: 2026-10-14
 
 ```bash
 ├── client/
 │   ├── public/
+│   │   ├── images/
+│   │   │   └── image-fallback.svg
 │   │   ├── bait_fusion.jfif
 │   │   ├── code_generator.jfif
 │   │   ├── favicon.svg
@@ -30,6 +32,8 @@ Generated on: 2026-10-08
 │   │   │   │   │   ├── AdministrationHeader.jsx
 │   │   │   │   │   ├── GitHubConnect.jsx
 │   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── PostEditor.jsx
+│   │   │   │   │   ├── PostsTable.jsx
 │   │   │   │   │   ├── ProjectsTable.jsx
 │   │   │   │   │   └── RepoList.jsx
 │   │   │   │   ├── layouts/
@@ -37,12 +41,14 @@ Generated on: 2026-10-08
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── pages/
 │   │   │   │   │   ├── AdminGateway.jsx
+│   │   │   │   │   ├── BlogAdminPage.jsx
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── ProjectCategoriesPage.jsx
 │   │   │   │   ├── routes/
 │   │   │   │   │   ├── administration.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
+│   │   │   │   │   ├── blog.crud.service.js
 │   │   │   │   │   ├── github.settings.service.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   ├── projects.category.service.js
@@ -50,6 +56,12 @@ Generated on: 2026-10-08
 │   │   │   │   └── index.js
 │   │   │   ├── gateway/
 │   │   │   │   ├── components/
+│   │   │   │   │   ├── BlogCard.jsx
+│   │   │   │   │   ├── BlogFilters.jsx
+│   │   │   │   │   ├── BlogPagination.jsx
+│   │   │   │   │   ├── BlogPostBody.jsx
+│   │   │   │   │   ├── BlogPostHeader.jsx
+│   │   │   │   │   ├── DisplayComingSoon.jsx
 │   │   │   │   │   ├── GatewayFooter.jsx
 │   │   │   │   │   ├── GatewayHeader.jsx
 │   │   │   │   │   ├── index.js
@@ -58,6 +70,8 @@ Generated on: 2026-10-08
 │   │   │   │   │   ├── ProjectNavigation.jsx
 │   │   │   │   │   ├── ProjectOverview.jsx
 │   │   │   │   │   ├── ProjectStats.jsx
+│   │   │   │   │   ├── ProjectTechnology.jsx
+│   │   │   │   │   ├── RelatedPosts.jsx
 │   │   │   │   │   ├── RelatedProjects.jsx
 │   │   │   │   │   └── Timeline.jsx
 │   │   │   │   ├── layouts/
@@ -65,6 +79,8 @@ Generated on: 2026-10-08
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── pages/
 │   │   │   │   │   ├── AboutPage.jsx
+│   │   │   │   │   ├── BlogPage.jsx
+│   │   │   │   │   ├── BlogPostPage.jsx
 │   │   │   │   │   ├── ContactPage.jsx
 │   │   │   │   │   ├── HomePage.jsx
 │   │   │   │   │   ├── index.js
@@ -75,6 +91,7 @@ Generated on: 2026-10-08
 │   │   │   │   │   ├── gateway.routes.jsx
 │   │   │   │   │   └── index.js
 │   │   │   │   ├── services/
+│   │   │   │   │   ├── blogPosts.service.js
 │   │   │   │   │   ├── contact.service.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── project.services.js
@@ -89,13 +106,25 @@ Generated on: 2026-10-08
 │   │   │   │   └── index.js
 │   │   │   └── index.js
 │   │   ├── lib/
+│   │   │   ├── components/
+│   │   │   │   ├── ui/
+│   │   │   │   │   ├── Image.jsx
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   ├── responsiveImage.jsx
+│   │   │   │   │   └── useResponsiveImage.jsx
+│   │   │   │   ├── EmptyResponse.jsx
+│   │   │   │   ├── index.js
+│   │   │   │   └── LoadFeaturedBlogPosts.jsx
 │   │   │   ├── context/
 │   │   │   │   ├── AuthContext.jsx
 │   │   │   │   ├── index.js
 │   │   │   │   └── ThemeContext.jsx
 │   │   │   ├── apiClient.js
+│   │   │   ├── blogUtils.js
 │   │   │   ├── index.js
-│   │   │   └── MetaDataInsert.jsx
+│   │   │   ├── MetaDataInsert.jsx
+│   │   │   ├── query-client.js
+│   │   │   └── utils.js
 │   │   ├── platform/
 │   │   │   ├── routing/
 │   │   │   │   ├── components/
@@ -105,9 +134,6 @@ Generated on: 2026-10-08
 │   │   │   └── index.js
 │   │   ├── shared/
 │   │   │   ├── components/
-│   │   │   │   ├── communication/
-│   │   │   │   │   ├── index.js
-│   │   │   │   │   └── ShowToastMessage.jsx
 │   │   │   │   ├── marquee/
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── skills.jsx
@@ -127,7 +153,11 @@ Generated on: 2026-10-08
 │   │   │   │   ├── LoadLogo.jsx
 │   │   │   │   ├── LoadSerialMsg.jsx
 │   │   │   │   ├── LoadSkillsGrid.jsx
-│   │   │   │   └── LoadStats.jsx
+│   │   │   │   ├── LoadStats.jsx
+│   │   │   │   ├── ScrollToTop.jsx
+│   │   │   │   ├── Toast.jsx
+│   │   │   │   ├── Toaster.jsx
+│   │   │   │   └── UseToast.jsx
 │   │   │   ├── config/
 │   │   │   │   ├── index.js
 │   │   │   │   └── platform.config.js
@@ -196,6 +226,7 @@ Generated on: 2026-10-08
 │   ├── .env.production
 │   ├── .gitignore
 │   ├── eslint.config.js
+│   ├── generate-sitemap.js
 │   ├── index.html
 │   ├── package.json
 │   ├── postcss.config.js
@@ -224,25 +255,49 @@ Generated on: 2026-10-08
 │   │   ├── modules/
 │   │   │   ├── administration/
 │   │   │   │   ├── controllers/
+│   │   │   │   │   ├── adminBlogPosts.controller.js
 │   │   │   │   │   ├── githubRepositories.controller.js
 │   │   │   │   │   ├── githubSettings.controller.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── projects.controller.js
 │   │   │   │   ├── routes/
+│   │   │   │   │   ├── adminBlogPosts.routes.js
 │   │   │   │   │   ├── githubRepositories.routes.js
 │   │   │   │   │   ├── githubSettings.routes.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── projects.routes.js
 │   │   │   │   ├── services/
+│   │   │   │   │   ├── blogPost.service.js
 │   │   │   │   │   ├── githubApi.service.js
 │   │   │   │   │   ├── githubRepositories.service.js
 │   │   │   │   │   ├── githubSettings.service.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── projects.service.js
 │   │   │   │   ├── validators/
+│   │   │   │   │   ├── blogPosts.validators.js
 │   │   │   │   │   ├── githubRepositories.validators.js
 │   │   │   │   │   ├── index.js
 │   │   │   │   │   └── projects.validators.js
+│   │   │   │   └── index.js
+│   │   │   ├── blog/
+│   │   │   │   ├── controllers/
+│   │   │   │   │   ├── blogPost.controller.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── models/
+│   │   │   │   │   ├── index.js
+│   │   │   │   │   └── Post.js
+│   │   │   │   ├── presenters/
+│   │   │   │   │   ├── blogPost.presenter.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── repositories/
+│   │   │   │   │   ├── blogPost.repository.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── routes/
+│   │   │   │   │   ├── blogPosts.routes.js
+│   │   │   │   │   └── index.js
+│   │   │   │   ├── services/
+│   │   │   │   │   ├── blogPosts.service.js
+│   │   │   │   │   └── index.js
 │   │   │   │   └── index.js
 │   │   │   ├── contact/
 │   │   │   │   ├── controllers/
@@ -347,6 +402,8 @@ Generated on: 2026-10-08
 │   │   │   └── seedUsers.js
 │   │   ├── shared/
 │   │   │   ├── constants/
+│   │   │   │   ├── blogStatus.js
+│   │   │   │   ├── blogType.js
 │   │   │   │   ├── contactMessageStatus.js
 │   │   │   │   ├── httpStatus.js
 │   │   │   │   └── index.js

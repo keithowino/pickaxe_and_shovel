@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, Pencil, Plus, Trash2, X } from "lucide-react";
-import { Link } from "react-router-dom";
 
-import { MetaDataInsert } from "../../../lib/index.js";
 import {
 	Button,
 	FormField,
 	FormInput,
 	FormLabel,
 	Heading,
-	Hero,
-	LoadHeroTitle,
 	Loader,
 	PageSection,
 	SectionHeader,
@@ -256,42 +252,14 @@ const ProjectCategoriesPage = () => {
 
 	return (
 		<>
-			<MetaDataInsert title={"Project Categories"} />
-
-			<Hero
-				metadata={{
-					description:
-						"Manage the categories used to classify projects in the portfolio.",
-					floatingTools: false,
-					serial: "// PROJECT TAXONOMY",
-					showQuickStats: false,
-					title: (
-						<LoadHeroTitle
-							metadata={{
-								className: "",
-								title: "Project Categories",
-								icon: "",
-							}}
-						/>
-					),
-					callToAction: [
-						{
-							as: Link,
-							to: "/admin",
-							redirect: "back",
-							label: "Back to Admin",
-							variant: "outline",
-						},
-						{
-							onClick: openCreateForm,
-							icon: <Plus className="h-4 w-4" />,
-							label: "Add Category",
-						},
-					],
-				}}
-			/>
-
 			<PageSection className="!pt-0">
+				<div
+					className={`${isCreating && "hidden"} flex justify-end my-4`}
+				>
+					<Button onClick={openCreateForm} disabled={isCreating}>
+						<Plus className="h-4 w-4" /> Add Category
+					</Button>
+				</div>
 				{successMessage && (
 					<div
 						role="status"

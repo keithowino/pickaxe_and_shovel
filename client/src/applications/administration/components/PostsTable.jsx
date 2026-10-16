@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import { base44 } from "@/api/base44Client";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import {
 	Button,
@@ -24,8 +23,6 @@ import {
 	formatDate,
 	isScheduled,
 } from "../../../lib/index.js";
-
-// Remember to add reading time crud ui
 
 function renderStatus(post) {
 	if (isScheduled(post)) {
@@ -57,7 +54,6 @@ export default function PostsTable() {
 
 	const load = async () => {
 		try {
-			// const res = await base44.entities.Post.list("-updated_date", 200);
 			const res = await fetchAdminBlogPosts();
 			setPosts(res || []);
 		} catch (e) {

@@ -42,47 +42,39 @@ const IGNORE = [
 	"docs",
 ];
 
-/**
- * Directories to show full contents (not just folder)
- */
-const SHOW_FILES = [
-	"client/src/app",
-	"client/src/pages",
-	"client/src/components",
-	"server/src/modules",
-	"server/src/shared",
-];
-
 function shouldIgnore(filePath) {
-	const parts = filePath.split(path.sep);
+	const relativePath = path.relative(ROOT, filePath);
+	const parts = relativePath.split(path.sep);
 
-	/**
-	 * Check if any part matches ignore patterns
-	 */
-	return parts.some((part) => {
-		return IGNORE.some((pattern) => {
+	return parts.some((part) =>
+		IGNORE.some((pattern) => {
 			if (pattern.includes("*")) {
-				const regex = new RegExp(pattern.replace("*", ".*"));
-				return regex.test(part);
+				const escapedPattern = pattern
+					.replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+					.replace(/\*/g, ".*");
+
+				return new RegExp(`^${escapedPattern}$`).test(part);
 			}
+
 			return part === pattern;
-		});
-	});
+		}),
+	);
 }
 
-function shouldShowFiles(dirPath) {
-	return SHOW_FILES.some((showPath) => dirPath.includes(showPath));
-}
-
-function generateTree(dir, prefix = "", isLast = true, output = []) {
+function generateTree(dir, prefix = "", output = []) {
 	const items = fs
 		.readdirSync(dir)
 		.filter((item) => !shouldIgnore(path.join(dir, item)))
 		.sort((a, b) => {
-			const aIsDir = fs.statSync(path.join(dir, a)).isDirectory();
-			const bIsDir = fs.statSync(path.join(dir, b)).isDirectory();
+			const aPath = path.join(dir, a);
+			const bPath = path.join(dir, b);
+
+			const aIsDir = fs.statSync(aPath).isDirectory();
+			const bIsDir = fs.statSync(bPath).isDirectory();
+
 			if (aIsDir && !bIsDir) return -1;
 			if (!aIsDir && bIsDir) return 1;
+
 			return a.localeCompare(b);
 		});
 
@@ -90,6 +82,7 @@ function generateTree(dir, prefix = "", isLast = true, output = []) {
 		const fullPath = path.join(dir, item);
 		const isDir = fs.statSync(fullPath).isDirectory();
 		const isLastItem = index === items.length - 1;
+
 		const connector = isLastItem ? "└── " : "├── ";
 
 		output.push(`${prefix}${connector}${item}${isDir ? "/" : ""}`);
@@ -97,11 +90,8 @@ function generateTree(dir, prefix = "", isLast = true, output = []) {
 		if (isDir) {
 			const newPrefix = prefix + (isLastItem ? "    " : "│   ");
 
-			/**
-			 * Only show files if this is a directory we care about
-			 */
-			const showFiles = shouldShowFiles(fullPath);
-			generateTree(fullPath, newPrefix, isLastItem, output, showFiles);
+			// Recursively traverse every directory that is not ignored.
+			generateTree(fullPath, newPrefix, output);
 		}
 	});
 
@@ -134,6 +124,7 @@ const markdown = generateMarkdown(tree);
  * Ensure docs directory exists
  */
 const docsDir = path.join(ROOT, "docs");
+
 if (!fs.existsSync(docsDir)) {
 	fs.mkdirSync(docsDir, { recursive: true });
 }

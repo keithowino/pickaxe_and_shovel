@@ -6,6 +6,14 @@ export {
 } from "./blog.crud.service.js";
 
 export {
+	createBlogPostCategory,
+	deactivateBlogPostCategory,
+	deleteBlogPostCategory,
+	fetchBlogPostCategories,
+	updateBlogPostCategory,
+} from "./blogPostsCategory.crud.service.js";
+
+export {
 	disconnectGitHub,
 	getGitHubRepositories,
 	getGitHubSettings,

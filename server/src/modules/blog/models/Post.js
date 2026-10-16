@@ -37,9 +37,16 @@ const postSchema = mongoose.Schema(
 			required: true,
 		},
 
+		// category: {
+		// 	type: mongoose.Schema.Types.ObjectId,
+		// 	ref: "ProjectCategory",
+		// 	required: true,
+		// 	index: true,
+		// },
+
 		category: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "ProjectCategory",
+			ref: "BlogCategory",
 			required: true,
 			index: true,
 		},
